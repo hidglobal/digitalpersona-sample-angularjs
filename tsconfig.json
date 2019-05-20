@@ -1,0 +1,40 @@
+{
+    "compilerOptions": {
+      "target": "es5",
+      "module": "commonjs",
+      "outDir": "out/public",
+      "lib": ["dom", "es2015", "es2015.promise" ],
+      "importHelpers": true,
+      "typeRoots": [
+        "node_modules/@types",
+        "./@types"
+      ],
+      "moduleResolution": "node",
+      "baseUrl": "./",
+      "paths": {
+        "*": [ "@types/*" ]
+      },
+
+      "esModuleInterop": true,
+      "removeComments": false,
+      "preserveConstEnums": true,
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "sourceMap": true,
+      "noImplicitAny": true,
+      "noImplicitReturns": true,
+      "noImplicitThis": true,
+      "noFallthroughCasesInSwitch": true,
+      "suppressImplicitAnyIndexErrors": true,
+      "strictNullChecks": true,
+      "downlevelIteration": true
+    },
+    "include": [
+      "src",
+      "@types"
+    ],
+    "exclude": [
+      "node_modules",
+      "public"
+    ]
+  }
