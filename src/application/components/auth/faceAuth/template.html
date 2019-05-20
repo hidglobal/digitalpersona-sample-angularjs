@@ -1,0 +1,37 @@
+<form ng-submit="$ctrl.toggleCapture()">
+    <div class="alert alert-success" role="alert" ng-bind="'Face.Success' | translate" ng-show="$ctrl.isAuthenticated()"></div>
+    <div ng-hide="$ctrl.isAuthenticated()" style="text-align: center">
+        <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error | translate" ng-show="$ctrl.error"></div>
+        <div ng-show="$ctrl.video.paused && !$ctrl.samples.length" ng-bind="'Face.Usage'|translate"></div>
+        <div ng-hide="$ctrl.video.paused" style="display: inline-block">
+            <div ng-bind="'Face.Prompt' | translate"></div>
+            <!--  TODO: the video/canvas pair + face detection should be a separate component -->
+            <div style="position: relative;">
+                <video muted
+                    style="
+                        height: 200px; width: auto;
+                        transform: scale(-1, 1);
+                        -webkit-transform:scale(-1, 1); /* Safari and Chrome */
+                        -moz-transform:scale(-1, 1); /* Firefox */
+                    "
+                ></video>
+                <canvas style="
+                        position: absolute;
+                        top: 0; left: 0;
+                        z-index: 10;
+                        transform: scale(-1, 1);
+                        -webkit-transform:scale(-1, 1); /* Safari and Chrome */
+                        -moz-transform:scale(-1, 1); /* Firefox */
+                    "
+                ></canvas>
+            </div>
+        </div>
+        <br>
+        <button
+            type="submit"
+            class="btn btn-primary"
+            ng-disabled="!$ctrl.user.name"
+            ng-bind="$ctrl.video.paused ? 'Face.Start' : 'Face.Stop' | translate"
+        ></button>
+    </div>
+</form>

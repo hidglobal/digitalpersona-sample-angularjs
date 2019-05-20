@@ -1,0 +1,14 @@
+<ul class="nav nav-tabs nav-justified bg-light">
+    <li class="nav-item" ng-repeat="cred in $ctrl.tabs">
+        <i class="fa fa-check text-success" ng-show="$ctrl.isAuthenticated(cred)" style="position: absolute;"></i>
+        <button class="nav-link btn btn-link"
+            title="{{ cred.name + '.Title' | translate }}"
+            ng-class="{
+                'active': ($ctrl.selected == cred.name),
+            }"
+            ng-click="$ctrl.select(cred.name)"
+        >
+            <img src="{{:: cred.icon}}" width="50%" height="50%" />
+        </button>
+    </li>
+</ul>

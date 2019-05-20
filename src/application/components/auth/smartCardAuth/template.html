@@ -1,0 +1,17 @@
+<form ng-submit="$ctrl.submit()" ng-show="$ctrl.card || $ctrl.isAuthenticated()">
+    <div ng-show="$ctrl.card" ng-bind="'SmartCard.Presence' | translate"></div>
+    <div class="alert alert-success" role="alert" ng-bind="'SmartCard.Success' | translate" ng-show="$ctrl.isAuthenticated()"></div>
+    <div ng-hide="$ctrl.isAuthenticated()">
+        <fieldset>
+            <x-password
+                label="{{ 'SmartCard.Prompt' | translate }}"
+                on-change="$ctrl.updatePin(value)"></x-password>
+            <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error" ng-show="$ctrl.error"></div>
+        </fieldset>
+        <button
+            type="submit"
+            class="btn btn-primary"
+            ng-disabled="!$ctrl.user.name || !$ctrl.pin"
+            ng-bind="'Signin.Title' | translate"></button>
+        </div>
+</form>

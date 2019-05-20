@@ -1,0 +1,43 @@
+<form ng-submit="$ctrl.submit()">
+    <div class="alert alert-success" role="alert" ng-bind="'OTP.Success' | translate" ng-show="$ctrl.isAuthenticated()"></div>
+    <div ng-hide="$ctrl.isAuthenticated() || !$ctrl.user.name">
+        <div class="card-body text-muted" ng-hide="$ctrl.challengeSent">
+            <span ng-bind-html="'OTP.Details' | translate"></span>
+            <a href="#" class="badge badge-primary" ng-click="$ctrl.sendChallenge('email')">{{'OTP.SendBy.email' | translate}}</a>,
+            <a href="#" class="badge badge-primary" ng-click="$ctrl.sendChallenge('sms')">{{'OTP.SendBy.sms' | translate}}</a>, or
+            <a href="#" class="badge badge-primary" ng-click="$ctrl.sendChallenge('push')">{{'OTP.SendBy.push' | translate}}</a>
+        </div>
+        <fieldset ng-show="$ctrl.needsCode()">
+            <x-password
+                label="{{ 'OTP.Prompt' | translate }}"
+                on-change="$ctrl.updateCode(value)"></x-password>
+            <div class="alert alert-danger" role="alert" ng-show="$ctrl.error" ng-bind="$ctrl.error | translate"</div>
+        </fieldset>
+        <div ng-show=$ctrl.challengeSent ng-switch="$ctrl.mode">
+            <div ng-switch-when="email">
+                {{'OTP.SentBy.email' | translate}}
+                <button class="btn btn-link" ng-click="$ctrl.sendChallenge('email')">
+                    {{'OTP.Repeat.email' | translate}}
+                </button>.
+            </div>
+            <div ng-switch-when="sms">
+                {{'OTP.SentBy.sms' | translate}}
+                <button class="btn btn-link" ng-click="$ctrl.sendChallenge('sms')">
+                    {{'OTP.Repeat.sms' | translate}}
+                </button>.
+            </div>
+            <div ng-switch-when="push">
+                    {{'OTP.SentBy.push' | translate}}
+                    <button class="btn btn-link" ng-click="$ctrl.sendChallenge('push')">
+                        {{'OTP.Repeat.push' | translate}}
+                    </button>.
+            </div>
+        </div>
+        <button
+            type="submit"
+            class="btn btn-primary"
+            ng-show="$ctrl.needsCode"
+            ng-disabled="!$ctrl.user.name || !$ctrl.code"
+            ng-bind="'Signin.Title' | translate"></button>
+    </div>
+</form>

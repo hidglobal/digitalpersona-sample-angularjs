@@ -1,0 +1,43 @@
+<ng-form name="_form">
+    <div class="form-group"
+        ng-class="{
+            'has-error': !_form[$ctrl.name].$valid && _form[$ctrl.name].$touched,
+            'has-success': _form[$ctrl.name].$valid && $ctrl.ngModel
+        }">
+        <div class="control-label">
+            <label for="{{:: $id}}"
+                   ng-bind="$ctrl.label">
+            </label>
+        </div>
+        <div class="control-body">
+            <div class="input-group" ng-switch="$ctrl.showPassword">
+                <input  id="{{:: $id}}"
+                        class="form-control"
+                        name="{{:: $ctrl.name}}"
+                        type="password"
+                        ng-model="$ctrl.value"
+                        autocomplete="off"
+                        ng-required="true"
+                        ng-change="$ctrl.onChange({value: $ctrl.value})"
+                        ng-switch-when="false"
+                />
+                <input  class="form-control"
+                        type="text"
+                        ng-model="$ctrl.value"
+                        ng-switch-when="true"
+                />
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary"
+                        ng-mousedown="$ctrl.peek(true)"
+                        ng-mouseup="$ctrl.peek(false)"
+                        ng-keydown="$event.keyCode==32 ? $ctrl.peek(true) : $ctrl.peek(false)"
+                        ng-keyup="$ctrl.peek(false)"
+                        ><i class="fa fa-eye"></i></button>
+                </div>
+            </div>
+            <ng-messages class="text-danger" for="_form[$ctrl.name].$error" ng-if="_form[$ctrl.name].$touched || _form[$ctrl.name].$dirty">
+                <ng-message when="required">{{ 'This field is required' | translate }}</ng-message>
+            </ng-messages>
+        </div>
+    </div>
+</ng-form>

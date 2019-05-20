@@ -1,0 +1,201 @@
+{
+  "CompanyName": "Bank of DigitalPersona",
+  "Signup": {
+    "Title": "Sign up"
+  },
+  "Restore": {
+    "Title": "Restore access"
+  },
+  "Signin": {
+    "Title": "Sign in",
+    "Username": "Sign-in name",
+    "FirstTime?": "First time here?",
+    "Troubles?" : "Unable to sign in?"
+  },
+  "Install DP WS": "Install DigitalPersona Workstation",
+  "Communication failure.": "Communication failure.",
+  "Username": {
+    "Prompt": "Sign-in name",
+    "Error": {
+      "Unknown": "The sign-in name is not registered"
+    }
+  },
+  "Credential": {
+    "Verified": "Credential is verified",
+    "Password": "Password",
+    "Fingerprints": "Fingerprints",
+    "PIN": "PIN",
+    "Cards": "Cards",
+    "Sms": "Sms",
+    "U2F": "FIDO Key",
+    "Security questions": "Security Questions",
+    "OTP": "One-Time Password",
+    "IWA": "Windows Authentication",
+    "Recovery questions": "Recovery questions"
+  },
+  "verified": {
+    "Security questions": "Security Questions are verified",
+    "IWA": "Your Windows credentials are verified",
+    "Recovery questions": "Recovery questions are verified"
+  },
+  "Password": {
+    "Title": "Password",
+    "Prompt": "Password",
+    "Success": "Password is verified",
+    "Error": {
+      "NoMatch": "Invalid password or sign-in name."
+    }
+  },
+  "PIN": {
+    "Title": "PIN",
+    "Prompt": "PIN",
+    "Success": "PIN is verified",
+    "Error": {
+      "NoMatch": "Invalid PIN or sign-in name."
+    }
+  },
+  "Fingerprints": {
+    "Title": "Fingerprints",
+    "Prompt": "Scan an enrolled finger.",
+    "Usage": "To use your fingerprints:",
+    "Success": "Fingerprint is verified.",
+    "Error" : {
+      "NoReader": "Connect a fingerprint reader.",
+      "NoMatch": "The fingerprint is not recognized."
+    },
+    "QualityCode": {
+      "Good": "The scan was successful.",
+      "NoImage": "The quality of the fingerprint scan is not good enough to be used.",
+      "TooLight": "The quality of the fingerprint scan is not good enough to be used.",
+      "TooDark": "The quality of the fingerprint scan is not good enough to be used.",
+      "TooNoisy": "The quality of the fingerprint scan is not good enough to be used.",
+      "LowContrast": "The quality of the fingerprint scan is not good enough to be used.",
+      "NotEnoughFeatures": "The quality of the fingerprint scan is not good enough to be used.",
+      "NotCentered": "Swipe the central part of the finger tip.",
+      "NotAFinger": "The quality of the fingerprint scan is not good enough to be used.",
+      "TooHigh": "Move your finger down.",
+      "TooLow": "Move your finger up.",
+      "TooLeft": "Move your finger to the right.",
+      "TooRight": "Move your finger to the left.",
+      "TooStrange": "The quality of the fingerprint scan is not good enough to be used.",
+      "TooFast": "Swipe your finger slower.",
+      "TooSkewed": "Swipe your finger in a straight line.",
+      "TooShort": "Swipe finger from first joint to tip.",
+      "TooSlow": "Swipe your finger faster.",
+      "ReverseMotion": "Swipe your finger towards yourself.",
+      "PressureTooHard": "Swipe your finger with light pressure.",
+      "PressureTooLight": "Swipe your finger with more pressure.",
+      "WetFinger": "Dry your finger and try again.",
+      "FakeFinger": "The fingerprint is not verified.",
+      "TooSmall": "Scan entire area from tip to first joint.",
+      "RotatedTooMuch": "Lift your finger and try again. Place it flat on the fingerprint reader."
+    }
+  },
+  "Cards": {
+    "Title": "Cards",
+    "Prompt": "Present your card.",
+    "PromptAnother": "Present your another card.",
+    "Usage": "To use your card:",
+    "Success": "The card is verified.",
+    "Error": {
+      "NoReader": "Connect a card reader.",
+      "NoMatch": "The card is not recognized or does not match the sign-in name."
+    },
+    "Type" : {
+      "Contact": "Smartcard",
+      "Contactless": "Contactless card",
+      "Proximity": "Proximity card"
+    }
+  },
+  "SmartCard": {
+    "Title": "Smartcard",
+    "Presence": "Smartcard is presented",
+    "Prompt": "Smartcard PIN",
+    "Success": "The smartcard is verified."
+  },
+  "ContactlessCard": {
+    "Title": "Contactless Card",
+    "Presence": "Contactless card is presented",
+    "Success": "The contactless card is verified."
+  },
+  "ProximityCard": {
+    "Title": "Proximity Card",
+    "Presence": "Proximity card is presented",
+    "Success": "The proximity card is verified."
+  },
+  "OTP": {
+    "Title": "One-Time Password",
+    "Prompt": "One-Time Password",
+    "Details": "Use the <a href='https://digitalpersona.com/get-authenticator'>Authenticator</a> app to obtain a one-time use code,<br>or get the code sent to you by",
+    "SendBy": {
+      "email" : "e-mail",
+      "sms": "SMS",
+      "push": "push notification"
+    },
+    "SentBy": {
+      "email": "A challenge code was sent to your registered email. Check your inbox and enter the code here, or ",
+      "sms":   "A challenge code was messaged to your registered phone. Check your SMS and enter the code here, or ",
+      "push":  "A challenge request was sent to your device. Check your device notifications and approve the sign in, or "
+    },
+    "Repeat": {
+      "email": "send another code",
+      "sms":   "send another code",
+      "push":  "send another request"
+    },
+    "Send push notification": "Send push notification",
+    "Send SMS": "Send SMS",
+    "Success": "The one-time password is verified.",
+    "Error": {
+      "NotSupported": "OTP support is not enabled on the server.",
+      "NoMatch": "Invalid code or sign-in name.",
+      "NoPhone": "No phone number is registered for this user.",
+      "NoEmail": "No e-mail address is registered for this user."
+    }
+  },
+  "Face": {
+    "Title": "Face",
+    "Usage": "Have your camera ready, place your face in front of the camera then press Start",
+    "Prompt": "Look straight into the camera.",
+    "Select camera": "Select a camera.",
+    "Start": "Start",
+    "Stop": "Stop",
+    "Quality": {
+      "NoFace": "No face detected. Try improving lighting conditions.",
+      "TooSmall": "You are too far away from the camera. Please move closer.",
+      "TooBig": "You are too close to the camera. Please move farther away.",
+      "TooMany": "Multiple faces detected. Please have only one face in the camera."
+    },
+    "Success": "The face is verified.",
+    "Error": {
+      "NoMatch": "The face is not recognized.",
+      "NoCamera": "To use face authentication, connect a camera.",
+      "CameraAccessDenied": "To use face authentication, allow access to the camera in your browser.",
+      "CameraNotReadable": "Could not start video stream. Make sure the camera is not being used by another application.",
+      "CameraConstraintError": "The selected camera does not meet the minimum constraints required."
+    }
+  },
+  "U2F": {
+    "Title": "FIDO Key",
+    "Usage": "Insert your FIDO token then press Start",
+    "Start": "Start",
+    "Prompt": "Tap, press the button on, or re-insert your FIDO key.",
+    "Success": "The FIDO key is verified.",
+    "Error": {
+      "NoMatch": "The FIDO key does not match the sign-in name.",
+      "NotEnrolled": "No FIDO key has been enrolled for this user.",
+      "NotSupported": "FIDO key support is not enabled.",
+      "u2f: OTHER_ERROR": "The FIDO key is not recognized.",
+      "u2f: BAD_REQUEST": "The FIDO key is not recognized.",
+      "u2f: CONFIGURATION_UNSUPPORTED": "The client configuration is not supported.",
+      "u2f: DEVICE_INELIGIBLE": "The FIDO key is not recognized.",
+      "u2f: TIMEOUT": "The FIDO key authentication took too long. Please try again."
+    }
+  },
+  "SecurityQuestions": {
+    "Title": "Security Questions",
+    "Success": "Security questions are verified",
+    "Error": {
+      "NoMatch": "Answers to security questions do not match to the sign-in name."
+    }
+  }
+}

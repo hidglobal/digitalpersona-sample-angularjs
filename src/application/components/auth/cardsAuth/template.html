@@ -1,0 +1,8 @@
+<div>
+    <div ng-hide="$ctrl.isReaderConnected" class="alert alert-warning" role="alert" ng-bind="'Cards.Error.NoReader'|translate"></div>
+    <div ng-show="$ctrl.isReaderConnected">
+        <ng-transclude></ng-transclude>
+        <div ng-hide="$ctrl.isAllAuthenticated()"
+             ng-bind="$ctrl.isAuthenticated() ? 'Cards.PromptAnother' : 'Cards.Prompt' | translate"></div>
+   </div>
+</div>

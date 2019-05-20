@@ -1,0 +1,47 @@
+//@import "./branding";
+@import "~bootstrap/scss/bootstrap";
+
+html {
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+    line-height: 1.4;
+    position: relative;
+    width: 100%;
+    min-height: 768px;
+    height: 100%;
+    min-width: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+//    color: $brand-primary-gray;
+    background-color: gainsboro;
+//    background-image: url('http://lorempixel.com/1024/768/city/4');
+//    background-image: url('https://loremflickr.com/1200/768/money?lock=23');
+    background-image: url('./images/bank_1200_768_.jpg');
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-position-x: center;
+//    font-family: $brand-font-primary;
+//    height: 100%
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
+ng-message {
+    @extend .form-text;
+}
+
+x-signin {
+    display: block;
+    padding-top: 100px;
+}
+
+.nav-tabs .nav-link.btn.btn-link.active {
+    border-top-color: royalblue;
+    border-top-width: 3px;
+}
