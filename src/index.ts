@@ -7,7 +7,9 @@ import 'angular-translate-storage-local';
 import 'angular-translate-storage-cookie';
 import 'angular-translate-loader-static-files';
 
-import "./index.scss";
+import './modules/WebSdk';
+
+import './index.scss';
 
 import localization from './config/localization'
 import routes from './config/routes';

@@ -57,7 +57,8 @@ export default class SigninController
         this.credentials = this.supportedCredentials.all.filter(cred => allowed.includes(cred.id))
         if (!this.selected || !this.credentials.some(cred => cred.name === this.selected))
             this.selected = this.credentials[0].name;
-    }
+//        this.update();
+}
 
     getAllowedCredentials() {
         if (!this.policies)
@@ -127,7 +128,7 @@ export default class SigninController
     }
 
     update() {
-        this.$scope.$evalAsync(() =>{});
+        this.$scope.$apply();
     }
 
     updateIdentity(identity: User| JSONWebToken) {
@@ -138,7 +139,7 @@ export default class SigninController
         this.policyService
             .GetPolicyInfo(this.getUser(), "*", ResourceActions.Write, new ContextualInfo())
             .then(policies => this.updatePolicies(policies));
-        this.update();
+//        this.update();
     }
 
     updatePolicies(policies: PolicyInfo) {

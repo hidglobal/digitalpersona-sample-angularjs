@@ -20,7 +20,7 @@ module.exports = {
             'node_modules',       // standard NPM modules
             'modules',            // non-NPM modules
         ],
-        extensions: ['.ts', '.mjs', '.js', '.json'],    // try to resolve extension of require('module') in this order
+        extensions: [ '.ts', '.mjs', '.js' ],    // try to resolve extension of require('module') in this order
     },
     externals: [
         { WebSdk: {
@@ -59,6 +59,11 @@ module.exports = {
             notify: false
         }),
     ],
+    resolveLoader: {
+        alias: {
+            copy: 'file-loader?name=[path][name].[ext]&context=src/'
+        }
+    },
     module:{
         rules: loaders
     }

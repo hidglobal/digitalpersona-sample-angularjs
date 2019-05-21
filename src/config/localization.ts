@@ -1,3 +1,5 @@
+import '../locales/en.json';
+
 localization.$inject = ["$translateProvider"];
 export default function localization(
     $translateProvider: angular.translate.ITranslateProvider

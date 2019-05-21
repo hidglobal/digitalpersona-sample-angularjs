@@ -8,9 +8,10 @@
     "clean": "rimraf ./out",
     "tsc": "tsc --p tsconfig.typings.json",
     "build": "npm run clean && npm run tsc",
-    "build-dev": "webpack --config build/webpack/dev.js --watch --NODE_ENV=dev",
+    "build-dev": "webpack --config build/webpack/dev.js --NODE_ENV=dev",
+    "build-dev-watch": "webpack --config build/webpack/dev.js --watch --NODE_ENV=dev",
     "build-prod": "webpack --config build/webpack/prod.js --NODE_ENV=production",
-    "start-dev": "webpack-dev-server --config build/webpack/dev.js"
+    "start-dev": "webpack --config build/webpack/dev.js & webpack-dev-server --config build/webpack/dev.js"
   },
   "author": "",
   "license": "ISC",
@@ -45,6 +46,8 @@
     "@types/angular-translate": "^2.16.0",
     "@types/bootstrap": "^4.3.0",
     "@types/node": "^11.13.7",
+    "@types/webpack": "^4.4.31",
+    "@types/webpack-env": "^1.13.9",
     "browser-sync": "^2.26.4",
     "browser-sync-webpack-plugin": "^2.2.2",
     "compression-webpack-plugin": "^2.0.0",

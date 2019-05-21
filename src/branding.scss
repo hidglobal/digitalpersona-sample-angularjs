@@ -1,0 +1,60 @@
+﻿/* Override default Bootstarp variables */
+/*
+$brand-primary-red:             #DA2128 !default;
+$brand-primary-gray:            #525E66 !default;
+$brand-secondary-gray:          #878A90 !default;
+$brand-secondary-lightgray:     #D1D2D4 !default;
+$brand-secondary-blue:          #105E8E !default;
+$brand-secondary-lightblue:     #0179BF !default;
+$brand-blue-hover:              #61a8ff !default;
+$brand-breadcrumb-background:   #D5E6FF !default;
+$brand-footer-gray:             #f6f6f6 !default;
+$brand-search-column:           rgba(209, 210, 212, 0.4);
+$brand-font-primary:            "Helvetica Neue LT Std", Arial;
+*/
+/*$brand-primary:             #d9534f !default;*/
+/*
+$brand-primary:             $brand-secondary-blue !default;
+$brand-success:             #5cb85c !default;
+$brand-info:                #5bc0de !default;
+$brand-warning:             #fad3ba !default;
+$brand-danger:              #c2211c !default;
+
+$gray-light:                #aaa;
+
+//$font-size-base:            12px !default;
+$line-height-base:          1.1666666666 !default; // 14/12
+
+//$padding-base-vertical:     3px !default;
+//$padding-small-vertical:    2px !default;
+
+$legend-color:              $gray-light !default;
+*/
+// Required
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+// Optional
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/images";
+//@import "~bootstrap/scss/code";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/forms";
+@import "~bootstrap/scss/buttons";
+@import "~bootstrap/scss/transitions";
+@import "~bootstrap/scss/dropdown";
+@import "~bootstrap/scss/button-group";
+@import "~bootstrap/scss/input-group";
+@import "~bootstrap/scss/modal";
+@import "~bootstrap/scss/nav";
+@import "~bootstrap/scss/navbar";
+@import "~bootstrap/scss/spinners";
+@import "~bootstrap/scss/toasts";
+@import "~bootstrap/scss/tooltip";
+@import "~bootstrap/scss/transitions";
+
+$fa-font-path: "font-awesome/fonts";
+@import "~font-awesome/scss/font-awesome";
+

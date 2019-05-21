@@ -111,6 +111,7 @@ export default class FaceAuthController extends AuthController
             this.video.srcObject = stream;
             await this.video.play()
             super.resetError();
+            super.emitOnUpdate();
         } catch(error) {
             super.emitOnError(error);
         }

@@ -1,11 +1,12 @@
 .rpt2_cache
-.vscode\
--.vscode\launch.json
--.vscode\tasks.json
--.vscode\settings.json
+.vscode/
+-.vscode/launch.json
+-.vscode/tasks.json
+-.vscode/settings.json
 
-node_modules
-temp
-dist
-out
+node_modules/
+temp/
+dist/
+out/
 *.log
+~*/
