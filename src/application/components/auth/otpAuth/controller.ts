@@ -42,7 +42,7 @@ export default class OtpAuthController extends AuthController
             this.challengeSent = false;
             new EmailOtpAuth(this.authService)
                 .sendChallenge(this.user)
-                .then(() => this.challengeSent = true)
+                .then(() => { this.challengeSent = true; super.emitOnUpdate();} )
                 .catch(error => {
                     this.resetMode();
                     this.emitOnError(new Error(this.mapServiceError(error)));
@@ -54,12 +54,14 @@ export default class OtpAuthController extends AuthController
             this.challengeSent = false;
             new SmsOtpAuth(this.authService)
                 .sendChallenge(this.user)
-                .then(() => this.challengeSent = true)
+                .then(() => { this.challengeSent = true; super.emitOnUpdate();} )
                 .catch(error => {
                     this.resetMode();
                     this.emitOnError(new Error(this.mapServiceError(error)));
                 });
             this.mode = mode;
+            this.emitOnUpdate();
+            return;
         }
     }
 

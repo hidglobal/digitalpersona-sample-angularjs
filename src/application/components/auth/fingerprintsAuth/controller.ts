@@ -78,7 +78,9 @@ export default class FingerprintsAuthController extends AuthController
 
     mapServiceError(error: ServiceError): string {
         switch(error.code) {
-            case -2147023652: return "Fingerprints.Error.NoMatch";
+            case -2146893044:
+            case -2147023652:
+                return "Fingerprints.Error.NoMatch";
             default: return error.message;
         }
     }

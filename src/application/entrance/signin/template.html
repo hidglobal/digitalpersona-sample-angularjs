@@ -1,4 +1,7 @@
-<ng-form class="card" style="max-width: 40em; margin: 0 auto; padding: 10px;">
+<ng-form class="card slide-down"
+    style="max-width: 40em; margin: 0 auto; padding: 10px;"
+    ng-class="{ shakeOnError: $ctrl.error, busy: $ctrl.busy }"
+>
     <h2>{{'Signin.Title' | translate }}
         <i class="fa fa-check text-success" ng-show="$ctrl.isEnoughCredentials()"></i>
     </h2>

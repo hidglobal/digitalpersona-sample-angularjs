@@ -12,6 +12,7 @@ export default class SigninController
     private selected: string;
     private policies: PolicyInfo | null;
     private credentials: CredInfo[];
+    private error?: Error;
 
     private fingerprintReader: FingerprintReader;
     private cardReader: CardsReader;
@@ -41,6 +42,7 @@ export default class SigninController
         this.updateCredentials();
         this.updateIdentity(User.Anonymous());
         this.busy = false;
+        delete this.error;
     }
 
     $onDestroy() {
@@ -128,6 +130,7 @@ export default class SigninController
 
     setBusy() {
         this.busy = true;
+        delete this.error;
     }
 
     update() {
@@ -192,6 +195,11 @@ export default class SigninController
 
     showError(error: ServiceError|Error) {
         this.busy = false;
+        if (this.error === error) return;
+        if (error)
+            this.error = error;
+        else
+            delete this.error;
         if (error instanceof ServiceError) {
             if (error.code == -2146893033) {  // Authentication context expired, drop the token and replace with a user
                 this.updateIdentity(this.getUser());

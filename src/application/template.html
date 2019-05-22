@@ -1,12 +1,34 @@
 <nav class="navbar navbar-dark bg-dark fixed-top">
     <i class="fa fa-bank fa-2x text-white"></i>&nbsp;
-    <a class="navbar-brand" href="#">Bank of DigitalPersona</a>
+    <a class="navbar-brand" href="./home">Bank of DigitalPersona</a>
     <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-            <a class="nav-link" href="./home">Home</a>
+            <a class="nav-link" href="./signup">Open an account</a>
         </li>
     </ul>
-    <a class="btn btn-primary" href="./signin">Sign in</a>
+    <span class="text-white mx-3" ng-if="$ctrl.identity.userName"><i class="fa fa-user"></i>&nbsp;{{$ctrl.identity.userName}}</span>
+    <a class="btn btn-primary" href="./signin" ng-if="!$ctrl.identity.userName">Sign in</a>
+    <a class="btn btn-primary" ng-click="$ctrl.signout()" ng-if="$ctrl.identity.userName">Sign out</a>
 </nav>
 
 <div ng-view></div>
+<div class="fixed-bottom border-top" style="background-color:silver;">
+    <div class="text-center"><span>Follow us:
+        <a class="mx-1 text-dark" href="#"><i class="fa fa-facebook"></i></a>
+        <a class="mx-1 text-dark" href="#"><i class="fa fa-instagram"></i></a>
+        <a class="mx-1 text-dark" href="#"><i class="fa fa-twitter"></i></a>
+        <a class="mx-1 text-dark" href="#"><i class="fa fa-youtube"></i></a>
+        <a class="mx-1 text-dark" href="#"><i class="fa fa-linkedin"></i></a>
+    </div>
+    <div class="text-center text-white" style="font-size: 80%">
+        <a class="mx-4 text-dark" href="#">Privacy</a>
+        <a class="mx-4 text-dark" href="#">Security</a>
+        <a class="mx-4 text-dark" href="#">Terms of use</a>
+        <a class="mx-4 text-dark" href="#">FDIC</a>
+        <a class="mx-4 text-dark" href="#">Contact us</a>
+        <a class="mx-4 text-dark" href="#">About us</a>
+    </div>
+    <div class="text-center" style="font-size: 70%">
+            * <b>Bank of DigitalPersona</b> is a fictional bank created solely for demonstration purposes. &copy; 2019 HID Global Ltd.
+    </div>
+</div>

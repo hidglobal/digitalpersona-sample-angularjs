@@ -39,7 +39,7 @@ ng-message {
 
 x-signin {
     display: block;
-    padding-top: 100px;
+    padding-top: 50px;
 }
 
 .nav-tabs .nav-link.btn.btn-link.active {
@@ -48,10 +48,26 @@ x-signin {
 }
 
 .slide-down{
-    animation: 1s ease-out 0s 1 slideInFromTop;
+    animation-name: slideInFromTop;
+    animation-duration: 0.3s;
+    animation-timing-function: ease-out;
 }
-
 @keyframes slideInFromTop {
     0%   { transform: translateY(-100%); }
     100% { transform: translateY(0);     }
+}
+
+.shakeOnError {
+    animation-name: shake;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+}
+@keyframes shake {
+    0%, 100% {transform: translateX(0);}
+    20%, 60% {transform: translateX(-5px);}
+    40%, 80% {transform: translateX(5px);}
+}
+
+.busy {
+    cursor: wait;
 }
