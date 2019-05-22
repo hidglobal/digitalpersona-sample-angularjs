@@ -16,6 +16,7 @@ export default class FidoAuthController extends AuthController
 
     start() {
         this.started = true;
+        super.resetError();
         super.emitOnBusy();
         new U2FAuth(this.authService)
             .authenticate(this.identity)

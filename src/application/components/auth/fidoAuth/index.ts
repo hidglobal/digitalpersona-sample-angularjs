@@ -10,6 +10,7 @@ ng.module(module)
         bindings: {
             identity: "<",
             onBusy: "&",
+            onUpdate: "&",
             onToken: "&",
             onError: "&",
         }

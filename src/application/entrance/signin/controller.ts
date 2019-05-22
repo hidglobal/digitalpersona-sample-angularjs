@@ -1,8 +1,9 @@
 import { JSONWebToken, User, JWT, ClaimName } from '@digitalpersona/core';
 import { CredInfo } from '../../../config/credInfo';
-import { IScope } from 'angular';
+import { IScope, ILocationService } from 'angular';
 import { ServiceError, IPolicyService, ResourceActions, ContextualInfo, PolicyInfo, Policy } from '@digitalpersona/services';
 import { CardsReader, FingerprintReader, SampleFormat } from '@digitalpersona/devices';
+import { IdentityService } from '../../services/identity';
 
 export default class SigninController
 {
@@ -15,11 +16,13 @@ export default class SigninController
     private fingerprintReader: FingerprintReader;
     private cardReader: CardsReader;
 
-    static $inject = ["PolicyService", "$scope", "SupportedCredentials"]
+    static $inject = ["PolicyService", "$scope", "$location", "SupportedCredentials", "Identity"]
     constructor(
         private policyService: IPolicyService,
         private $scope: IScope,
-        private supportedCredentials: { all: CredInfo[]}
+        private $location: ILocationService,
+        private supportedCredentials: { all: CredInfo[]},
+        private identityService: IdentityService
     ){
     }
 
@@ -114,6 +117,7 @@ export default class SigninController
     show(selected: string) {
         console.log(`Showing '${selected}'`);
         this.selected = selected;// this.credentials[this.credentials.findIndex(c => c.name == selected)].name;
+        this.update();
         console.log(this.selected);
     }
 
@@ -134,12 +138,17 @@ export default class SigninController
     updateIdentity(identity: User| JSONWebToken) {
         if (this.identity == identity) return;
         this.identity = identity;
+        if (this.isEnoughCredentials()) {
+            this.identityService.set(this.identity as JSONWebToken);
+            this.$location.path("/");
+            return;
+        }
         this.busy = false;
+        this.update();
         // TODO: get policy only if user name has changed
         this.policyService
             .GetPolicyInfo(this.getUser(), "*", ResourceActions.Write, new ContextualInfo())
             .then(policies => this.updatePolicies(policies));
-//        this.update();
     }
 
     updatePolicies(policies: PolicyInfo) {

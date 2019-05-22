@@ -16,6 +16,7 @@ import routes from './config/routes';
 import app from './application/module'
 import { AuthService, PolicyService } from '@digitalpersona/services';
 import SupportedCredentials from './config/supportedCredentials';
+import { IdentityService } from './application/services/identity';
 
 ng.module("example", [
     route,
@@ -37,6 +38,7 @@ ng.module("example", [
 .factory("PolicyService", ["Domain", function(domain: string){
     return new PolicyService(`https://${domain}/DPWebPolicies/DPWebPolicyService.svc`);
 }])
+.service("Identity", IdentityService)
 .value("SupportedCredentials", SupportedCredentials)
 
 ng.bootstrap(document, ["example"], {

@@ -45,3 +45,12 @@ x-signin {
     border-top-color: royalblue;
     border-top-width: 3px;
 }
+
+.slide-down{
+    animation: 1s ease-out 0s 1 slideInFromTop;
+}
+
+@keyframes slideInFromTop {
+    0%   { transform: translateY(-100%); }
+    100% { transform: translateY(0);     }
+}

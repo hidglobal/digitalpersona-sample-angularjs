@@ -7,7 +7,7 @@
             type="submit"
             class="btn btn-primary"
             ng-disabled="!$ctrl.user.name"
-            ng-hide="$ctrl.started || $ctrl.error"
+            ng-hide="$ctrl.started"
             ng-bind="'U2F.Start' | translate"></button>
 
         <div ng-show="$ctrl.started && !$ctrl.error" ng-bind="'U2F.Prompt' | translate "></div>

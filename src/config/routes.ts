@@ -12,8 +12,8 @@ export default function routes(
     // Map routes to components
     return $routeProvider
         .when('/', {
-//            template: "<x-home></x-home>"
-            template: "<x-signin></x-signin>"
+            template: "<x-home></x-home>"
+//            template: "<x-signin></x-signin>"
         })
 
         // Entrance routes for all unauthenticated users
