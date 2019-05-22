@@ -60,8 +60,7 @@ export default class SigninController
         this.credentials = this.supportedCredentials.all.filter(cred => allowed.includes(cred.id))
         if (!this.selected || !this.credentials.some(cred => cred.name === this.selected))
             this.selected = this.credentials[0].name;
-//        this.update();
-}
+    }
 
     getAllowedCredentials() {
         if (!this.policies)
@@ -73,6 +72,7 @@ export default class SigninController
             .filter(unique);
     }
 
+    // TODO: should be a Policies' method
     isEnoughCredentials() {
         if (this.identity instanceof User)
             return false;
@@ -116,8 +116,7 @@ export default class SigninController
 
     show(selected: string) {
         console.log(`Showing '${selected}'`);
-        this.selected = selected;// this.credentials[this.credentials.findIndex(c => c.name == selected)].name;
-        this.update();
+        this.selected = selected;
         console.log(this.selected);
     }
 
@@ -135,35 +134,33 @@ export default class SigninController
         this.$scope.$apply();
     }
 
-    updateIdentity(identity: User| JSONWebToken) {
+    async updateIdentity(identity: User| JSONWebToken) {
         if (this.identity == identity) return;
         this.identity = identity;
+        try {
+            this.policies = await this.policyService
+                .GetPolicyInfo(this.getUser(), "*", ResourceActions.Write, new ContextualInfo());
+            this.updateCredentials();
+        } catch(e) {
+            console.log(e)
+        }
         if (this.isEnoughCredentials()) {
             this.identityService.set(this.identity as JSONWebToken);
             this.$location.path("/");
             return;
         }
         this.busy = false;
-        this.update();
-        // TODO: get policy only if user name has changed
-        this.policyService
-            .GetPolicyInfo(this.getUser(), "*", ResourceActions.Write, new ContextualInfo())
-            .then(policies => this.updatePolicies(policies));
+        this.$scope.$apply();
     }
 
-    updatePolicies(policies: PolicyInfo) {
-        if (this.policies == policies) return;
-        this.policies = policies;
-        this.updateCredentials();
-    }
-
-    updateToken(token: JSONWebToken) {
+    async updateToken(token: JSONWebToken) {
         if (this.identity === token) return;
         if (this.isIdentified) {
             // TODO: if we've already identified the user,  make sure it is the same user again
         }
-        this.updateIdentity(token);
+        await this.updateIdentity(token);
         this.selectNext();
+        this.$scope.$apply();
     }
 
     // selects next best credential among not entered yet
