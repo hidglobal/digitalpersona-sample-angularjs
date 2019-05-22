@@ -13,7 +13,6 @@ export default function routes(
     return $routeProvider
         .when('/', {
             template: "<x-home></x-home>"
-//            template: "<x-signin></x-signin>"
         })
 
         // Entrance routes for all unauthenticated users
