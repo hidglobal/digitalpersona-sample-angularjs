@@ -32,12 +32,12 @@ export default class SigninController
         this.fingerprintReader
             .startAcquisition(SampleFormat.Intermediate)
             .then(() => this.update())
-            .catch(error => this.showError(error));
+            .catch(error => this.showError(error, 'Fingerprints'));
 
         this.cardReader = new CardsReader();
         this.cardReader.subscribe()
             .then(() => this.update())
-            .catch(error => this.showError(error));
+            .catch(error => this.showError(error, 'Cards'));
 
         this.updateCredentials();
         this.updateIdentity(User.Anonymous());
@@ -193,12 +193,13 @@ export default class SigninController
         }
     }
 
-    showError(error: ServiceError|Error) {
+    showError(error: ServiceError|Error, cred: string) {
         this.busy = false;
         if (this.error === error) return;
-        if (error)
+        if (error) {
             this.error = error;
-        else
+            this.selected = cred;
+        } else
             delete this.error;
         if (error instanceof ServiceError) {
             if (error.code == -2146893033) {  // Authentication context expired, drop the token and replace with a user

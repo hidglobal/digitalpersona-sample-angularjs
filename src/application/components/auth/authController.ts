@@ -61,7 +61,7 @@ export class AuthController
     public onBusy   : () => void;
     public onUpdate : () => void;
     public onToken  : (locals: {token: JSONWebToken}) => void;
-    public onError  : (locals: {error?: Error}) => void;
+    public onError  : (locals: {error?: Error }) => void;
     public error    : string;
 
     constructor(
