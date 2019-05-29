@@ -1,7 +1,7 @@
 ﻿import * as ng from 'angular';
 import 'angular-messages';
 import template from './template.html';
-import controller from './controller';
+import controller from './password';
 import module from '../../module';
 import 'font-awesome/scss/font-awesome.scss';
 

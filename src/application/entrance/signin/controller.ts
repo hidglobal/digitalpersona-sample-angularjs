@@ -1,8 +1,9 @@
-import { JSONWebToken, User, JWT, ClaimName } from '@digitalpersona/core';
-import { CredInfo } from '../../../config/credInfo';
 import { IScope, ILocationService } from 'angular';
+import { JSONWebToken, User, JWT, ClaimName } from '@digitalpersona/core';
 import { ServiceError, IPolicyService, ResourceActions, ContextualInfo, PolicyInfo, Policy } from '@digitalpersona/services';
 import { CardsReader, FingerprintReader, SampleFormat } from '@digitalpersona/devices';
+
+import { CredInfo } from '../../../config/credInfo';
 import { IdentityService } from '../../services/identity';
 
 export default class SigninController
@@ -17,17 +18,17 @@ export default class SigninController
     private fingerprintReader: FingerprintReader;
     private cardReader: CardsReader;
 
-    static $inject = ["PolicyService", "$scope", "$location", "SupportedCredentials", "Identity"]
+    public static $inject = ["PolicyService", "$scope", "$location", "SupportedCredentials", "Identity"];
     constructor(
         private policyService: IPolicyService,
         private $scope: IScope,
         private $location: ILocationService,
         private supportedCredentials: { all: CredInfo[]},
-        private identityService: IdentityService
+        private identityService: IdentityService,
     ){
     }
 
-    $onInit() {
+    public async $onInit() {
         this.fingerprintReader = new FingerprintReader();
         this.fingerprintReader
             .startAcquisition(SampleFormat.Intermediate)
@@ -40,12 +41,12 @@ export default class SigninController
             .catch(error => this.showError(error, 'Cards'));
 
         this.updateCredentials();
-        this.updateIdentity(User.Anonymous());
+        await this.updateIdentity(User.Anonymous());
         this.busy = false;
         delete this.error;
     }
 
-    $onDestroy() {
+    public $onDestroy() {
         this.fingerprintReader.stopAcquisition();
         this.fingerprintReader.off();
         delete this.fingerprintReader;
@@ -55,16 +56,16 @@ export default class SigninController
         delete this.cardReader;
     }
 
-    updateCredentials() {
+    private updateCredentials() {
         if (!this.policies)
             this.credentials = this.supportedCredentials.all;
         const allowed = this.getAllowedCredentials();
-        this.credentials = this.supportedCredentials.all.filter(cred => allowed.includes(cred.id))
+        this.credentials = this.supportedCredentials.all.filter(cred => allowed.includes(cred.id));
         if (!this.selected || !this.credentials.some(cred => cred.name === this.selected))
             this.selected = this.credentials[0].name;
     }
 
-    getAllowedCredentials() {
+    private getAllowedCredentials() {
         if (!this.policies)
             return this.supportedCredentials.all.map(cred => cred.id);
         const unique = (val: any, idx: number, arr: any[]) => arr.indexOf(val) === idx;
@@ -75,7 +76,7 @@ export default class SigninController
     }
 
     // TODO: should be a Policies' method
-    isEnoughCredentials() {
+    public isEnoughCredentials() {
         if (this.identity instanceof User)
             return false;
         const authenticated = JWT.claims(this.identity)[ClaimName.CredentialsUsed];
@@ -85,67 +86,68 @@ export default class SigninController
             return true;        // any credential is enough
         const ids = authenticated.map(cred => cred.id);
         const satisfied = this.policies.policyList.some(rule =>
-            rule.policy.every(el => ids.includes(el.cred_id.toUpperCase()))
+            rule.policy.every(el => ids.includes(el.cred_id.toUpperCase())),
         );
         return satisfied;
     }
 
-    canIdentify() {
+    public canIdentify() {
         return false;
 //        return this.selected && this.selected.ident;
     }
 
-    get isIdentified() {
+    public get isIdentified() {
         return !(this.identity instanceof User);
     }
 
-    isSelected(name: string) {
+    public isSelected(name: string) {
         return this.selected && this.selected === name;
     }
-    isAllowed(name: string) {
+    public isAllowed(name: string) {
         return this.getAllowedCredentials().includes(name);
     }
-    isAuthenticated(cred: CredInfo) {
+    public isAuthenticated(cred: CredInfo) {
         if (this.identity instanceof User)
             return false;
         const authenticated = JWT.claims(this.identity)[ClaimName.CredentialsUsed];
         return authenticated && authenticated.findIndex((used => used.id.toUpperCase() === cred.id)) >= 0;
     }
 
-    updateUsername(value: string) {
+    public updateUsername(value: string) {
         this.updateIdentity(new User(value));
     }
 
-    show(selected: string) {
+    public show(selected: string) {
         console.log(`Showing '${selected}'`);
         this.selected = selected;
         console.log(this.selected);
     }
 
-    getUser(): User {
+    public getUser(): User {
         return (this.identity instanceof User)
             ? this.identity
             : new User(JWT.claims(this.identity)[ClaimName.WindowsAccountName] || "");
     }
 
-    setBusy() {
+    public setBusy() {
         this.busy = true;
         delete this.error;
     }
 
-    update() {
+    public update() {
         this.$scope.$apply();
     }
 
-    async updateIdentity(identity: User| JSONWebToken) {
-        if (this.identity == identity) return;
+    public async updateIdentity(identity: User| JSONWebToken) {
+        if (this.identity === identity) return;
         this.identity = identity;
+        this.update();
         try {
             this.policies = await this.policyService
                 .GetPolicyInfo(this.getUser(), "*", ResourceActions.Write, new ContextualInfo());
             this.updateCredentials();
-        } catch(e) {
-            console.log(e)
+        } catch (e) {
+            console.log(e);
         }
         if (this.isEnoughCredentials()) {
             this.identityService.set(this.identity as JSONWebToken);
@@ -156,7 +158,7 @@ export default class SigninController
         this.$scope.$apply();
     }
 
-    async updateToken(token: JSONWebToken) {
+    public async updateToken(token: JSONWebToken) {
         if (this.identity === token) return;
         if (this.isIdentified) {
             // TODO: if we've already identified the user,  make sure it is the same user again
@@ -167,7 +169,7 @@ export default class SigninController
     }
 
     // selects next best credential among not entered yet
-    selectNext() {
+    private selectNext() {
         if (this.identity instanceof User) return;
         if (!this.policies) return;
         const authenticated = JWT.claims(this.identity)[ClaimName.CredentialsUsed];
@@ -187,13 +189,13 @@ export default class SigninController
             .sort((a, b) => a.length - b.length);
         if (bestPolicyRules.length > 0) {
             const id = bestPolicyRules[0][0];
-            const cred = this.supportedCredentials.all.find(cred => cred.id === id);
+            const cred = this.supportedCredentials.all.find(c => c.id === id);
             if (cred)
                 this.show(cred.name);
         }
     }
 
-    showError(error: ServiceError|Error, cred: string) {
+    public showError(error: ServiceError|Error, cred: string) {
         this.busy = false;
         if (this.error === error) return;
         if (error) {
@@ -202,7 +204,7 @@ export default class SigninController
         } else
             delete this.error;
         if (error instanceof ServiceError) {
-            if (error.code == -2146893033) {  // Authentication context expired, drop the token and replace with a user
+            if (error.code === -2146893033) {  // Authentication context expired, drop the token and replace with a user
                 this.updateIdentity(this.getUser());
             }
         }

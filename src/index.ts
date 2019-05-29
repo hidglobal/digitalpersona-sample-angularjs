@@ -23,7 +23,7 @@ ng.module("example", [
     cookies,
     sanitize,
     translate,
-    'ngMessages',
+//    'ngMessages',
     app,
 ])
 .config(localization)

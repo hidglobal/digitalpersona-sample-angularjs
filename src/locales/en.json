@@ -51,7 +51,8 @@
     "Prompt": "PIN",
     "Success": "PIN is verified",
     "Error": {
-      "NoMatch": "Invalid PIN or sign-in name."
+      "NoMatch": "Invalid PIN or sign-in name.",
+      "NotEnrolled": "No PIN was enrolled for this user."
     }
   },
   "Fingerprints": {
@@ -61,7 +62,8 @@
     "Success": "Fingerprint is verified.",
     "Error" : {
       "NoReader": "Connect a fingerprint reader.",
-      "NoMatch": "The fingerprint is not recognized."
+      "NoMatch": "The fingerprint is not recognized.",
+      "NotEnrolled": "No fingerprints were enrolled for this user."
     },
     "QualityCode": {
       "Good": "The scan was successful.",
@@ -169,6 +171,7 @@
     "Error": {
       "NoMatch": "The face is not recognized.",
       "NoCamera": "To use face authentication, connect a camera.",
+      "NotEnrolled": "No face has been enrolled for this user.",
       "CameraAccessDenied": "To use face authentication, allow access to the camera in your browser.",
       "CameraNotReadable": "Could not start video stream. Make sure the camera is not being used by another application.",
       "CameraConstraintError": "The selected camera does not meet the minimum constraints required."
