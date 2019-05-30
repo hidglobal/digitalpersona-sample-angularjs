@@ -1,4 +1,4 @@
-import { IComponentOptions } from 'angular';
+import { IComponentOptions, IOnChangesObject, IFormController, INgModelController } from 'angular';
 import 'angular-messages';
 import 'font-awesome/scss/font-awesome.scss';
 
@@ -9,7 +9,13 @@ export default class PasswordControl
     public static readonly Component: IComponentOptions = {
         template,
         controller: PasswordControl,
+        require: {
+            parent: '^form',
+        },
         bindings: {
+            type            : '@',  // field type ('password' for a masked text or 'text' for a plain text)
+            showPassword    : '=',  // a password peeker state; this value can be used to sync states of all password peekers on the form
+            match           : '<?', // when defined, the field value must be equal to the provided value, or show a mismatch error
             name            : '@',  // field name (for the form posting)
             label           : '@',  // field label text
             hidden          : '@',  // is the field hidden
@@ -17,19 +23,35 @@ export default class PasswordControl
         },
     };
 
+    public parent: IFormController;
+    public type  : 'password' | 'text';
+    public showPassword : boolean;
+    public match? : string;
     public name  : string;    // field name (for the form posting)
     public label : string;    // field label text
     public value : string;    // password value
 
-    private showPassword : boolean;
+    // An event fired when a password field is changed.
+    // Any nonempty string returned considered as a validation error and shown in the error area.
+    public onChange     : (locals: { value: string }) => string|void;
 
-    public onChange     : (locals: { value: string }) => void; // event fired when a password field is changed
+    private showPeeker : boolean;
+    private error?: string;
 
     public $onInit() {
         this.name       = this.name || "password";
         this.label      = this.label || "Password";
         this.value      = "";
-        this.showPassword = false;
+        this.showPeeker = this.type !== 'text';
+    }
+
+    public $doCheck() {
+        if (this.match)
+            this.parent._form[this.name].$error.match = this.value !== this.match;
+    }
+
+    public update() {
+        this.error = this.onChange ? this.onChange({value: this.value}) || "" : "";
     }
 
     public peek(show: boolean) {

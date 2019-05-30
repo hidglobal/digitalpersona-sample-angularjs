@@ -24,6 +24,10 @@
   "Username": {
     "Prompt": "Sign-in name",
     "Error": {
+      "HasSpaces": "Sign-in name cannot contain space characters",
+      "InvalidCharacters": "Sign-in name contain invalid characters",
+      "ConsecutiveDashes": "Sign-in name cannot contain consecutive dashes",
+      "InvalidFormat": "Sign-in name format is invalid",
       "Unknown": "The sign-in name is not registered."
     }
   },
@@ -53,7 +57,14 @@
     "Success": "Password is verified.",
     "Error": {
       "NoMatch": "Invalid password or sign-in name.",
-      "PasswordMismatch": "Both passwords must match each other."
+      "PasswordMismatch": "Passwords you typed do not match each other.",
+      "Required": "This field is required.",
+      "SameAsUsername": "Password cannot be the same as your sign-in name.",
+      "NeedUpperCaseLetters": "Password must contain at least one capital letter.",
+      "NeedLowerCaseLetters": "Password must contain at least one lower case letter.",
+      "NeedDigits": "Password must contain at least one number",
+      "NeedSpecialCharacters": "Password must contain at least one special character (!, @, $, etc...)",
+      "HasSpaces": "Your password cannot contain space characters"
     }
   },
   "PIN": {

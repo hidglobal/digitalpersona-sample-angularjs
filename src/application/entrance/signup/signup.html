@@ -15,18 +15,16 @@
             on-change="$ctrl.updateUsername(value)"
         ></x-username>
 
-        <!-- <x-password
+        <x-password
             label="{{ 'Password.Create' | translate }}"
+            show-password="$ctrl.showPassword"
             on-change="$ctrl.updatePassword(value)"
         ></x-password>
         <x-password
             label="{{ 'Password.Repeat' | translate }}"
-            on-change="$ctrl.updateRepeatPassword(value)"
-        ></x-password> -->
-
-        <x-create-password
-            on-change="$ctrl.updatePassword(value)"
-        ></x-create-password>
+            match="$ctrl.password"
+            show-password="$ctrl.showPassword"
+        ></x-password>
 
         <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error.message | translate" ng-show="$ctrl.error"></div>
 

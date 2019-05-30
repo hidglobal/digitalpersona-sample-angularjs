@@ -25,10 +25,17 @@ export default class UsernameControl
     public value        : string;  // username value
     public required     : boolean;
 
-    public onChange     : (locals: {value: string}) => void;   // event fired when a password field is changed
+    public onChange     : (locals: {value: string}) => string|void;   // event fired when a password field is changed
+
+    private error?: string;
 
     public $onInit() {
         this.name         = this.name || "username";
         this.label        = this.label || "Username";
     }
+
+    public update() {
+        this.error = this.onChange ? this.onChange({value: this.value}) || "" : "";
+    }
+
 }

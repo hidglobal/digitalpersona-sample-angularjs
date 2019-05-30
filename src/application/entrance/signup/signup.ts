@@ -16,6 +16,7 @@ export default class SignupControl
     private password: string;
     private error?: Error;
     private busy: boolean;
+    private showPassword: boolean;
 
     public static $inject = ["EnrollService", "AuthService", "$scope", "$location"];
     constructor(
@@ -28,26 +29,40 @@ export default class SignupControl
 
     public $onInit() {
         this.busy = false;
+        this.showPassword = false;
         delete this.error;
     }
 
     public updateUsername(value: string) {
         this.username = value;
+        return this.validateUsername(value);
     }
 
     public updatePassword(value: string) {
         this.password = value;
+        return this.validatePassword(value);
     }
-    public updateRepeatPassword(value: string) {
-        if (this.password !== value)
-            this.showError(new Error('Signup.Error.PasswordMismatch'));
-        else
-            this.resetError();
+
+    private validateUsername(value: string): string|void {
+        if (/[ ]/.test(value)) return 'Username.Error.HasSpaces';
+        if (/@.*?@/.test(value)) return 'Username.Error.InvalidFormat';
+        if (/-{2}?/.test(value)) return 'Username.Error.ConsecutiveDashes';
+        if (!/^[a-zA-Z0-9\.\_\@\-]*$/.test(value)) return 'Username.Error.InvalidCharacters';
+}
+
+    private validatePassword(value: string): string|void {
+        if (value === this.username) return 'Password.Error.SameAsUsername';
+        if (/[ ]/.test(value)) return 'Password.Error.HasSpaces';
+        if (!/[A-Z]/.test(value)) return 'Password.Error.NeedUpperCaseLetters';
+        if (!/[a-z]/.test(value)) return 'Password.Error.NeedLowerCaseLetters';
+        if (!/\d/.test(value)) return 'Password.Error.NeedDigits';
+        if (!/[^a-zA-Z0-9:]/g.test(value)) return 'Password.Error.NeedSpecialCharacters';
     }
 
     public async submit() {
         try {
             this.busy = true;
+            // TODO: obtain the token on the server, take credentials from a config
             const customerAccountManagerToken = await new PasswordAuth(this.authService)
                 .authenticate(new User("cam@alpha.local"), "aaaAAA123");
             await this.enrollService.CreateUser(

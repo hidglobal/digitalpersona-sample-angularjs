@@ -9,6 +9,7 @@
         </div>
         <fieldset ng-show="$ctrl.needsCode()">
             <x-password
+                type="text"
                 label="{{ 'OTP.Prompt' | translate }}"
                 on-change="$ctrl.updateCode(value)"></x-password>
             <div class="alert alert-danger" role="alert" ng-show="$ctrl.error" ng-bind="$ctrl.error | translate"</div>
