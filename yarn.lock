@@ -32,10 +32,10 @@
     tslib "^1.9.3"
     u2f-api "^1.0.10"
 
-"@digitalpersona/core@^0.1.4", "@digitalpersona/core@^0.1.5", "@digitalpersona/core@^0.1.6":
-  version "0.1.5"
-  resolved "http://localhost:4873/@digitalpersona%2fcore/-/core-0.1.5.tgz#62c5a72b852ff50903e7af15911b69c492d6cd66"
-  integrity sha512-PK4OVPSHktU4abx8HF5dctiKxcWOt0JL/tPZW5m2jBD5Sd4iwFszsJm3BKMaXlDRqFdBoaDFb8HG3zYGG5UQTQ==
+"@digitalpersona/core@^0.1.4", "@digitalpersona/core@^0.1.6":
+  version "0.1.6"
+  resolved "http://localhost:4873/@digitalpersona%2fcore/-/core-0.1.6.tgz#024677bf924822aceb610bda7e94111f6b50b491"
+  integrity sha512-suZPMbGc/ZwyiJTDh4BDZoj9b4oUhBJuRtPB1MZYy2CZaai2gTt16/VU9aLne8iqzgfgI/EHrlqh3WA6YRvZNw==
   dependencies:
     tslib "^1.9.3"
     u2f-api "^1.0.10"

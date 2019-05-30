@@ -1,13 +1,19 @@
-import { IScope, ILocationService } from 'angular';
+import { IScope, ILocationService, IComponentOptions } from 'angular';
 import { JSONWebToken, User, JWT, ClaimName } from '@digitalpersona/core';
 import { ServiceError, IPolicyService, ResourceActions, ContextualInfo, PolicyInfo, Policy } from '@digitalpersona/services';
 import { CardsReader, FingerprintReader, SampleFormat } from '@digitalpersona/devices';
 
 import { CredInfo } from '../../../config/credInfo';
 import { IdentityService } from '../../services/identity';
+import template from './signin.html';
 
-export default class SigninController
+export default class SigninControl
 {
+    public static readonly Component: IComponentOptions = {
+        template,
+        controller: SigninControl,
+    };
+
     private identity: User|JSONWebToken;
     private busy: boolean = false;
     private selected: string;

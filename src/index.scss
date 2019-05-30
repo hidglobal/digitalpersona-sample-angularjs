@@ -37,7 +37,7 @@ ng-message {
     @extend .form-text;
 }
 
-x-signin {
+x-signin, x-signup {
     display: block;
     padding-top: 50px;
 }

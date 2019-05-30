@@ -1,7 +1,14 @@
 {
   "CompanyName": "Bank of DigitalPersona",
   "Signup": {
-    "Title": "Sign up"
+    "Title": "Sign up",
+    "Username": "Sign-in name",
+    "Password": "Create a new password",
+    "RepeatPassword": "Repeat the password",
+    "Error": {
+      "PasswordMismatch": "Both passwords must match each other.",
+      "AlreadyExists": "The specified account already exists."
+    }
   },
   "Restore": {
     "Title": "Restore access"
@@ -17,11 +24,11 @@
   "Username": {
     "Prompt": "Sign-in name",
     "Error": {
-      "Unknown": "The sign-in name is not registered"
+      "Unknown": "The sign-in name is not registered."
     }
   },
   "Credential": {
-    "Verified": "Credential is verified",
+    "Verified": "Credential is verified.",
     "Password": "Password",
     "Fingerprints": "Fingerprints",
     "PIN": "PIN",
@@ -34,16 +41,19 @@
     "Recovery questions": "Recovery questions"
   },
   "verified": {
-    "Security questions": "Security Questions are verified",
-    "IWA": "Your Windows credentials are verified",
-    "Recovery questions": "Recovery questions are verified"
+    "Security questions": "Security Questions are verified.",
+    "IWA": "Your Windows credentials are verified.",
+    "Recovery questions": "Recovery questions are verified."
   },
   "Password": {
     "Title": "Password",
     "Prompt": "Password",
-    "Success": "Password is verified",
+    "Create": "Create a new password",
+    "Repeat": "Repeat the password",
+    "Success": "Password is verified.",
     "Error": {
-      "NoMatch": "Invalid password or sign-in name."
+      "NoMatch": "Invalid password or sign-in name.",
+      "PasswordMismatch": "Both passwords must match each other."
     }
   },
   "PIN": {
@@ -111,18 +121,18 @@
   },
   "SmartCard": {
     "Title": "Smartcard",
-    "Presence": "Smartcard is presented",
+    "Presence": "Smartcard is presented.",
     "Prompt": "Smartcard PIN",
     "Success": "The smartcard is verified."
   },
   "ContactlessCard": {
     "Title": "Contactless Card",
-    "Presence": "Contactless card is presented",
+    "Presence": "Contactless card is presented.",
     "Success": "The contactless card is verified."
   },
   "ProximityCard": {
     "Title": "Proximity Card",
-    "Presence": "Proximity card is presented",
+    "Presence": "Proximity card is presented.",
     "Success": "The proximity card is verified."
   },
   "OTP": {
@@ -156,7 +166,7 @@
   },
   "Face": {
     "Title": "Face",
-    "Usage": "Have your camera ready, place your face in front of the camera then press Start",
+    "Usage": "Have your camera ready, place your face in front of the camera then press Start.",
     "Prompt": "Look straight into the camera.",
     "Select camera": "Select a camera.",
     "Start": "Start",
@@ -179,7 +189,7 @@
   },
   "U2F": {
     "Title": "FIDO Key",
-    "Usage": "Insert your FIDO token then press Start",
+    "Usage": "Insert your FIDO token then press Start.",
     "Start": "Start",
     "Prompt": "Tap, press the button on, or re-insert your FIDO key.",
     "Success": "The FIDO key is verified.",
@@ -196,7 +206,7 @@
   },
   "SecurityQuestions": {
     "Title": "Security Questions",
-    "Success": "Security questions are verified",
+    "Success": "Security questions are verified.",
     "Error": {
       "NoMatch": "Answers to security questions do not match to the sign-in name."
     }

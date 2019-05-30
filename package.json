@@ -35,7 +35,7 @@
     "tslib": "^1.9.3"
   },
   "resolutions": {
-    "@digitalpersona/core": "^0.1.5",
+    "@digitalpersona/core": "^0.1.6",
     "@digitalpersona/services": "^0.1.6"
   },
   "devDependencies": {
