@@ -1,0 +1,22 @@
+<form class="container well" ng-submit="$ctrl.submit()">
+    <div class="alert alert-success" role="alert" ng-bind="'Password.Success' | translate" ng-show="$ctrl.success"></div>
+    <div
+        <fieldset>
+            <x-password
+                label="{{ 'PIN.NewPin' | translate }}"
+                show-password="$ctrl.showPin"
+                on-change="$ctrl.updateNewPin(value)"></x-password>
+            <x-password
+                label="{{ 'PIN.Repeat' | translate }}"
+                show-password="$ctrl.showPin"
+                match="$ctrl.newPin"
+                on-change="$ctrl.updateNewPin(value)"></x-password>
+            <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error | translate" ng-show="$ctrl.error"></div>
+        </fieldset>
+        <button
+            type="submit"
+            class="btn btn-primary"
+            ng-disabled="!$ctrl.newPin"
+            ng-bind="'Credential.Change' | translate"></button>
+    </div>
+</form>

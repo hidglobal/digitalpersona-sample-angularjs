@@ -1,0 +1,13 @@
+<ul class="nav nav-tabs" role="navigation">
+    <li class="nav-item" ng-repeat="cred in $ctrl.tabs"
+        title="{{ cred.name + '.Title' | translate }}"
+        ng-class="{
+            'active': ($ctrl.selected == cred.name),
+        }"
+    >
+        <a class="btn btn-link" ng-click="$ctrl.select(cred.name)">
+            <i class="fa fa-check text-success" ng-show="$ctrl.isAuthenticated(cred)" style="position: absolute;"></i>
+            <img src="{{:: cred.icon}}" style="width: 35px;" />
+        </a>
+    </li>
+</ul>

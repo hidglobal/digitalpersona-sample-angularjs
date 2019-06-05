@@ -2,9 +2,9 @@ import '../locales/en.json';
 
 localization.$inject = ["$translateProvider"];
 export default function localization(
-    $translateProvider: angular.translate.ITranslateProvider
+    $translateProvider: angular.translate.ITranslateProvider,
 ){
-    var languages = {
+    const languages = {
         available: [
             "en",
             "es",
@@ -13,7 +13,7 @@ export default function localization(
             "en-*": "en",
             "es-*": "es",
         },
-        default: "en"
+        default: "en",
     };
 
     $translateProvider
@@ -21,14 +21,14 @@ export default function localization(
         .registerAvailableLanguageKeys(languages.available, languages.aliases)
         .useStaticFilesLoader({
             prefix: "locales/",
-            suffix: ".json"
+            suffix: ".json",
         })
         .determinePreferredLanguage(getBrowserLanguage)
 //        .fallbackLanguage("en");
 
     function getBrowserLanguage() {
 
-        var lang = navigator.language || navigator["userLanguage"];
+        let lang = navigator.language || navigator["userLanguage"];
 
         if (languages.available.indexOf(lang) < 0
         &&  languages.available.indexOf(lang.split('-')[0]) < 0) {

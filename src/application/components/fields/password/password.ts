@@ -43,6 +43,7 @@ export default class PasswordControl
         this.label      = this.label || "Password";
         this.value      = "";
         this.showPeeker = this.type !== 'text';
+        this.showPassword = this.showPassword || false;
     }
 
     public $doCheck() {

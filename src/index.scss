@@ -1,5 +1,9 @@
-//@import "./branding";
-@import "~bootstrap/scss/bootstrap";
+// //@import "./branding";
+//@import "~bootstrap/scss/bootstrap";
+//@import '~angular-material/layouts/angular-material.layouts';
+
+$icon-font-path: "~bootstrap/fonts/";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
 html {
     margin: 0;
@@ -8,7 +12,6 @@ html {
     line-height: 1.4;
     position: relative;
     width: 100%;
-    min-height: 768px;
     height: 100%;
     min-width: 100%;
 }
@@ -16,17 +19,13 @@ html {
 body {
     margin: 0;
     padding: 0;
-    padding-top: 55px;
-//    color: $brand-primary-gray;
+    padding-top: 50px;   // for navbar-fixed-top
+//    padding-bottom: 70px;   // for navbar-fixed-bottom
     background-color: gainsboro;
-//    background-image: url('http://lorempixel.com/1024/768/city/4');
-//    background-image: url('https://loremflickr.com/1200/768/money?lock=23');
     background-image: url('./images/bank_1200_768_.jpg');
     background-position: 0 0;
     background-repeat: no-repeat;
     background-position-x: center;
-//    font-family: $brand-font-primary;
-//    height: 100%
 }
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
@@ -34,12 +33,14 @@ body {
 }
 
 ng-message {
-    @extend .form-text;
+    @extend .help-block;
 }
 
 x-signin, x-signup {
     display: block;
-    padding-top: 50px;
+    padding-top: 50px;  // adjust vertical position of the signin/signup form
+    max-width: 40em;
+    margin: 0 auto;
 }
 
 .nav-tabs .nav-link.btn.btn-link.active {
@@ -47,6 +48,9 @@ x-signin, x-signup {
     border-top-width: 3px;
 }
 
+.jumbotron {
+    padding-top: 1px;
+}
 .slidedown{
     animation-name: slideInFromTop;
     animation-duration: 0.3s;
@@ -68,6 +72,21 @@ x-signin, x-signup {
     40%, 80% {transform: translateX(5px);}
 }
 
-.busy {
-    cursor: wait;
+.social {
+    color: darkslategrey;
+    margin: 0 5px;
 }
+
+.footer-link {
+//    color: darkslategrey;
+    margin: 5px 3em;
+}
+
+.disclaimer {
+    font-size: 70%;
+    color: darkslategrey;
+}
+
+// .busy {
+//     cursor: wait;
+// }

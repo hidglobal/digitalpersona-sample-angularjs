@@ -1,0 +1,115 @@
+<ng-form class="center-block well"
+    ng-class="{
+        slidedown: false,
+        shakeOnError: $ctrl.error,
+        busy: $ctrl.busy
+    }">
+    <h2>{{'Signin.Title' | translate }}
+        <i class="fa fa-check text-success" ng-show="$ctrl.isEnoughCredentials()"></i>
+    </h2>
+    <div>Select credentials to authenticate:</div>
+
+    <x-cred-selector
+        identity="$ctrl.identity"
+        credentials="$ctrl.credentials"
+        selected="$ctrl.selected"
+        on-select="$ctrl.show(selected)"
+    ></x-cred-selector>
+
+    <fieldset ng-disabled="$ctrl.busy">
+        <fieldset ng-disabled="$ctrl.isIdentified">
+            <x-username
+                label="{{'Signin.Username' | translate}}"
+                ng-hide="$ctrl.canIdentify()"
+                value="{{$ctrl.getUser().name}}"
+                required="true"
+                on-change="$ctrl.updateUsername(value)"
+            ></x-username>
+        </fieldset>
+        <div>
+            <x-password-auth ng-show="$ctrl.isSelected('Password')"
+                identity="$ctrl.identity"
+                on-busy="$ctrl.setBusy()"
+                on-update="$ctrl.update()"
+                on-token="$ctrl.updateToken(token)"
+                on-error="$ctrl.showError(error, 'Password')"
+            ></x-password-auth>
+            <x-pin-auth ng-show="$ctrl.isSelected('PIN')"
+                identity="$ctrl.identity"
+                on-busy="$ctrl.setBusy()"
+                on-update="$ctrl.update()"
+                on-token="$ctrl.updateToken(token)"
+                on-error="$ctrl.showError(error, 'PIN')"
+            ></x-pin-auth>
+            <x-otp-auth ng-show="$ctrl.isSelected('OTP')"
+                identity="$ctrl.identity"
+                on-busy="$ctrl.setBusy()"
+                on-update="$ctrl.update()"
+                on-token="$ctrl.updateToken(token)"
+                on-error="$ctrl.showError(error, 'OTP')"
+            ></x-otp-auth>
+            <x-fingerprints-auth ng-show="$ctrl.isSelected('Fingerprints')"
+                identity="$ctrl.identity"
+                reader="$ctrl.fingerprintReader"
+                on-busy="$ctrl.setBusy()"
+                on-update="$ctrl.update()"
+                on-token="$ctrl.updateToken(token)"
+                on-error="$ctrl.showError(error, 'Fingerprints')"
+            ></x-fingerprints-auth>
+
+            <x-cards-auth ng-show="$ctrl.isSelected('Cards')"
+                identity="$ctrl.identity"
+                reader="$ctrl.cardReader"
+                on-busy="$ctrl.setBusy()"
+                on-update="$ctrl.update()"
+                on-token="$ctrl.updateToken(token)"
+                on-error="$ctrl.showError(error, 'Cards')"
+            >
+                <x-smart-card-auth
+                    identity="$ctrl.identity"
+                    reader="$ctrl.cardReader"
+                    on-busy="$ctrl.setBusy()"
+                    on-update="$ctrl.update()"
+                    on-token="$ctrl.updateToken(token)"
+                    on-error="$ctrl.showError(error, 'Cards')"
+                ></x-smart-card-auth>
+                <x-contactless-card-auth
+                    identity="$ctrl.identity"
+                    reader="$ctrl.cardReader"
+                    on-busy="$ctrl.setBusy()"
+                    on-update="$ctrl.update()"
+                    on-token="$ctrl.updateToken(token)"
+                    on-error="$ctrl.showError(error, 'Cards')"
+                ></x-contactless-card-auth>
+                <x-proximity-card-auth
+                    identity="$ctrl.identity"
+                    reader="$ctrl.cardReader"
+                    on-busy="$ctrl.setBusy()"
+                    on-update="$ctrl.update()"
+                    on-token="$ctrl.updateToken(token)"
+                    on-error="$ctrl.showError(error, 'Cards')"
+                ></x-proximity-card-auth>
+            </x-cards-auth>
+
+            <x-fido-auth ng-show="$ctrl.isSelected('U2F')"
+                identity="$ctrl.identity"
+                on-busy="$ctrl.setBusy()"
+                on-update="$ctrl.update()"
+                on-token="$ctrl.updateToken(token)"
+                on-error="$ctrl.showError(error, 'U2F')"
+            ></x-fido-auth>
+            <x-face-auth ng-show="$ctrl.isSelected('Face')"
+                identity="$ctrl.identity"
+                on-busy="$ctrl.setBusy()"
+                on-update="$ctrl.update()"
+                on-token="$ctrl.updateToken(token)"
+                on-error="$ctrl.showError(error, 'Face')"
+            ></x-face-auth>
+        </div>
+    </fieldset>
+    <hr>
+    <div>
+        <div>{{ 'Signin.FirstTime?' | translate }} <a href="./signup">{{'Signup.Title' | translate}}!</a></div>
+        <div>{{ 'Signin.Troubles?' | translate }} <a href="./restore">{{'Restore.Title' | translate}}.</a></div>
+    </div>
+</div>

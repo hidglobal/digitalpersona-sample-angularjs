@@ -11,6 +11,7 @@
       "member-ordering":false,
       "arrow-parens": false,
       "typedef-whitespace": false,
-      "no-bitwise": false
+      "no-bitwise": false,
+      "no-string-literal": false
     }
 }

@@ -1,0 +1,26 @@
+<div class="container-fluid well">
+    <div class="container">
+        <h2>Account summary</h2>
+        <div ng-repeat="group in $ctrl.accounts">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h1 class="panel-title">
+                        <i class="fa {{group.icon}}"></i>&nbsp;{{ group.name}}
+                    </h1>
+                </div>
+                <div class="panel-body" ng-repeat="acc in group.accounts">
+                    <div class="row">
+                        <a href="#">
+                            <div class="col-xs-1"><i class="fa {{acc.icon}}"></i></div>
+                            <div class="col-xs-5">{{acc.name}} {{acc.id}}</div>
+                            <div class="col-xs-4">
+                                <span class="text-danger" ng-if="acc.alert">{{acc.alert}}</span>
+                            </div>
+                            <div class="col-xs-2">{{acc.total}}</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

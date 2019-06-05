@@ -1,0 +1,17 @@
+<div>
+    <div ng-if="$ctrl.identity.userName">
+        <a class="btn navbar-btn btn-link" href="/user">
+            <span>
+                <i class="fa fa-user"></i>&nbsp;{{$ctrl.identity.userName}}
+            </span>
+            <x-profile-menu></x-profile-menu>
+        </a>
+        <button class="btn navbar-btn btn-primary" ng-click="$ctrl.signout()">
+            Sign out
+        </button>
+    </div>
+    <div ng-if="!$ctrl.identity.userName">
+        <a class="btn navbar-btn btn-link" ng-href="/signup">Sign up</a>
+        <a class="btn navbar-btn btn-primary" ng-href="/signin">Sign in</a>
+    </div>
+</div>

@@ -34,9 +34,16 @@ module.exports = {
         host: 'bank.alpha.local',
         port: 443,
         https: true,
-        pfx: 'src/wildcard-alpha-local.pfx',
+        pfx: 'certificates/wildcard-alpha-local.pfx',
         pfxPassphrase: 'test',
         publicPath: '/',
+        // proxy: {
+        //     '/' : {
+        //         target: "bank.alpha.local",
+        //         pathRewrite: { '^/\.+': '' }
+        //     },
+        // },
+    historyApiFallback: true,
         contentBase: [
             'out/public/'
         ],
@@ -50,13 +57,20 @@ module.exports = {
         new BrowserSyncPlugin({
             host: 'bank.alpha.local',
             port: 4443,
-            proxy: 'https://bank.alpha.local:8080',
+            proxy: "https://bank.alpha.local:443",
+            //  {
+            //     '*' : {
+            //         target: "https://bank.alpha.local:8080/",
+            //         pathRewrite: { '*': ''}
+            //     },
+            // },
             // server: {
             //     baseDir: path.resolve('out/public')
             // },
             ui: false,
             online: false,
-            notify: false
+            notify: false,
+            reload: false,
         }),
     ],
     resolveLoader: {

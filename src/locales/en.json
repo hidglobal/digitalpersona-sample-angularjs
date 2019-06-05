@@ -42,7 +42,14 @@
     "Security questions": "Security Questions",
     "OTP": "One-Time Password",
     "IWA": "Windows Authentication",
-    "Recovery questions": "Recovery questions"
+    "Recovery questions": "Recovery questions",
+    "Status": {
+      "Enrolled": "Enrolled",
+      "NotEnrolled": "Not enrolled"
+    },
+    "Enroll": "Add",
+    "Change": "Change",
+    "Delete": "Delete"
   },
   "verified": {
     "Security questions": "Security Questions are verified.",
@@ -52,6 +59,8 @@
   "Password": {
     "Title": "Password",
     "Prompt": "Password",
+    "OldPassword": "Old password",
+    "NewPassword": "New password",
     "Create": "Create a new password",
     "Repeat": "Repeat the password",
     "Success": "Password is verified.",
@@ -70,6 +79,8 @@
   "PIN": {
     "Title": "PIN",
     "Prompt": "PIN",
+    "NewPin": "New PIN",
+    "Repeat": "Repeat the PIN",
     "Success": "PIN is verified",
     "Error": {
       "NoMatch": "Invalid PIN or sign-in name.",

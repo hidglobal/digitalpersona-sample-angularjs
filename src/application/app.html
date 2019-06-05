@@ -1,0 +1,77 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="/home" class="navbar-brand" style="color:whitesmoke">
+                <i class="fa fa-bank fa-2x"></i>&nbsp;
+                <strong style="font-size: 120%;">Bank of DigitalPersona</strong>
+            </a>
+        </div>
+        <x-profile-nav class="navbar-right"
+            on-signin="$ctrl.onSignin()"
+            on-signout="$ctrl.onSignout()"
+        ></x-profile-nav>
+    </div>
+</nav>
+
+<div ng-view></div>
+
+<div class="navbar navbar-fixed-bottom border-top" style="background-color:silver;">
+    <div class="social text-center"><span>Follow us:
+        <a class="social" href="#"><i class="fa fa-facebook"></i></a>
+        <a class="social" href="#"><i class="fa fa-instagram"></i></a>
+        <a class="social" href="#"><i class="fa fa-twitter"></i></a>
+        <a class="social" href="#"><i class="fa fa-youtube"></i></a>
+        <a class="social" href="#"><i class="fa fa-linkedin"></i></a>
+    </div>
+    <div class="text-center text-white" style="font-size: 80%">
+        <a class="footer-link" href="#">Privacy</a>
+        <a class="footer-link" href="#">Security</a>
+        <a class="footer-link" href="#">Terms of use</a>
+        <a class="footer-link" href="#">FDIC</a>
+        <a class="footer-link" href="#">Contact us</a>
+        <a class="footer-link" href="#">About us</a>
+    </div>
+    <div class="text-center" style="font-size: 70%">
+            * <b>Bank of DigitalPersona</b> is a fictional entity intended solely for demonstration purposes. &copy; 2019 HID Global Ltd.
+    </div>
+</div>
+
+<!-- <md-content layout="column" flex>
+    <md-toolbar>
+        <div layout="row" layout-align="center center">
+            <md-button href="./home" layout="row">
+                <i class="fa fa-bank fa-2x text-white"></i>&nbsp;
+                <h2 href="./home">Bank of DigitalPersona</h2>
+            </md-button>
+            <div flex class="md-toolbar-tools">
+            </div>
+            <x-profile-nav
+                on-signin="$ctrl.onSignin()"
+                on-signout="$ctrl.onSignout()"
+            ></x-profile-nav>
+        </div>
+    </md-toolbar>
+
+    <div ng-view style="min-height: calc(100vh - 165px)"></div>
+
+    <md-toolbar flex="none" layout="column" layout-align="center center" style="background-color:silver;">
+        <div layout="row" class="social"><span>Follow us:
+            <a class="social" href="#"><i class="fa fa-facebook"></i></a>
+            <a class="social" href="#"><i class="fa fa-instagram"></i></a>
+            <a class="social" href="#"><i class="fa fa-twitter"></i></a>
+            <a class="social" href="#"><i class="fa fa-youtube"></i></a>
+            <a class="social" href="#"><i class="fa fa-linkedin"></i></a>
+        </div>
+        <div layout="row" style="font-size: 80%">
+            <a class="footer-link" href="#">Privacy</a>
+            <a class="footer-link" href="#">Security</a>
+            <a class="footer-link" href="#">Terms of use</a>
+            <a class="footer-link" href="#">FDIC</a>
+            <a class="footer-link" href="#">Contact us</a>
+            <a class="footer-link" href="#">About us</a>
+        </div>
+        <div layout="row" class="disclaimer">
+                * <b>Bank of DigitalPersona</b> is a fictional entity intended solely for demonstration purposes. &copy; 2019 HID Global Ltd.
+        </div>
+    </md-toolbar>
+</md-content> -->
