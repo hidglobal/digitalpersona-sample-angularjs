@@ -1,12 +1,11 @@
-import { IComponentOptions, IOnChangesObject, IChangesObject, IController } from 'angular';
+import { IComponentOptions, IController } from 'angular';
 
 import template from './userInfo.html';
-import { JSONWebToken, JWT, ClaimName } from '@digitalpersona/core';
+import { JSONWebToken, Ticket, User } from '@digitalpersona/core';
+import { IEnrollService } from '@digitalpersona/services';
 
 export default class UserInfoControl implements IController
 {
-    public identity: JSONWebToken;
-
     public static readonly Component: IComponentOptions = {
         template,
         controller: UserInfoControl,
@@ -15,13 +14,20 @@ export default class UserInfoControl implements IController
         },
     };
 
-    // public $onChanges(changes: IOnChangesObject) {
-    //     if (changes && changes.identity && changes.identity.isFirstChange)
-    //         this.identity = changes.identity.currentValue;
-    // }
+    public readonly identity: JSONWebToken;
+    public readonly changeToken: JSONWebToken;
+
+    public static $inject = ["EnrollService"];
+    public constructor(
+        private readonly enrollService: IEnrollService,
+    ){}
 
     private userName() {
-        const claims = JWT.claims(this.identity);
-        return claims[ClaimName.WindowsAccountName] || claims[ClaimName.SubjectName] || "";
+        const user = User.fromJWT(this.identity);
+        return user.name;
+    }
+
+    private async deleteAccount() {
+        await this.enrollService.DeleteUser(new Ticket(this.changeToken), User.fromJWT(this.identity));
     }
 }

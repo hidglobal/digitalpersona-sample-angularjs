@@ -13,7 +13,7 @@ export default class AuthorizationService
 
     private changeToken: JSONWebToken;
 
-    public static $inject = ["$q", "AuthService", "PolicyService" ]
+    public static $inject = ["$q", "AuthService", "PolicyService" ];
     constructor(
         private readonly $q: IQService,
         private readonly authService: IAuthService,

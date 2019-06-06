@@ -50,14 +50,9 @@ export default function routes(
         .when('/user', {
             template:   `<x-user-info
                             identity="$resolve.identity"
+                            change-token="$resolve.changeToken"
                         ></x-user-info>`,
-            resolve: { identity },
-        })
-        .when('/user/credentials', {
-            template:   `<x-change-credentials
-                            identity="$resolve.identity"
-                        ></x-change-credentials>`,
-            resolve: { identity },
+            resolve: { identity, changeToken },
         })
 
         // credential enrollment/change pages
@@ -70,10 +65,12 @@ export default function routes(
         })
         .when('/user/change/PIN', {
             template:   `<x-pin-change
-                            identity="$resolve.identity"
-                            change-token="$resolve.changeToken"
+                                identity="$resolve.identity"
+                                change-token="$resolve.changeToken"
+                                on-enroll="$resolve.$window.location.href='/user'"
+                                on-delete="$resolve.$window.location.href='/user'"
                         ></x-pin-change>`,
-            resolve: { identity, changeToken },
+            resolve: { identity, changeToken, $window: "$window" },
         })
 
 }

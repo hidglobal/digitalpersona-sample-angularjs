@@ -1,0 +1,21 @@
+<div class="center-block panel"
+    ng-class="{
+        slidedown: false,
+        shakeOnError: $ctrl.error,
+        busy: $ctrl.busy
+    }">
+    <div class="panel-header">
+        <nav class="container-fluid" aria-label="...">
+            <ul class="pager">
+                <li class="previous">
+                    <a href="#" onclick="history.go(-1)"><span aria-hidden="true">◀</span></a>
+                </li>
+                <h2 class=" text-center" ng-bind="$ctrl.title"></h2>
+            </ul>
+        </nav>
+        <!-- <a class="previous" href="#" onclick="history.go(-1)"><<<</a> -->
+    </div>
+    <div class="container-fluid panel-body">
+        <ng-transclude></ng-transclude>
+    </div>
+</div>

@@ -2,6 +2,7 @@ import { IComponentOptions } from 'angular';
 import { IdentityService } from '../../identity';
 
 import template from './profileNav.html';
+import { User } from '@digitalpersona/core';
 
 export default class ProfileNavControl
 {
@@ -23,8 +24,12 @@ export default class ProfileNavControl
     ){
     }
 
+    private get user() {
+        const token = this.identity.get();
+        return token ? User.fromJWT(token) : User.Anonymous();
+    }
+
     private signout() {
-        console.log('signout');
         this.identity.clear();
         this.emitOnSignout();
     }

@@ -1,18 +1,13 @@
-<div class="container-fluid well">
-    <div class="container">
-        <div class="row">
-            <h2>User information</h2>
-            <div class="col-xs-6">
-                <form>
-                    <fieldset disabled>
-                        <x-username value="{{$ctrl.userName()}}"></x-username>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-        <div class="row">
-            <h2>Security</h2>
-            <x-user-credentials identity="$ctrl.identity"></x-user-credentials>
-        </div>
-    </div>
-</div>
+<x-activity-view title="'Profile.Title'|translate">
+    <ng-form class="row">
+        <fieldset disabled>
+            <x-username label="{{'Signin.Username' | translate}}" value="{{$ctrl.userName()}}"></x-username>
+        </fieldset>
+        <button type="button" class="btn btn-link" ng-click="$ctrl.deleteAccount()">
+            <span class="text-danger" ng-bind="'Profile.DeleteAccount'|translate"></span>
+        </button>
+
+        <h3 ng-bind="'Profile.Security.Title'|translate"></h3>
+        <x-user-credentials identity="$ctrl.identity"></x-user-credentials>
+    </ng-form>
+</x-activity-view>

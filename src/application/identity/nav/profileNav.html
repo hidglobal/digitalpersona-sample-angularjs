@@ -1,8 +1,8 @@
 <div>
-    <div ng-if="$ctrl.identity.userName">
+    <div ng-if="!$ctrl.user.isAnonymous()">
         <a class="btn navbar-btn btn-link" href="/user">
             <span>
-                <i class="fa fa-user"></i>&nbsp;{{$ctrl.identity.userName}}
+                <i class="fa fa-user"></i>&nbsp;{{$ctrl.user.name}}
             </span>
             <x-profile-menu></x-profile-menu>
         </a>
@@ -10,7 +10,7 @@
             Sign out
         </button>
     </div>
-    <div ng-if="!$ctrl.identity.userName">
+    <div ng-if="$ctrl.user.isAnonymous()">
         <a class="btn navbar-btn btn-link" ng-href="/signup">Sign up</a>
         <a class="btn navbar-btn btn-primary" ng-href="/signin">Sign in</a>
     </div>

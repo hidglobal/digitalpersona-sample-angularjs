@@ -3,7 +3,7 @@ import { IEnrollService, IPolicyService, PolicyInfo } from '@digitalpersona/serv
 
 import template from './userCredentials.html';
 import { CredInfo } from '../tokens/tokenAuth';
-import { User, JWT, JSONWebToken, ClaimName, UserNameType } from '@digitalpersona/core';
+import { User, JSONWebToken } from '@digitalpersona/core';
 
 export default class UserCredentialsControl
 {
@@ -22,6 +22,7 @@ export default class UserCredentialsControl
     private policies: PolicyInfo | null;
     private credentials: CredInfo[];
     private enrolled: CredInfo[];
+    private unenrolled: CredInfo[];
     private selected: string;
     private busy: boolean;
 
@@ -51,11 +52,7 @@ export default class UserCredentialsControl
     }
 
     private async getEnrolled() {
-        const claims = JWT.claims(this.identity);
-
-        const user = claims.sub && (claims.sub instanceof User) ? claims.sub :
-                     claims.wan ? new User(claims.wan) :
-                     claims.sub ? new User(claims.sub, UserNameType.DP) : User.Anonymous();
+        const user = User.fromJWT(this.identity);
         try {
             const creds = (await this.enrollService.GetUserCredentials(user)).map(c => c.toUpperCase());
             return this.supportedCredentials.all.filter(c => creds.includes(c.id));
@@ -70,6 +67,7 @@ export default class UserCredentialsControl
         const allowed = this.getAllowedCredentials();
         this.credentials = this.supportedCredentials.all.filter(cred => allowed.includes(cred.id));
         this.enrolled = await this.getEnrolled();
+        this.unenrolled = this.credentials.filter(c => !this.enrolled.includes(c));
         if (!this.selected || !this.credentials.some(cred => cred.name === this.selected))
             this.selected = this.credentials[0].name;
     }

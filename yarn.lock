@@ -2,11 +2,6 @@
 # yarn lockfile v1
 
 
-"@angular/router@^0.2.0":
-  version "0.2.0"
-  resolved "http://localhost:4873/@angular%2frouter/-/router-0.2.0.tgz#4a30c79122273baefeb76376fbed62570e28a828"
-  integrity sha1-SjDHkSInO67+t2N2++1iVw4oqCg=
-
 "@babel/code-frame@^7.0.0":
   version "7.0.0"
   resolved "http://localhost:4873/@babel%2fcode-frame/-/code-frame-7.0.0.tgz#06e2ab19bdb535385559aabb5ba59729482800f8"
@@ -32,10 +27,10 @@
     tslib "^1.9.3"
     u2f-api "^1.0.10"
 
-"@digitalpersona/core@^0.1.4", "@digitalpersona/core@^0.1.6":
-  version "0.1.6"
-  resolved "http://localhost:4873/@digitalpersona%2fcore/-/core-0.1.6.tgz#024677bf924822aceb610bda7e94111f6b50b491"
-  integrity sha512-suZPMbGc/ZwyiJTDh4BDZoj9b4oUhBJuRtPB1MZYy2CZaai2gTt16/VU9aLne8iqzgfgI/EHrlqh3WA6YRvZNw==
+"@digitalpersona/core@^0.1.4", "@digitalpersona/core@^0.1.6", "@digitalpersona/core@^0.1.7":
+  version "0.1.7"
+  resolved "http://localhost:4873/@digitalpersona%2fcore/-/core-0.1.7.tgz#f8b0bd63d863da6c64ce307b44b488081525a1c1"
+  integrity sha512-kfQokW3GHLHeqFUFFfuLqyJUtNrqdBixGW1Gj48Jilob3gmM1rCQfYa+arEZamcDOvB8ufxEaGi7cpLMi+AwUQ==
   dependencies:
     tslib "^1.9.3"
     u2f-api "^1.0.10"
@@ -47,6 +42,15 @@
   dependencies:
     "@digitalpersona/core" "^0.1.4"
     tslib "^1.9.3"
+
+"@digitalpersona/enrollment@^0.1.1":
+  version "0.1.1"
+  resolved "http://localhost:4873/@digitalpersona%2fenrollment/-/enrollment-0.1.1.tgz#af4c42b9105f5196198a9cd153e41f1cffe669c2"
+  integrity sha512-/sOQSS3XPpkwZX83f1eUD7ktzXfgoUhJZ8I5Ou+wR7gwCchhorcX//EJZktDptLeuDy9hHrGI7xBVRVF3W7akA==
+  dependencies:
+    "@digitalpersona/services" "^0.1.4"
+    tslib "^1.9.3"
+    u2f-api "^1.0.10"
 
 "@digitalpersona/services@^0.1.4", "@digitalpersona/services@^0.1.6":
   version "0.1.6"
@@ -65,6 +69,13 @@
     "@types/webgl-ext" "0.0.30"
     "@types/webgl2" "0.0.4"
     seedrandom "2.4.3"
+
+"@types/angular-animate@^1.5.10":
+  version "1.5.10"
+  resolved "http://localhost:4873/@types%2fangular-animate/-/angular-animate-1.5.10.tgz#b94b45358c61163f1478768e8b081c76439c515f"
+  integrity sha512-MnYYvTHAPUbtT6gqwrnl6k3a03A5BlNz1nVlwVGxyS+MeWCX4DC14SJ/pgJUa8wj+J04wZ2prMxFsOfp6cyjjQ==
+  dependencies:
+    "@types/angular" "*"
 
 "@types/angular-cookies@^1.4.5":
   version "1.4.5"
@@ -94,6 +105,13 @@
   dependencies:
     "@types/angular" "*"
 
+"@types/angular-ui-bootstrap@^0.13.47":
+  version "0.13.47"
+  resolved "http://localhost:4873/@types%2fangular-ui-bootstrap/-/angular-ui-bootstrap-0.13.47.tgz#e9fd4baf09dd98ff2b868ed00474310b2a66fa37"
+  integrity sha512-8HMw2MR9lPZt8+A4Kf6BFT2JK+0/ERcpM88k/kewPBOXdXVzkQmcJ08tNPhFIPLF89diKfA6X3HZKTBJr6PMoQ==
+  dependencies:
+    "@types/angular" "*"
+
 "@types/angular@*", "@types/angular@^1.6.54":
   version "1.6.54"
   resolved "http://localhost:4873/@types%2fangular/-/angular-1.6.54.tgz#f9d5a03e4da7b021a6dabe5d63e899ed4567a5bd"
@@ -104,13 +122,12 @@
   resolved "http://localhost:4873/@types%2fanymatch/-/anymatch-1.3.1.tgz#336badc1beecb9dacc38bea2cf32adf627a8421a"
   integrity sha512-/+CRPXpBDpo2RK9C68N3b2cOvO0Cf5B9aPijHsoDQTHivnGSObdOF2BRQOYjojWTDy6nQvMjmqRXIxH55VjxxA==
 
-"@types/bootstrap@^4.3.0":
-  version "4.3.0"
-  resolved "http://localhost:4873/@types%2fbootstrap/-/bootstrap-4.3.0.tgz#4cac01617f56239a5146945a98bde64274838c35"
-  integrity sha512-v1BkpRVgNH9eXE+RtWFP1wh/+SAkPZaxHthS6umqf1sGV0tAvHdPHZpAOB+H74e91ElOxtS56dxbon+lXWk4AQ==
+"@types/bootstrap@^3.3.7":
+  version "3.3.42"
+  resolved "http://localhost:4873/@types%2fbootstrap/-/bootstrap-3.3.42.tgz#003a089fe86888804115f856e4ff4bfd2650d055"
+  integrity sha512-ERkg6+Doymm2Uv/+jvqgxmoDLr6vz7wThaS2523QoY/tcTuw7HKrF5v06u2Ga3nEu0+iVTnNk7HLIzgm6ZZh8A==
   dependencies:
     "@types/jquery" "*"
-    popper.js "^1.14.1"
 
 "@types/events@*":
   version "3.0.0"
@@ -405,6 +422,16 @@ amdefine@>=0.0.4:
   resolved "http://localhost:4873/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
   integrity sha1-SlKCrBZHKek2Gbz9OtFR+BfOkfU=
 
+angular-animate@^1.7.8:
+  version "1.7.8"
+  resolved "http://localhost:4873/angular-animate/-/angular-animate-1.7.8.tgz#c95f237efe7ecfe0e6003adb5e2c7ef0e5a2b9d4"
+  integrity sha512-bINtzizq7TbJzfVrDpwLfTxVl0Qd7fRNWFb5jKYI1vaFZobQNX/QONXlLow6ySsDbZ6eLECycB7mvWtfh1YYaw==
+
+angular-aria@^1.7.8:
+  version "1.7.8"
+  resolved "http://localhost:4873/angular-aria/-/angular-aria-1.7.8.tgz#3954250ef516b57cdd3cdf41ff4ee6fcfdc84ceb"
+  integrity sha512-facq/111sZKL2wUUqRA1GnGt+lZ8KAcX9Aw04cNA+OyEkoaoRC77NY4VSOTQxghlSd0OPAdLeFnmETnuiWrpLg==
+
 "angular-cookies@>=1.2.26 <1.8", angular-cookies@^1.7.8:
   version "1.7.8"
   resolved "http://localhost:4873/angular-cookies/-/angular-cookies-1.7.8.tgz#c674dcfd37168e3d7def6bed165a38f75f96dbc9"
@@ -454,6 +481,11 @@ angular-translate@^2.18.1, angular-translate@~2.18.1:
   integrity sha512-Mw0kFBqsv5j8ItL9IhRZunIlVmIRW6iFsiTmRs9wGr2QTt8z4rehYlWyHos8qnXc/kyOYJiW50iH50CSNHGB9A==
   dependencies:
     angular ">=1.2.26 <=1.7"
+
+angular-ui-bootstrap@^2.5.6:
+  version "2.5.6"
+  resolved "http://localhost:4873/angular-ui-bootstrap/-/angular-ui-bootstrap-2.5.6.tgz#23937322ec641a6fbee16498cc32452aa199e7c5"
+  integrity sha512-yzcHpPMLQl0232nDzm5P4iAFTFQ9dMw0QgFLuKYbDj9M0xJ62z0oudYD/Lvh1pWfRsukiytP4Xj6BHOSrSXP8A==
 
 "angular@>=1.2.26 <=1.7", angular@^1.7.8:
   version "1.7.8"
@@ -785,10 +817,15 @@ boolbase@~1.0.0:
   resolved "http://localhost:4873/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
-bootstrap@^4.3.1:
-  version "4.3.1"
-  resolved "http://localhost:4873/bootstrap/-/bootstrap-4.3.1.tgz#280ca8f610504d99d7b6b4bfc4b68cec601704ac"
-  integrity sha512-rXqOmH1VilAt2DyPzluTi2blhk17bO7ef+zLLPlWvG494pDxcM234pJ8wTc/6R40UWizAIIMgxjvxZg5kmsbag==
+bootstrap-sass@^3.3.7:
+  version "3.4.1"
+  resolved "http://localhost:4873/bootstrap-sass/-/bootstrap-sass-3.4.1.tgz#6843c73b1c258a0ac5cb2cc6f6f5285b664a8e9a"
+  integrity sha512-p5rxsK/IyEDQm2CwiHxxUi0MZZtvVFbhWmyMOt4lLkA4bujDA1TGoKT0i1FKIWiugAdP+kK8T5KMDFIKQCLYIA==
+
+bootstrap@^3.3.7:
+  version "3.4.1"
+  resolved "http://localhost:4873/bootstrap/-/bootstrap-3.4.1.tgz#c3a347d419e289ad11f4033e3c4132b87c081d72"
+  integrity sha512-yN5oZVmRCwe5aKwzRj6736nSmKDX7pLYwsXiCj/EYmo16hODaBiT4En5btW/jhBF/seV+XMx3aYwukYC3A49DA==
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -4232,11 +4269,6 @@ pkg-dir@^3.0.0:
   integrity sha512-/E57AYkoeQ25qkxMj5PBOVgF8Kiu/h7cYS30Z5+R7WaiCCBfLq58ZI/dSeaEKb9WVJV5n/03QwrN3IeWIFllvw==
   dependencies:
     find-up "^3.0.0"
-
-popper.js@^1.14.1:
-  version "1.15.0"
-  resolved "http://localhost:4873/popper.js/-/popper.js-1.15.0.tgz#5560b99bbad7647e9faa475c6b8056621f5a4ff2"
-  integrity sha512-w010cY1oCUmI+9KwwlWki+r5jxKfTFDVoadl7MSrIujHU5MJ5OR6HTDj6Xo8aoR/QsA56x8jKjA59qGH4ELtrA==
 
 portfinder@^1.0.20:
   version "1.0.20"

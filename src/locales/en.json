@@ -1,5 +1,14 @@
 {
   "CompanyName": "Bank of DigitalPersona",
+  "Profile": {
+    "Title": "User information",
+    "Security": {
+      "Title": "Security",
+      "EnrolledCredentials": "Your enrolled credentials",
+      "AddCredentials": "Add more credentials"
+    },
+    "DeleteAccount": "⚠ Delete this account and all related data"
+  },
   "Signup": {
     "Title": "Sign up",
     "Username": "Sign-in name",
@@ -48,6 +57,7 @@
       "NotEnrolled": "Not enrolled"
     },
     "Enroll": "Add",
+    "Create": "Create",
     "Change": "Change",
     "Delete": "Delete"
   },
@@ -79,6 +89,8 @@
   "PIN": {
     "Title": "PIN",
     "Prompt": "PIN",
+    "Create": "Create a new PIN",
+    "Delete": "⚠ Delete existing PIN",
     "NewPin": "New PIN",
     "Repeat": "Repeat the PIN",
     "Success": "PIN is verified",

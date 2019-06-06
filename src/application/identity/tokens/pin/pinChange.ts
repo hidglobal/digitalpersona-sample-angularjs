@@ -40,6 +40,17 @@ export default class PinChangeControl extends TokenEnroll
         }
     }
 
+    public async deletePin() {
+        super.emitOnBusy();
+        try {
+            await new PinEnroll(this.enrollService, this.changeToken)
+                .unenroll(this.identity, this.changeToken);
+            super.emitOnDelete();
+        } catch (error) {
+            super.emitOnError(new Error(this.mapServiceError(error)));
+        }
+    }
+
     private mapServiceError(error: ServiceError) {
         switch (error.code) {
             case -2147023570: return "PIN.Error.NoMatch";

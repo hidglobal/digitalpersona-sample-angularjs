@@ -9,6 +9,7 @@ export class TokenEnroll
             onBusy: "&",
             onUpdate: "&",
             onEnroll: "&",
+            onDelete: "&",
             onError: "&",
         },
     };
@@ -18,6 +19,7 @@ export class TokenEnroll
     public onBusy   : () => void;
     public onUpdate : () => void;
     public onEnroll : () => void;
+    public onDelete : () => void;
     public onError  : (locals: {error?: Error }) => void;
     public error    : string;
 
@@ -50,6 +52,11 @@ export class TokenEnroll
         this.error = "";
         this.success = true;
         if (this.onEnroll) this.onEnroll();
+    }
+    protected emitOnDelete() {
+        this.error = "";
+        this.success = true;
+        if (this.onDelete) this.onDelete();
     }
     protected emitOnError(error: Error) {
         this.error = error.message;

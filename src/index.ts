@@ -8,14 +8,6 @@ import 'angular-translate-storage-local';
 import 'angular-translate-storage-cookie';
 import 'angular-translate-loader-static-files';
 
-// import material from 'angular-material';
-// import 'angular-messages';
-// import 'angular-animate';
-// import 'angular-aria';
-
-// import 'popper.js';
-// import 'bootstrap';
-
 import './modules/WebSdk';
 
 import './index.scss';
@@ -30,7 +22,6 @@ ng.module("example", [
     cookies,
     sanitize,
     translate,
-//    material,
     'ngMessages',
     app,
 ])
@@ -40,7 +31,7 @@ ng.module("example", [
 // Environment
 .value("Domain", "websvr-12-64.alpha.local")
 .factory("AppId", ["Domain", (domain: string) => {
-    return `https://${domain}/DPFido/app-id.json`
+    return `https://${domain}/DPFido/app-id.json`;
 }])
 
 // DigitalPersona Web Management endpoints

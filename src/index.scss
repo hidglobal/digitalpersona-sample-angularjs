@@ -21,11 +21,13 @@ body {
     padding: 0;
     padding-top: 50px;   // for navbar-fixed-top
 //    padding-bottom: 70px;   // for navbar-fixed-bottom
-    background-color: gainsboro;
-    background-image: url('./images/bank_1200_768_.jpg');
+    background-color: darkslategray;
+    background-image: url('./images/grid-background.png');
+//    background-image: url('./images/bank_1200_768_.jpg');
     background-position: 0 0;
     background-repeat: no-repeat;
     background-position-x: center;
+    background-size: 100%;
 }
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
@@ -36,10 +38,10 @@ ng-message {
     @extend .help-block;
 }
 
-x-signin, x-signup {
+x-activity-view, x-signin, x-signup {
     display: block;
     padding-top: 50px;  // adjust vertical position of the signin/signup form
-    max-width: 40em;
+    max-width: 50em;
     margin: 0 auto;
 }
 
