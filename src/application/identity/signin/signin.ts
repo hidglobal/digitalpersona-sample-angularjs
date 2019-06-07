@@ -132,7 +132,7 @@ export default class SigninControl
     public getUser(): User {
         return (this.identity instanceof User)
             ? this.identity
-            : new User(JWT.claims(this.identity)[ClaimName.WindowsAccountName] || "");
+            : User.fromJWT(this.identity);
     }
 
     public setBusy() {

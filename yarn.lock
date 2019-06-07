@@ -18,46 +18,46 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@digitalpersona/authentication@^0.1.4":
-  version "0.1.4"
-  resolved "http://localhost:4873/@digitalpersona%2fauthentication/-/authentication-0.1.4.tgz#ea7fe86a0578f84ef6e123c8ccc0ee997178550c"
-  integrity sha512-dj4QYmyqhPS3Dr064aDNOduzvvz6bX/KMc4GpLlFXHhh1Btbl/EeQcA88mCBfpULcrooQsFSkCUr+oNhw7SAFA==
+"@digitalpersona/authentication@^0.2.1":
+  version "0.2.1"
+  resolved "http://localhost:4873/@digitalpersona%2fauthentication/-/authentication-0.2.1.tgz#7a3b152c0f55ca870f6087ffabc9c6515a555d0c"
+  integrity sha512-kEj1tcVQVcNH5Ji/nrDXYeZGzTSSQtjOcmsHgwy2Saryuk1dIJsx9K5oPOwmnBdPGwXQqK7ihc3daKXYPtRCrw==
   dependencies:
-    "@digitalpersona/services" "^0.1.4"
+    "@digitalpersona/services" "^0.2.1"
     tslib "^1.9.3"
     u2f-api "^1.0.10"
 
-"@digitalpersona/core@^0.1.4", "@digitalpersona/core@^0.1.6", "@digitalpersona/core@^0.1.7":
-  version "0.1.7"
-  resolved "http://localhost:4873/@digitalpersona%2fcore/-/core-0.1.7.tgz#f8b0bd63d863da6c64ce307b44b488081525a1c1"
-  integrity sha512-kfQokW3GHLHeqFUFFfuLqyJUtNrqdBixGW1Gj48Jilob3gmM1rCQfYa+arEZamcDOvB8ufxEaGi7cpLMi+AwUQ==
+"@digitalpersona/core@^0.2.1":
+  version "0.2.1"
+  resolved "http://localhost:4873/@digitalpersona%2fcore/-/core-0.2.1.tgz#86509a7c0b698f8e5ccb226b27f1d886a787f87d"
+  integrity sha512-uzTTOgiBQxBqSyf7HNsdSVmtT0N0y1u0brSPbmgeVV+86k/ThMLGPVG2mfg2V5KLNdkH/w+x8hh13DyDGTvKbQ==
   dependencies:
     tslib "^1.9.3"
     u2f-api "^1.0.10"
 
-"@digitalpersona/devices@^0.1.5":
-  version "0.1.5"
-  resolved "http://localhost:4873/@digitalpersona%2fdevices/-/devices-0.1.5.tgz#17ddef6a87ddfc30016936f2232fde6f4d695519"
-  integrity sha512-AFpmj8CYDBA9Q81yUKx861EDhYqMmRou7Tc8a1jg/no1h9Tb1/yEVK1gSBfi5P8/PORywjHtDoyLAGWhhpcUUQ==
+"@digitalpersona/devices@^0.2.1":
+  version "0.2.1"
+  resolved "http://localhost:4873/@digitalpersona%2fdevices/-/devices-0.2.1.tgz#9bfc27b8735ed3ba4fd2f48ce6ecdfccb606c0a4"
+  integrity sha512-1TzODro5WvMs/eMvTdgOWHw8f4QHIn66gZ7NfB5CSbBKJSC/CObmWy39/kXWFgCES8FSAH+g8WT0Y+9lf1jv0g==
   dependencies:
-    "@digitalpersona/core" "^0.1.4"
+    "@digitalpersona/core" "^0.2.1"
     tslib "^1.9.3"
 
-"@digitalpersona/enrollment@^0.1.1":
-  version "0.1.1"
-  resolved "http://localhost:4873/@digitalpersona%2fenrollment/-/enrollment-0.1.1.tgz#af4c42b9105f5196198a9cd153e41f1cffe669c2"
-  integrity sha512-/sOQSS3XPpkwZX83f1eUD7ktzXfgoUhJZ8I5Ou+wR7gwCchhorcX//EJZktDptLeuDy9hHrGI7xBVRVF3W7akA==
+"@digitalpersona/enrollment@^0.2.1":
+  version "0.2.1"
+  resolved "http://localhost:4873/@digitalpersona%2fenrollment/-/enrollment-0.2.1.tgz#f36b1733751bc4a6f1a1eaae42cfd19381ff58aa"
+  integrity sha512-TlNBKChA6xJJg5Lqm1Y9gyTDVk6cMuTNnirm3wdy1Fy8MZxatUGt1ymlkC5aaHeBO6fSLduegMGPibzXQ63s1g==
   dependencies:
-    "@digitalpersona/services" "^0.1.4"
+    "@digitalpersona/services" "^0.2.1"
     tslib "^1.9.3"
     u2f-api "^1.0.10"
 
-"@digitalpersona/services@^0.1.4", "@digitalpersona/services@^0.1.6":
-  version "0.1.6"
-  resolved "http://localhost:4873/@digitalpersona%2fservices/-/services-0.1.6.tgz#afe8f395ea38e9364afd6e068086cb9fa4b4e501"
-  integrity sha512-zEdphgnvQa75EE/9dAts0ADWsRTXHBEGZJVfp5/5B8H8+fY4ua22A+jQQrpg4fKft53ywUtGtsXLJByQbfZbXQ==
+"@digitalpersona/services@^0.2.1":
+  version "0.2.1"
+  resolved "http://localhost:4873/@digitalpersona%2fservices/-/services-0.2.1.tgz#35bf80c757d0cf7bb0f16de8ec919e8f79031e7f"
+  integrity sha512-o0psqyl0X00ykW/+k0ETPwvQwuwUIoPk+mejaYSbwQEbIvmpABShnWlQxiVxFqpo9ZxvkilG4ZNk33EVdJ8QSA==
   dependencies:
-    "@digitalpersona/core" "^0.1.6"
+    "@digitalpersona/core" "^0.2.1"
     tslib "^1.9.3"
 
 "@tensorflow/tfjs-core@1.0.3":

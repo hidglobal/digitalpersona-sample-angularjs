@@ -7,7 +7,7 @@ import { IQService } from 'angular';
 export default class AuthorizationService
 {
      // if a token expires in less than 1 minutes, refresh it
-    private static readonly TOKEN_EXPIRATION_WINDOW = 1 * 60 * 1000;
+    private static readonly TOKEN_EXPIRATION_WINDOW = 60;
     private static readonly SECURITY_OFFICER_ACCOUNT = new User("cam@alpha.local");
     private static readonly SECIRUTY_OFFICER_CREDENTIAL = "aaaAAA123";
 
@@ -35,7 +35,7 @@ export default class AuthorizationService
         if (!token) return false;
         const exp = JWT.claims(this.changeToken).exp;
         if (!exp) return false;
-        return exp > (new Date().getTime() + AuthorizationService.TOKEN_EXPIRATION_WINDOW);
+        return exp > (new Date().getTime() / 1000 + AuthorizationService.TOKEN_EXPIRATION_WINDOW);
     }
 
 }

@@ -60,7 +60,8 @@ export default function routes(
             template:   `<x-password-change
                             identity="$resolve.identity"
                             change-token="$resolve.changeToken"
-                        ></x-password-change>`,
+                            on-enroll="$resolve.$window.location.href='/user'"
+                            ></x-password-change>`,
             resolve: { identity, changeToken },
         })
         .when('/user/change/PIN', {
@@ -70,6 +71,13 @@ export default function routes(
                                 on-enroll="$resolve.$window.location.href='/user'"
                                 on-delete="$resolve.$window.location.href='/user'"
                         ></x-pin-change>`,
+            resolve: { identity, changeToken, $window: "$window" },
+        })
+        .when('/user/change/Fingerprints', {
+            template:   `<x-fingerprints-change
+                                identity="$resolve.identity"
+                                change-token="$resolve.changeToken"
+                        ></x-fingerprints-change>`,
             resolve: { identity, changeToken, $window: "$window" },
         })
 

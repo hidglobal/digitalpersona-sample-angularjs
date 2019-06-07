@@ -102,12 +102,15 @@
   "Fingerprints": {
     "Title": "Fingerprints",
     "Prompt": "Scan an enrolled finger.",
+    "Create": "Enroll a finger",
+    "Delete": "⚠ Delete existing fingerprints",
     "Usage": "To use your fingerprints:",
     "Success": "Fingerprint is verified.",
     "Error" : {
       "NoReader": "Connect a fingerprint reader.",
       "NoMatch": "The fingerprint is not recognized.",
-      "NotEnrolled": "No fingerprints were enrolled for this user."
+      "NotEnrolled": "No fingerprints were enrolled for this user.",
+      "AccesDenied": "Fingerprint enrollment is forbidden."
     },
     "QualityCode": {
       "Good": "The scan was successful.",

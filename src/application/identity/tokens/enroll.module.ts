@@ -6,6 +6,7 @@ import SupportedCredentials from './configuration/supportedCredentials';
 
 import PasswordChangeControl from './password/passwordChange';
 import PinChangeControl from './pin/pinChange';
+import FingeprintsChangeControl from './fingerprints/fingerprintsChange';
 
 export default ng
 .module("example.identity.tokens.enroll", [
@@ -14,4 +15,5 @@ export default ng
 .value("SupportedCredentials", SupportedCredentials)
 .component('passwordChange', PasswordChangeControl.Component)
 .component('pinChange', PinChangeControl.Component)
+.component('fingerprintsChange', FingeprintsChangeControl.Component)
 .name;

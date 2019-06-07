@@ -49,7 +49,7 @@ export default class FaceAuthControl extends TokenAuth
         this.video = this.$element.find('video')[0] as HTMLVideoElement;
         this.canvas = this.$element.find('canvas')[0] as HTMLCanvasElement;
 
-        await faceapi.loadTinyFaceDetectorModel('/models');
+        await faceapi.loadTinyFaceDetectorModel('/application/identity/tokens/face/models');
 
         this.loaded = true;
 

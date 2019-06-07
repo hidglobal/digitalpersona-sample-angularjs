@@ -95,7 +95,7 @@ export default class FingerprintsAuthControl extends TokenAuth
             case -2147023652:
                 return "Fingerprints.Error.NoMatch";
             case -2146893042:
-                return "Fingerprints.Error.NotEnrolled"
+                return "Fingerprints.Error.NotEnrolled";
             default: return error.message;
         }
     }

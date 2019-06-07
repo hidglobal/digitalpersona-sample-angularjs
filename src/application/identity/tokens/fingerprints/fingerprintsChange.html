@@ -1,0 +1,21 @@
+<x-activity-view title="'Fingerprints.Create'|translate">
+    <form ng-submit="$ctrl.submit()">
+        <div class="alert alert-success" role="alert" ng-bind="'Fingerprints.Success' | translate" ng-show="$ctrl.success"></div>
+        <div ng-repeat="sample in $ctrl.samples">Sample taken</div>
+        <div>Touch or swipe your finger</div>
+        <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error | translate" ng-show="$ctrl.error"></div>
+        <button
+            type="submit"
+            class="btn btn-primary"
+            ng-disabled="!$ctrl.samplesCollected()"
+            ng-bind="'Credential.Create' | translate"
+        ></button>
+        <button
+            type="button"
+            class="btn btn-link"
+            ng-click="$ctrl.deleteFingerprints()"
+        >
+            <span class="text-danger" ng-bind="'Fingerprints.Delete'|translate"></span>
+        </button>
+    </form>
+</x-activity-view>
