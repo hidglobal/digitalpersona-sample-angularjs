@@ -71,7 +71,7 @@ export default class FingerprintsAuthControl extends TokenAuth
             super.emitOnUpdate();
             return;
         }
-        super.emitOnError(new Error(`fingerprints.QualityCode.${QualityCode[quality]}`));
+        this.error = `Fingerprints.QualityCode.${QualityCode[quality]}`;
     }
 
     public async submit(samples: BioSample[]) {
@@ -93,9 +93,9 @@ export default class FingerprintsAuthControl extends TokenAuth
         switch (error.code) {
             case -2146893044:
             case -2147023652:
-                return "Fingerprints.Error.NoMatch";
+                return "Fingerprints.Auth.Error.NoMatch";
             case -2146893042:
-                return "Fingerprints.Error.NotEnrolled";
+                return "Fingerprints.Auth.Error.NotEnrolled";
             default: return error.message;
         }
     }

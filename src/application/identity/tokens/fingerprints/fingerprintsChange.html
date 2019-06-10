@@ -1,21 +1,28 @@
-<x-activity-view title="'Fingerprints.Create'|translate">
+<x-activity-view title="'Fingerprints.Create.Title' | translate">
     <form ng-submit="$ctrl.submit()">
-        <div class="alert alert-success" role="alert" ng-bind="'Fingerprints.Success' | translate" ng-show="$ctrl.success"></div>
-        <div ng-repeat="sample in $ctrl.samples">Sample taken</div>
-        <div>Touch or swipe your finger</div>
+        <div ng-hide="$ctrl.success" ng-bind="'Fingerprints.Create.Prompt' | translate"></div>
+        <div class="alert alert-success" role="alert" ng-bind="'Fingerprints.Create.Success' | translate" ng-show="$ctrl.success"></div>
+        <div class="well">
+            <div ng-repeat="sample in $ctrl.samples" style="display: inline-block; margin: 0">
+                <img src="{{:: $ctrl.icons.success}}" />
+            </div>
+            <div class="fingerprint" ng-hide="$ctrl.success">
+                <img height="58px" src="{{:: $ctrl.icons.prompt}}" />
+            </div>
+        </div>
         <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error | translate" ng-show="$ctrl.error"></div>
-        <button
+        <!-- <button
             type="submit"
             class="btn btn-primary"
             ng-disabled="!$ctrl.samplesCollected()"
             ng-bind="'Credential.Create' | translate"
-        ></button>
+        ></button> -->
         <button
             type="button"
             class="btn btn-link"
             ng-click="$ctrl.deleteFingerprints()"
         >
-            <span class="text-danger" ng-bind="'Fingerprints.Delete'|translate"></span>
+            <span class="text-danger" ng-bind="'Fingerprints.Delete.Prompt' | translate"></span>
         </button>
     </form>
 </x-activity-view>

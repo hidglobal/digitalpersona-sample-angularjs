@@ -7,12 +7,24 @@ import { FingerprintsEnroll } from '@digitalpersona/enrollment';
 import { TokenEnroll } from '../tokenEnroll';
 import template from './fingerprintsChange.html';
 
+import error from "./images/error.png";
+import success from './images/success.png';
+import warning from './images/warning.png';
+import prompt from '../images/credentials/fingerprints.png';
+
+
 export default class FingerprintsChangeControl extends TokenEnroll
 {
     public static readonly Component: IComponentOptions = {
         ...TokenEnroll.Component,
         template,
         controller: FingerprintsChangeControl,
+    };
+    public readonly icons = {
+        prompt,
+        error,
+        success,
+        warning,
     };
 
     private busy: boolean;
@@ -86,7 +98,7 @@ export default class FingerprintsChangeControl extends TokenEnroll
             super.emitOnUpdate();
             return;
         }
-        super.emitOnError(new Error(`fingerprints.QualityCode.${QualityCode[quality]}`));
+        super.emitOnError(new Error(`Fingerprints.QualityCode.${QualityCode[quality]}`));
     }
 
     private allSamplesCollected() {
@@ -140,8 +152,7 @@ export default class FingerprintsChangeControl extends TokenEnroll
 
     private mapServiceError(error: ServiceError) {
         switch (error.code) {
-            case -2147024891: return "Fingerprints.Error.AccessDenied";
-            case -2147023570: return "Fingerprints.Error.NoMatch";
+            case -2147024891: return "Fingerprints.Create.Error.AccessDenied";
             default: return error.message;
         }
     }
