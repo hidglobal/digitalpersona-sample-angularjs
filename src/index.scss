@@ -74,6 +74,28 @@ x-activity-view, x-signin, x-signup {
     40%, 80% {transform: translateX(5px);}
 }
 
+.fingerprint {
+    display: inline-block;
+    margin: 0;
+    border: 1px solid royalblue;
+    border-radius: 10px;
+    animation-name: flashBackground;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes flashBorder {
+    0% { border-color: royalblue; }
+    50% { border-color: black; }
+    100% { border-color: royalblue; }
+}
+
+@keyframes flashBackground {
+    0%   { background-color: white; }
+    50%  { background-color: lightblue; }
+    100% { background-color: white; }
+}
+
 .social {
     color: darkslategrey;
     margin: 0 5px;

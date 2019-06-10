@@ -1,24 +1,22 @@
-import { IComponentOptions, IAugmentedJQuery, ITimeoutService } from 'angular';
+import { IComponentOptions, ITimeoutService } from 'angular';
 import * as faceapi from 'face-api.js';
-import { Credential, BioSample, FaceImage } from '@digitalpersona/core';
-import { IAuthService, ServiceError } from '@digitalpersona/services';
-import { FaceAuth } from '@digitalpersona/authentication';
+import { Credential, BioSample, FaceImage, User } from '@digitalpersona/core';
 
-import { TokenAuth } from '../tokenAuth';
-import './models/tiny_face_detector_model-weights_manifest.json';
-import 'copy!./models/tiny_face_detector_model-shard1';
-import template from './faceAuth.html';
+import { TokenEnroll } from '../tokenEnroll';
+import template from './faceChange.html';
+import { IEnrollService, ServiceError } from '@digitalpersona/services';
+import { FaceEnroll } from '@digitalpersona/enrollment';
 
-export default class FaceAuthControl extends TokenAuth
+export default class FaceChangeControl extends TokenEnroll
 {
     public static readonly Component: IComponentOptions = {
-        ...TokenAuth.Component,
+        ...TokenEnroll.Component,
         template,
-        controller: FaceAuthControl,
+        controller: FaceChangeControl,
     };
 
-    private static readonly SAMPLE_COUNT = 10;       // we need to collect 3 samples
-    private static readonly SAMPLE_INTERVAL = 100;  // with 100 ms between consequtive samples
+    private static readonly SAMPLE_COUNT = 10;       // we need to collect 10 samples
+    private static readonly SAMPLE_INTERVAL = 100;   // with 100 ms between consequtive samples
 
     private static readonly MAX_DETECTION_TIME: number = 30;
     private static readonly faceDetectorOptions = new faceapi.TinyFaceDetectorOptions({
@@ -29,38 +27,70 @@ export default class FaceAuthControl extends TokenAuth
     private video: HTMLVideoElement;
     private canvas: HTMLCanvasElement;
     private loaded: boolean = false;
-    private hasFace: boolean = false;
 
     private imageCanvas = document.createElement("canvas");
 
     private samples: BioSample[] = [];
     private lastSampleTaken: number | null = null;
 
-    public static $inject = ["AuthService", "$element", "$timeout"];
+    public static $inject = ["EnrollService", "$scope", "$element", "$timeout"];
     constructor(
-        private authService: IAuthService,
-        private $element: IAugmentedJQuery,
-        private $timeout: ITimeoutService,
-    ) {
+        private readonly enrollService: IEnrollService,
+        private readonly $scope: ng.IScope,
+        private readonly $element: ng.IAugmentedJQuery,
+        private readonly $timeout: ng.ITimeoutService,
+    ){
         super(Credential.Face);
     }
 
     public async $onInit() {
+        await faceapi.loadTinyFaceDetectorModel('/application/identity/tokens/face/models');
+        this.loaded = true;
+    }
+
+    public $postLink() {
         this.video = this.$element.find('video')[0] as HTMLVideoElement;
         this.canvas = this.$element.find('canvas')[0] as HTMLCanvasElement;
-
-        await faceapi.loadTinyFaceDetectorModel('/application/identity/tokens/face/models');
-
-        this.loaded = true;
-
         this.video.onloadedmetadata = this.handleNextFrame.bind(this);
+    }
+
+    public async submit() {
+        super.emitOnBusy();
+        try {
+            await new FaceEnroll (this.enrollService)
+                .enroll(this.identity, this.samples);
+            super.emitOnEnroll();
+        } catch (error) {
+            super.emitOnError(new Error(this.mapServiceError(error)));
+        } finally {
+            this.samples = [];
+            this.lastSampleTaken = null;
+        }
+    }
+
+    public async deleteFace() {
+        super.emitOnBusy();
+        try {
+            await new FaceEnroll(this.enrollService, this.changeToken)
+                .unenroll(this.identity, this.changeToken);
+            super.emitOnDelete();
+        } catch (error) {
+            super.emitOnError(new Error(this.mapServiceError(error)));
+        }
+    }
+
+    private mapServiceError(error: ServiceError) {
+        switch (error.code) {
+            case -2147024891: return "Face.Create.Error.AccessDenied";
+            default: return error.message;
+        }
     }
 
     private async handleNextFrame() {
         if (this.video.paused || this.video.ended || !this.loaded)
             return this.$timeout(() => { this.handleNextFrame(); });
 
-        if (this.video.currentTime > FaceAuthControl.MAX_DETECTION_TIME) {
+        if (this.video.currentTime > FaceChangeControl.MAX_DETECTION_TIME) {
             this.stopCapture();
             super.emitOnError(new Error('Face.Quality.NoFace'));
         }
@@ -83,14 +113,15 @@ export default class FaceAuthControl extends TokenAuth
             }
             const now = new Date().getTime();
             if (!this.lastSampleTaken
-            || (this.lastSampleTaken < (now - FaceAuthControl.SAMPLE_INTERVAL))
+            || (this.lastSampleTaken < (now - FaceChangeControl.SAMPLE_INTERVAL))
             ){
                 const sample = this.collectSample();
                 if (sample) {
                     this.samples.push(sample);
                     this.lastSampleTaken = now;
-                    if (this.samples.length === FaceAuthControl.SAMPLE_COUNT) {
+                    if (this.samples.length === FaceChangeControl.SAMPLE_COUNT) {
                         this.stopCapture();
+                        this.success = true;
                         this.submit();
                     }
                 }
@@ -113,6 +144,7 @@ export default class FaceAuthControl extends TokenAuth
 
     private async startCapture() {
         try {
+            this.success = false;
             const stream = await navigator.mediaDevices.getUserMedia({ video: {} });
             this.video.srcObject = stream;
             await this.video.play();
@@ -132,25 +164,9 @@ export default class FaceAuthControl extends TokenAuth
         }
     }
 
-    public async submit() {
-        super.emitOnBusy();
-        const auth = new FaceAuth(this.authService);
-        try {
-            const token = await (!this.user.name
-                ? auth.identify(this.samples)                           // NOT SUPPORTED YET!
-                : auth.authenticate(this.identity, this.samples));
-            super.emitOnToken(token);
-        } catch (error) {
-            super.emitOnError(new Error(this.mapServiceError(error)));
-        } finally {
-            this.samples = [];
-            this.lastSampleTaken = null;
-        }
-    }
-
     private async detectFace(){
         return await faceapi
-            .detectAllFaces(this.video, FaceAuthControl.faceDetectorOptions);
+            .detectAllFaces(this.video, FaceChangeControl.faceDetectorOptions);
     }
 
     private collectSample() {
@@ -187,7 +203,7 @@ export default class FaceAuthControl extends TokenAuth
             ctx.strokeStyle = "rgb(0,128,0)";
             ctx.lineWidth = 10;
             ctx.setLineDash([3, 5]);
-            const tickAngle = 2 * Math.PI / (FaceAuthControl.SAMPLE_COUNT - 1);
+            const tickAngle = 2 * Math.PI / (FaceChangeControl.SAMPLE_COUNT - 1);
             const start = Math.PI / 2;
             ctx.arc(c.x, c.y, c.r * 1.3 + 5, start + tickAngle * this.samples.length, start, true);
             ctx.stroke();
@@ -196,12 +212,5 @@ export default class FaceAuthControl extends TokenAuth
         }
     }
 
-    private mapServiceError(error: ServiceError) {
-        switch (error.code) {
-            case -2146893043:
-            case -2003292320: return 'Face.Error.NoMatch';
-            case -2146893042: return 'Face.Error.NotEnrolled';
-            default: return error.message;
-        }
-    }
+
 }

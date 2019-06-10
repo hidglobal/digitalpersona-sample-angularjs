@@ -80,5 +80,12 @@ export default function routes(
                         ></x-fingerprints-change>`,
             resolve: { identity, changeToken, $window: "$window" },
         })
+        .when('/user/change/Face', {
+            template:   `<x-face-change
+                                identity="$resolve.identity"
+                                change-token="$resolve.changeToken"
+                        ></x-face-change>`,
+            resolve: { identity, changeToken, $window: "$window" },
+        })
 
 }
