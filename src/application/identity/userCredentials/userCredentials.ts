@@ -20,16 +20,13 @@ export default class UserCredentialsControl
     public changeToken: JSONWebToken;
 
     private policies: PolicyInfo | null;
-    private credentials: CredInfo[];
     private enrolled: CredInfo[];
     private unenrolled: CredInfo[];
-    private selected: string;
     private busy: boolean;
 
-    public static $inject = ["EnrollService", "PolicyService", "$scope", "SupportedCredentials"];
+    public static $inject = ["EnrollService", "$scope", "SupportedCredentials"];
     constructor(
         private enrollService: IEnrollService,
-        private policyService: IPolicyService,
         private $scope: IScope,
         private supportedCredentials: { all: CredInfo[]},
     ){
@@ -41,14 +38,14 @@ export default class UserCredentialsControl
         this.$scope.$apply();
     }
 
-    private isEnrolled(cred: CredInfo) {
-        return this.enrolled && this.enrolled.includes(cred);
-    }
-    public isSelected(name: string) {
-        return this.selected && this.selected === name;
-    }
-    public isAllowed(name: string) {
-        return this.getAllowedCredentials().includes(name);
+    private async updateCredentials() {
+        const uniqueName = (el: CredInfo, idx: number, arr: CredInfo[]) =>
+            arr.findIndex(item => item.name === el.name) === idx;
+
+        const allowed = this.getAllowedCredentials();
+        const enrolled = await this.getEnrolled();
+        this.enrolled = enrolled.filter(uniqueName);
+        this.unenrolled = allowed.filter(c => !enrolled.includes(c)).filter(uniqueName);
     }
 
     private async getEnrolled() {
@@ -61,24 +58,14 @@ export default class UserCredentialsControl
         }
     }
 
-    private async updateCredentials() {
+    private getAllowedCredentials(): CredInfo[] {
         if (!this.policies)
-            this.credentials = this.supportedCredentials.all;
-        const allowed = this.getAllowedCredentials();
-        this.credentials = this.supportedCredentials.all.filter(cred => allowed.includes(cred.id));
-        this.enrolled = await this.getEnrolled();
-        this.unenrolled = this.credentials.filter(c => !this.enrolled.includes(c));
-        if (!this.selected || !this.credentials.some(cred => cred.name === this.selected))
-            this.selected = this.credentials[0].name;
-    }
-
-    private getAllowedCredentials() {
-        if (!this.policies)
-            return this.supportedCredentials.all.map(cred => cred.id);
+            return this.supportedCredentials.all;
         const unique = (val: any, idx: number, arr: any[]) => arr.indexOf(val) === idx;
-        return [].concat.apply([],
+        const ids = [].concat.apply([],
             this.policies.policyList
                 .map(and => and.policy.map(or => or.cred_id)))
             .filter(unique);
+        return this.supportedCredentials.all.filter(cred => ids.includes(cred.id));
     }
 }
