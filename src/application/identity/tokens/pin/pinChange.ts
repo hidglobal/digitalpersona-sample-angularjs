@@ -19,9 +19,9 @@ export default class PinChangeControl extends TokenEnroll
 
     public static $inject = ["EnrollService"];
     constructor(
-        private enrollService: IEnrollService,
+        enrollService: IEnrollService,
     ){
-        super(Credential.Password);
+        super(Credential.PIN, enrollService);
     }
 
     public updateNewPin(value: string) {
@@ -53,7 +53,7 @@ export default class PinChangeControl extends TokenEnroll
 
     private mapServiceError(error: ServiceError) {
         switch (error.code) {
-            case -2147023570: return "PIN.Error.NoMatch";
+            case -2147024891: return "PIN.Create.Error.AccessDenied";
             default: return error.message;
         }
     }

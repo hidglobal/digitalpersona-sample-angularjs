@@ -39,7 +39,7 @@ export default class PasswordAuthControl extends TokenAuth
 
     private mapServiceError(error: ServiceError) {
         switch (error.code) {
-            case -2147023570: return "Password.Error.NoMatch";
+            case -2147023570: return "Password.Auth.Error.NoMatch";
             default: return error.message;
         }
     }

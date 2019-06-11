@@ -1,4 +1,5 @@
 import { JSONWebToken, JWT, ClaimName, CredentialId, User, UserNameType } from "@digitalpersona/core";
+import { IEnrollService } from '@digitalpersona/services';
 
 export class TokenEnroll
 {
@@ -24,14 +25,21 @@ export class TokenEnroll
     public error    : string;
 
     protected success: boolean;
+    protected isEnrolled: boolean;
 
     constructor(
-        public credId: CredentialId,
+        public readonly credId: CredentialId,
+        protected readonly enrollService: IEnrollService,
     ){}
 
-    public isEnrolled() {
-//        if (this.identity)
-        return false;
+    protected async getEnrolled() {
+        const user = User.fromJWT(this.identity);
+        try {
+            const creds = (await this.enrollService.GetUserCredentials(user)).map(c => c.toUpperCase());
+            return creds.includes(this.credId);
+        } catch (e) {
+            return false;
+        }
     }
 
     protected static getUser(token: JSONWebToken): User {

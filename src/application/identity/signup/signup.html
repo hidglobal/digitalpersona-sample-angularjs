@@ -16,12 +16,12 @@
         ></x-username>
 
         <x-password
-            label="{{ 'Password.Create' | translate }}"
+            label="{{ 'Password.Create.Title' | translate }}"
             show-password="$ctrl.showPassword"
             on-change="$ctrl.updatePassword(value)"
         ></x-password>
         <x-password
-            label="{{ 'Password.Repeat' | translate }}"
+            label="{{ 'Password.Create.Repeat' | translate }}"
             match="$ctrl.password"
             show-password="$ctrl.showPassword"
         ></x-password>

@@ -1,5 +1,5 @@
 <div ng-show="$ctrl.card || $ctrl.isAuthenticated()">
     <div ng-show="$ctrl.card" ng-bind="'ContactlessCard.Presence' | translate"></div>
-    <div class="alert alert-success" role="alert" ng-bind="'ContactlessCard.Success' | translate" ng-show="$ctrl.isAuthenticated()" ></div>
+    <div class="alert alert-success" role="alert" ng-bind="'ContactlessCard.Auth.Success' | translate" ng-show="$ctrl.isAuthenticated()" ></div>
     <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error | translate" ng-show="$ctrl.error"></div>
 </div>

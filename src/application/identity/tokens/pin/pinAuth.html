@@ -1,9 +1,9 @@
 <form ng-submit="$ctrl.submit()">
-    <div class="alert alert-success" role="alert" ng-bind="'PIN.Success' | translate" ng-show="$ctrl.isAuthenticated()"></div>
+    <div class="alert alert-success" role="alert" ng-bind="'PIN.Auth.Success' | translate" ng-show="$ctrl.isAuthenticated()"></div>
     <div ng-hide="$ctrl.isAuthenticated()"
         <fieldset>
             <x-password
-                label="{{ 'PIN.Prompt' | translate }}"
+                label="{{ 'PIN.Auth.Prompt' | translate }}"
                 show-password="$ctrl.showPin"
                 on-change="$ctrl.updatePin(value)"></x-password>
             <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error | translate" ng-show="$ctrl.error"></div>

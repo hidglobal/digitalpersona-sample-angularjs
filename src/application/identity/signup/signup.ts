@@ -57,12 +57,12 @@ export default class SignupControl
 }
 
     private validatePassword(value: string): string|void {
-        if (value === this.username) return 'Password.Error.SameAsUsername';
-        if (/[ ]/.test(value)) return 'Password.Error.HasSpaces';
-        if (!/[A-Z]/.test(value)) return 'Password.Error.NeedUpperCaseLetters';
-        if (!/[a-z]/.test(value)) return 'Password.Error.NeedLowerCaseLetters';
-        if (!/\d/.test(value)) return 'Password.Error.NeedDigits';
-        if (!/[^a-zA-Z0-9:]/g.test(value)) return 'Password.Error.NeedSpecialCharacters';
+        if (value === this.username) return 'Password.Create.Error.SameAsUsername';
+        if (/[ ]/.test(value)) return 'Password.Create.Error.HasSpaces';
+        if (!/[A-Z]/.test(value)) return 'Password.Create.Error.NeedUpperCaseLetters';
+        if (!/[a-z]/.test(value)) return 'Password.Create.Error.NeedLowerCaseLetters';
+        if (!/\d/.test(value)) return 'Password.Create.Error.NeedDigits';
+        if (!/[^a-zA-Z0-9:]/g.test(value)) return 'Password.Create.Error.NeedSpecialCharacters';
     }
 
     public async submit() {

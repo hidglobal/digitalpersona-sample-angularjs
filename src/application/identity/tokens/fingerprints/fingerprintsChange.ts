@@ -39,10 +39,10 @@ export default class FingerprintsChangeControl extends TokenEnroll
 
     public static $inject = ["EnrollService", "$scope"];
     constructor(
-        private enrollService: IEnrollService,
-        private $scope: ng.IScope,
+        enrollService: IEnrollService,
+        private readonly $scope: ng.IScope,
     ){
-        super(Credential.Fingerprints);
+        super(Credential.Fingerprints, enrollService);
     }
 
     public $onInit() {

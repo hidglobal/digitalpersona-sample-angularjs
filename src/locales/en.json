@@ -4,8 +4,8 @@
     "Title": "User information",
     "Security": {
       "Title": "Security",
-      "EnrolledCredentials": "Your enrolled credentials",
-      "AddCredentials": "Add more credentials"
+      "EnrolledCredentials": "Your sign-in methods",
+      "AddCredentials": "Add more"
     },
     "DeleteAccount": "⚠ Delete this account and all related data"
   },
@@ -68,37 +68,59 @@
   },
   "Password": {
     "Title": "Password",
-    "Prompt": "Password",
-    "OldPassword": "Old password",
-    "NewPassword": "New password",
-    "Create": "Create a new password",
-    "Repeat": "Repeat the password",
+    "Auth": {
+      "Prompt": "Password",
+      "Error": {
+        "NoMatch": "Invalid password or sign-in name."
+      }
+    },
+    "Create": {
+      "Title": "Create a new password",
+      "OldPassword": "Old password",
+      "NewPassword": "New password",
+      "Repeat": "Repeat the password",
+      "Success": "A new password is created.",
+      "Error": {
+        "PasswordMismatch": "Passwords you typed do not match each other.",
+        "SameAsUsername": "Password cannot be the same as your sign-in name.",
+        "NeedUpperCaseLetters": "Password must contain at least one capital letter.",
+        "NeedLowerCaseLetters": "Password must contain at least one lower case letter.",
+        "NeedDigits": "Password must contain at least one number",
+        "NeedSpecialCharacters": "Password must contain at least one special character (!, @, $, etc...)",
+        "HasSpaces": "Your password cannot contain space characters",
+        "AccessDenied": "Access denied. Probably your logon is expired or invalidated."
+      }
+    },
     "Success": "Password is verified.",
     "Error": {
-      "NoMatch": "Invalid password or sign-in name.",
-      "PasswordMismatch": "Passwords you typed do not match each other.",
-      "Required": "This field is required.",
-      "SameAsUsername": "Password cannot be the same as your sign-in name.",
-      "NeedUpperCaseLetters": "Password must contain at least one capital letter.",
-      "NeedLowerCaseLetters": "Password must contain at least one lower case letter.",
-      "NeedDigits": "Password must contain at least one number",
-      "NeedSpecialCharacters": "Password must contain at least one special character (!, @, $, etc...)",
-      "HasSpaces": "Your password cannot contain space characters"
+      "Required": "This field is required."
     }
   },
   "PIN": {
     "Title": "PIN",
-    "Prompt": "PIN",
-    "Create": "Create a new PIN",
+    "Auth": {
+      "Prompt": "PIN",
+      "Success": "PIN is verified",
+      "Error": {
+        "NoMatch": "Invalid PIN or sign-in name.",
+        "NotEnrolled": "No PIN was enrolled for this user."
+      }
+    },
+    "Create": {
+      "Title": "Create a new PIN",
+      "NewPin": "New PIN",
+      "Repeat": "Repeat the PIN",
+      "Error": {
+        "AccessDenied": "Access denied. Probably your logon is expired or invalidated."
+      }
+    },
     "Delete": "⚠ Delete existing PIN",
-    "NewPin": "New PIN",
-    "Repeat": "Repeat the PIN",
-    "Success": "PIN is verified",
     "Error": {
       "NoMatch": "Invalid PIN or sign-in name.",
       "NotEnrolled": "No PIN was enrolled for this user."
     }
   },
+
   "Fingerprints": {
     "Title": "Fingerprints",
     "Auth": {
@@ -116,7 +138,7 @@
       "Prompt": "Place your finger on a reader several times.",
       "Success": "Fingerprint is enrolled.",
       "Error": {
-        "AccesDenied": "Access denied. Probably your logon is expired or invalidated."
+        "AccessDenied": "Access denied. Probably your logon is expired or invalidated."
       }
     },
     "Delete": {
@@ -159,6 +181,15 @@
     "PromptAnother": "Present your another card.",
     "Usage": "To use your card:",
     "Success": "The card is verified.",
+    "Auth": {
+      "Success": "The card is verified.",
+      "Error": {
+        "NoMatch": "The card is not recognized or does not match the sign-in name."
+      }
+    },
+    "Create": {
+      "Title": "Enroll a card"
+    },
     "Error": {
       "NoReader": "Connect a card reader.",
       "NoMatch": "The card is not recognized or does not match the sign-in name."
@@ -225,7 +256,7 @@
       "Title": "Enroll your face",
       "Success": "Face is enrolled.",
       "Error": {
-        "AccesDenied": "Access denied. Probably your logon is expired or invalidated."
+        "AccessDenied": "Access denied. Probably your logon is expired or invalidated."
       }
     },
     "Delete": {
@@ -253,6 +284,16 @@
     "Start": "Start",
     "Prompt": "Tap, press the button on, or re-insert your FIDO key.",
     "Success": "The FIDO key is verified.",
+    "Create": {
+      "Title": "Enroll FIDO Key",
+      "Success": "The FIDO key is enrolled.",
+      "Error": {
+        "AccessDenied": "Access denied. Probably your logon is expired or invalidated."
+      }
+    },
+    "Delete": {
+      "Prompt": "⚠ Delete existing FIDO key"
+    },
     "Error": {
       "NoMatch": "The FIDO key does not match the sign-in name.",
       "NotEnrolled": "No FIDO key has been enrolled for this user.",

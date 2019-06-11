@@ -20,9 +20,9 @@ export default class PasswordChangeControl extends TokenEnroll
 
     public static $inject = ["EnrollService"];
     constructor(
-        private enrollService: IEnrollService,
+        enrollService: IEnrollService,
     ){
-        super(Credential.Password);
+        super(Credential.Password, enrollService);
     }
 
     public updateOldPassword(value: string) {
@@ -47,7 +47,7 @@ export default class PasswordChangeControl extends TokenEnroll
 
     private mapServiceError(error: ServiceError) {
         switch (error.code) {
-            case -2147023570: return "Password.Error.NoMatch";
+            case -2147024891: return "Password.Create.Error.AccessDenied";
             default: return error.message;
         }
     }

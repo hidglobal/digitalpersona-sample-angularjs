@@ -79,7 +79,7 @@ export default class ContactlessCardAuthControl extends TokenAuth
         switch (error.code) {
             case -2147023652:
             case -2147024288:
-                return "Cards.Error.NoMatch";
+                return "Cards.Auth.Error.NoMatch";
             default: return error.message;
         }
     }

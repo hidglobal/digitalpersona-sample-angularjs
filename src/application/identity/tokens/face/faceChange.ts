@@ -35,12 +35,12 @@ export default class FaceChangeControl extends TokenEnroll
 
     public static $inject = ["EnrollService", "$scope", "$element", "$timeout"];
     constructor(
-        private readonly enrollService: IEnrollService,
+        enrollService: IEnrollService,
         private readonly $scope: ng.IScope,
         private readonly $element: ng.IAugmentedJQuery,
         private readonly $timeout: ng.ITimeoutService,
     ){
-        super(Credential.Face);
+        super(Credential.Face, enrollService);
     }
 
     public async $onInit() {

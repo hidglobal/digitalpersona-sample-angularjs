@@ -1,0 +1,23 @@
+<form ng-submit="$ctrl.start()">
+    <div class="alert alert-success" role="alert" ng-bind="'U2F.Create.Success' | translate" ng-show="$ctrl.isEnrolled"></div>
+    <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error | translate" ng-show="$ctrl.error"></div>
+    <div ng-hide="$ctrl.isEnrolled" style="text-align: center">
+        <div ng-hide="$ctrl.started" ng-bind="'U2F.Usage'|translate"></div>
+        <br>
+        <button
+            type="submit"
+            class="btn btn-primary"
+            ng-hide="$ctrl.started"
+            ng-bind="'U2F.Start' | translate"
+        ></button>
+        <div ng-show="$ctrl.started && !$ctrl.error" ng-bind="'U2F.Prompt' | translate "></div>
+    </div>
+    <button
+        type="button"
+        class="btn btn-link"
+        ng-show="$ctrl.isEnrolled"
+        ng-click="$ctrl.deleteFido()"
+    >
+        <span class="text-danger" ng-bind="'U2F.Delete.Prompt' | translate"></span>
+    </button>
+</form>

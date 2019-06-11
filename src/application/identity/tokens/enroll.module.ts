@@ -8,6 +8,7 @@ import PasswordChangeControl from './password/passwordChange';
 import PinChangeControl from './pin/pinChange';
 import FingeprintsChangeControl from './fingerprints/fingerprintsChange';
 import FaceChangeControl from './face/faceChange';
+import FidoChangeControl from './u2f/fidoChange';
 
 export default ng
 .module("example.identity.tokens.enroll", [
@@ -18,4 +19,5 @@ export default ng
 .component('pinChange', PinChangeControl.Component)
 .component('fingerprintsChange', FingeprintsChangeControl.Component)
 .component('faceChange', FaceChangeControl.Component)
+.component('fidoChange', FidoChangeControl.Component)
 .name;

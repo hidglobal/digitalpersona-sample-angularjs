@@ -14,6 +14,14 @@ export default function routes(
     const changeToken = ["$q", "Authorizer", ($q: IQService, az: AuthorizationService) =>
         $q.when(az.getChangeToken()) ];
 
+    const activityView = (name: string, component: string) =>
+    `<x-activity-view title="'${name}.Create.Title' | translate">
+        <${component}
+            identity="$resolve.identity"
+            change-token="$resolve.changeToken"
+        ></${component}>
+    </x-activity-view>`;
+
     // Map routes to components
     return $routeProvider
         // Entrance routes for all unauthenticated users
@@ -57,34 +65,23 @@ export default function routes(
 
         // credential enrollment/change pages
         .when('/user/change/Password', {
-            template:   `<x-password-change
-                            identity="$resolve.identity"
-                            change-token="$resolve.changeToken"
-                            on-enroll="$resolve.$window.location.href='/user'"
-                            ></x-password-change>`,
+            template: activityView('Password', 'x-password-change'),
             resolve: { identity, changeToken },
         })
         .when('/user/change/PIN', {
-            template:   `<x-pin-change
-                                identity="$resolve.identity"
-                                change-token="$resolve.changeToken"
-                                on-enroll="$resolve.$window.location.href='/user'"
-                                on-delete="$resolve.$window.location.href='/user'"
-                        ></x-pin-change>`,
+            template: activityView('PIN', 'x-pin-change'),
             resolve: { identity, changeToken, $window: "$window" },
         })
         .when('/user/change/Fingerprints', {
-            template:   `<x-fingerprints-change
-                                identity="$resolve.identity"
-                                change-token="$resolve.changeToken"
-                        ></x-fingerprints-change>`,
+            template: activityView('Fingerprints', 'x-fingerprints-change'),
             resolve: { identity, changeToken, $window: "$window" },
         })
         .when('/user/change/Face', {
-            template:   `<x-face-change
-                                identity="$resolve.identity"
-                                change-token="$resolve.changeToken"
-                        ></x-face-change>`,
+            template: activityView('Face', 'x-face-change'),
+            resolve: { identity, changeToken, $window: "$window" },
+        })
+        .when('/user/change/U2F', {
+            template: activityView('U2F', 'x-fido-change'),
             resolve: { identity, changeToken, $window: "$window" },
         })
 
