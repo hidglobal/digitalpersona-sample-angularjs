@@ -84,5 +84,9 @@ export default function routes(
             template: activityView('U2F', 'x-fido-change'),
             resolve: { identity, changeToken, $window: "$window" },
         })
+        .when('/user/change/Cards', {
+            template: activityView('Cards', 'x-cards-change'),
+            resolve: { identity, changeToken, $window: "$window" },
+        })
 
 }

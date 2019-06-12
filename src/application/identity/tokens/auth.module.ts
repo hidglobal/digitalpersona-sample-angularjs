@@ -6,15 +6,15 @@ import SupportedCredentials from './configuration/supportedCredentials';
 
 import CredSelectorControl from './credSelector/credSelector';
 import CardsAuthControl from './cards/cardsAuth';
-import ContactlessCardAuthControl from './contactlessCard/contactlessCardAuth';
+import ContactlessCardAuthControl from './cards/contactlessCard/contactlessCardAuth';
 import FaceAuthControl from './face/faceAuth';
 import FingerprintsAuthControl from './fingerprints/fingerprintsAuth';
 import FidoAuthControl from './u2f/fidoAuth';
 import OtpAuthControl from './otp/otpAuth';
 import PasswordAuthControl from './password/passwordAuth';
 import PinAuthControl from './pin/pinAuth';
-import ProximityCardAuthControl from './proximityCard/proximityCardAuth';
-import SmartCardAuthControl from './smartCard/smartCardAuth';
+import ProximityCardAuthControl from './cards/proximityCard/proximityCardAuth';
+import SmartCardAuthControl from './cards/smartCard/smartCardAuth';
 
 export default ng
 .module("example.identity.tokens.auth", [

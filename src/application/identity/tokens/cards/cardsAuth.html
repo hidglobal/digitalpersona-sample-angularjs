@@ -3,6 +3,6 @@
     <div ng-show="$ctrl.isReaderConnected">
         <ng-transclude></ng-transclude>
         <div ng-hide="$ctrl.isAllAuthenticated()"
-             ng-bind="$ctrl.isAuthenticated() ? 'Cards.PromptAnother' : 'Cards.Prompt' | translate"></div>
+             ng-bind="$ctrl.isAuthenticated() ? 'Cards.Auth.PromptAnother' : 'Cards.Auth.Prompt' | translate"></div>
    </div>
 </div>

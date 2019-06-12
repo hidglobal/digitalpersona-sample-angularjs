@@ -1,18 +1,18 @@
 import { IComponentOptions } from 'angular';
 import { Credential } from "@digitalpersona/core";
-import { ProximityCardAuth } from '@digitalpersona/authentication';
+import { SmartCardAuth } from '@digitalpersona/authentication';
 import { IAuthService, ServiceError } from '@digitalpersona/services';
-import { CardsReader, CardType, CardInserted, Card, CardRemoved } from '@digitalpersona/devices';
+import { CardsReader, Card, CardType, CardInserted, CardRemoved } from '@digitalpersona/devices';
 
-import { TokenAuth } from '../tokenAuth';
-import template from './proximityCardAuth.html';
+import { TokenAuth } from '../../tokenAuth';
+import template from './smartCardAuth.html';
 
-export default class ProximityCardAuthControl extends TokenAuth
+export default class SmartCardAuthControl extends TokenAuth
 {
     public static readonly Component: IComponentOptions = {
         ...TokenAuth.Component,
         template,
-        controller: ProximityCardAuthControl,
+        controller: SmartCardAuthControl,
         bindings: {
             ...TokenAuth.Component.bindings,
             reader: "<",
@@ -20,14 +20,15 @@ export default class ProximityCardAuthControl extends TokenAuth
     };
 
     public reader: CardsReader;
-
-    public card: Card | null = null;
+    private card: Card | null;
+    private pin: string;
+    private showPin: boolean;
 
     public static $inject = ["AuthService"];
     constructor(
         private authService: IAuthService,
     ){
-        super(Credential.ProximityCard);
+        super(Credential.SmartCard);
     }
 
     public $onInit() {
@@ -44,20 +45,36 @@ export default class ProximityCardAuthControl extends TokenAuth
         this.reader.off("CardRemoved", this.handleCardRemoved);
     }
 
-    private handleCardInserted = async (ev: CardInserted) => {
-        if (this.isAuthenticated()) return;
+    private handleCardInserted = (ev: CardInserted) => {
+        this.reader.getCardInfo(ev.deviceId).then(info => {
+            if (info && info.Type === CardType.Contact) {
+                this.card = info;
+                super.emitOnUpdate();
+            }
+        });
+    }
+
+    private handleCardRemoved = (ev: CardRemoved) => {
+        if (this.card && (this.card.Name === ev.cardId)) {
+            this.card = null;
+            super.emitOnUpdate();
+        }
+    }
+
+    public updatePin(value: string) {
+        this.pin = value || "";
+        super.resetError();
+    }
+
+    public async submit() {
+        if (!this.card) return;
+        super.emitOnBusy();
         try {
-            const card = await this.reader.getCardInfo(ev.deviceId);
-            if (!card || card.Type !== CardType.Proximity) return;
-            this.card = card;
-            super.emitOnBusy();
-            const cardData = await this.reader.getCardAuthData(card.Reader);
+            // First use pin to obtain card data
+            const cardData = await this.reader.getCardAuthData(this.card.Reader, this.pin);
             try {
-                const service = new ProximityCardAuth(this.authService);
-                const token = await (this.user.name
-                    ?  service.authenticate(this.identity, cardData)
-                    :  service.identify(cardData)
-                );
+                // Then send card data to the server
+                const token = await new SmartCardAuth(this.authService).authenticate(this.identity, cardData);
                 super.emitOnToken(token);
             }
             catch (error) {
@@ -69,18 +86,9 @@ export default class ProximityCardAuthControl extends TokenAuth
         }
     }
 
-    private handleCardRemoved = (ev: CardRemoved) => {
-        if (this.card && (this.card.Name === ev.cardId)) {
-            this.card = null;
-            super.emitOnUpdate();
-        }
-    }
-
     private mapServiceError(error: ServiceError): string {
         switch (error.code) {
-            case -2147023652:
-            case -2147024288:
-                return "Cards.Auth.Error.NoMatch";
+            case -2147023652: return "Cards.Auth.Error.NoMatch";
             default: return error.message;
         }
     }
@@ -88,4 +96,5 @@ export default class ProximityCardAuthControl extends TokenAuth
     private mapDeviceError(error: Error): string {
         return error.message;
     }
+
 }

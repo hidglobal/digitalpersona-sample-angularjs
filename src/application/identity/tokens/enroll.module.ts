@@ -9,6 +9,10 @@ import PinChangeControl from './pin/pinChange';
 import FingeprintsChangeControl from './fingerprints/fingerprintsChange';
 import FaceChangeControl from './face/faceChange';
 import FidoChangeControl from './u2f/fidoChange';
+import cards from './cards/cardsChange';
+import smartCard from './cards/smartCard/smartCardChange';
+import contactlessCard from './cards/contactlessCard/contactlessCardChange';
+import proximityCards from './cards/proximityCard/proximityCardChange';
 
 export default ng
 .module("example.identity.tokens.enroll", [
@@ -20,4 +24,8 @@ export default ng
 .component('fingerprintsChange', FingeprintsChangeControl.Component)
 .component('faceChange', FaceChangeControl.Component)
 .component('fidoChange', FidoChangeControl.Component)
+.component('cardsChange', cards.Component)
+.component('smartCardChange', smartCard.Component)
+.component('contactlessCardChange', contactlessCard.Component)
+.component('proximityCardChange', proximityCards.Component)
 .name;

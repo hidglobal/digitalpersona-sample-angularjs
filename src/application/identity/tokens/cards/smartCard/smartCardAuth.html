@@ -5,6 +5,7 @@
         <fieldset>
             <x-password
                 label="{{ 'SmartCard.Prompt' | translate }}"
+                show-password="$ctrl.showPin"
                 on-change="$ctrl.updatePin(value)"></x-password>
             <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error" ng-show="$ctrl.error"></div>
         </fieldset>

@@ -1,4 +1,4 @@
-import { IComponentOptions } from 'angular';
+import { IComponentOptions, IScope } from 'angular';
 import { Credential, User, JWT, ClaimName } from '@digitalpersona/core';
 import { CardsReader } from '@digitalpersona/devices';
 
@@ -19,10 +19,14 @@ export default class CardsAuthControl extends TokenAuth
     };
 
     public reader: CardsReader;
+    public cardsPresented: number = 0;
 
     private isReaderConnected: boolean = false;
 
-    constructor(){
+    public static $inject = ["$scope"];
+    constructor(
+        private readonly $scope: IScope,
+    ){
         super(Credential.Cards);
         this.reader = new CardsReader();
     }
@@ -32,17 +36,22 @@ export default class CardsAuthControl extends TokenAuth
         this.reader.onDeviceDisconnected = (device) => {
             this.updateReaderStatus(device.deviceId);
         };
-        this.reader.on("CardInserted", this.handleCard);
-        this.reader.on("CardRemoved", this.handleCard);
+        this.reader.on("CardInserted", this.onCardInserted);
+        this.reader.on("CardRemoved", this.onCardRemoved);
     }
 
     public $onDestroy() {
-        this.reader.off("CardInserted", this.handleCard);
-        this.reader.off("CardRemoved", this.handleCard);
+        this.reader.off("CardInserted", this.onCardInserted);
+        this.reader.off("CardRemoved", this.onCardRemoved);
     }
 
-    private handleCard = () => {
-        this.emitOnUpdate();
+    private onCardInserted = () => {
+        ++this.cardsPresented;
+        super.emitOnUpdate();
+    }
+    private onCardRemoved = () => {
+        this.cardsPresented = Math.max(0, this.cardsPresented - 1);
+        super.emitOnUpdate();
     }
 
     public isAuthenticated() {

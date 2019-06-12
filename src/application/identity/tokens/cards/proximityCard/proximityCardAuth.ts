@@ -1,18 +1,18 @@
 import { IComponentOptions } from 'angular';
 import { Credential } from "@digitalpersona/core";
-import { ContactlessCardAuth } from '@digitalpersona/authentication';
+import { ProximityCardAuth } from '@digitalpersona/authentication';
 import { IAuthService, ServiceError } from '@digitalpersona/services';
 import { CardsReader, CardType, CardInserted, Card, CardRemoved } from '@digitalpersona/devices';
 
-import { TokenAuth } from '../tokenAuth';
-import template from './contactlessCardAuth.html';
+import { TokenAuth } from '../../tokenAuth';
+import template from './proximityCardAuth.html';
 
-export default class ContactlessCardAuthControl extends TokenAuth
+export default class ProximityCardAuthControl extends TokenAuth
 {
     public static readonly Component: IComponentOptions = {
         ...TokenAuth.Component,
         template,
-        controller: ContactlessCardAuthControl,
+        controller: ProximityCardAuthControl,
         bindings: {
             ...TokenAuth.Component.bindings,
             reader: "<",
@@ -20,13 +20,14 @@ export default class ContactlessCardAuthControl extends TokenAuth
     };
 
     public reader: CardsReader;
+
     public card: Card | null = null;
 
     public static $inject = ["AuthService"];
     constructor(
         private authService: IAuthService,
     ){
-        super(Credential.ContactlessCard);
+        super(Credential.ProximityCard);
     }
 
     public $onInit() {
@@ -47,12 +48,12 @@ export default class ContactlessCardAuthControl extends TokenAuth
         if (this.isAuthenticated()) return;
         try {
             const card = await this.reader.getCardInfo(ev.deviceId);
-            if (!card || card.Type !== CardType.Contactless) return;
+            if (!card || card.Type !== CardType.Proximity) return;
             this.card = card;
             super.emitOnBusy();
             const cardData = await this.reader.getCardAuthData(card.Reader);
             try {
-                const service = new ContactlessCardAuth(this.authService);
+                const service = new ProximityCardAuth(this.authService);
                 const token = await (this.user.name
                     ?  service.authenticate(this.identity, cardData)
                     :  service.identify(cardData)
@@ -87,5 +88,4 @@ export default class ContactlessCardAuthControl extends TokenAuth
     private mapDeviceError(error: Error): string {
         return error.message;
     }
-
 }

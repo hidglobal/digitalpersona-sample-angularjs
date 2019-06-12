@@ -1,0 +1,30 @@
+<div>
+    <div ng-hide="$ctrl.isReaderConnected" class="alert alert-warning" role="alert" ng-bind="'Cards.Error.NoReader'|translate"></div>
+    <div ng-show="$ctrl.isReaderConnected">
+        <div ng-hide="$ctrl.cardsPresented > 0" ng-bind="'Cards.Create.Prompt'|translate"></div>
+        <x-smart-card-change
+            identity="$ctrl.identity"
+            changeToken="$ctrl.changeToken"
+            reader="$ctrl.reader"
+        ></x-smart-card-change>
+        <x-contactless-card-change
+            identity="$ctrl.identity"
+            changeToken="$ctrl.changeToken"
+            reader="$ctrl.reader"
+        ></x-contactless-card-change>
+        <x-proximity-card-change
+            identity="$ctrl.identity"
+            changeToken="$ctrl.changeToken"
+            reader="$ctrl.reader"
+        ></x-proximity-card-change>
+    </div>
+
+    <button
+        type="button"
+        class="btn btn-link"
+        ng-click="$ctrl.deleteAllCards()"
+    >
+        <span class="text-danger" ng-bind="'Cards.Delete.Prompt' | translate"></span>
+    </button>
+
+</div>

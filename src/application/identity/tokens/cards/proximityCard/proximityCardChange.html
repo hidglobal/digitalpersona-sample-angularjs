@@ -1,0 +1,10 @@
+<form class="well" ng-show="$ctrl.cards.length > 0">
+        <div ng-repeat="card in $ctrl.cards">
+            <div ng-bind="'Cards.Type.Proximity'|translate"></div>
+            <div ng-bind="card.Reader"></div>
+            <div ng-bind="card.Name"></div>
+            <div class="alert alert-success" role="alert" ng-bind="'Cards.Create.Success' | translate" ng-show="$ctrl.success"></div>
+            <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error | translate" ng-show="$ctrl.error"></div>
+            <button type="button" class="btn btn-primary" ng-bind="'Credential.Enroll'|translate" ng-hide="$ctrl.success" ng-click="$ctrl.submit(card)"></button>
+        </div>
+    </form>

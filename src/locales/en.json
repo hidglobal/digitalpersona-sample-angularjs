@@ -177,18 +177,25 @@
   },
   "Cards": {
     "Title": "Cards",
-    "Prompt": "Present your card.",
-    "PromptAnother": "Present your another card.",
-    "Usage": "To use your card:",
-    "Success": "The card is verified.",
     "Auth": {
+      "Title": "Cards",
+      "Prompt": "Present your card.",
+      "PromptAnother": "Present your another card.",
       "Success": "The card is verified.",
       "Error": {
         "NoMatch": "The card is not recognized or does not match the sign-in name."
       }
     },
     "Create": {
-      "Title": "Enroll a card"
+      "Title": "Enroll a card",
+      "Prompt": "Present a card you want to enroll.",
+      "Success": "The card is enrolled",
+      "Error": {
+        "AccessDenied": "Access denied. Probably your logon is expired or invalidated."
+      }
+    },
+    "Delete": {
+      "Prompt": "⚠ Delete all cards"
     },
     "Error": {
       "NoReader": "Connect a card reader.",
@@ -204,7 +211,12 @@
     "Title": "Smartcard",
     "Presence": "Smartcard is presented.",
     "Prompt": "Smartcard PIN",
-    "Success": "The smartcard is verified."
+    "Success": "The smartcard is verified.",
+    "Error": {
+      "Unknown": "Internal card error.",
+      "InvalidPin": "The card cannot be accessed because the wrong PIN was presented.",
+      "Blocked": "The card cannot be accessed because the maximum number of PIN entry attempts has been reached."
+    }
   },
   "ContactlessCard": {
     "Title": "Contactless Card",

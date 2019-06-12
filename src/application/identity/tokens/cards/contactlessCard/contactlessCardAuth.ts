@@ -1,18 +1,18 @@
 import { IComponentOptions } from 'angular';
 import { Credential } from "@digitalpersona/core";
-import { SmartCardAuth } from '@digitalpersona/authentication';
+import { ContactlessCardAuth } from '@digitalpersona/authentication';
 import { IAuthService, ServiceError } from '@digitalpersona/services';
-import { CardsReader, Card, CardType, CardInserted, CardRemoved } from '@digitalpersona/devices';
+import { CardsReader, CardType, CardInserted, Card, CardRemoved } from '@digitalpersona/devices';
 
-import { TokenAuth } from '../tokenAuth';
-import template from './smartCardAuth.html';
+import { TokenAuth } from '../../tokenAuth';
+import template from './contactlessCardAuth.html';
 
-export default class SmartCardAuthControl extends TokenAuth
+export default class ContactlessCardAuthControl extends TokenAuth
 {
     public static readonly Component: IComponentOptions = {
         ...TokenAuth.Component,
         template,
-        controller: SmartCardAuthControl,
+        controller: ContactlessCardAuthControl,
         bindings: {
             ...TokenAuth.Component.bindings,
             reader: "<",
@@ -20,15 +20,13 @@ export default class SmartCardAuthControl extends TokenAuth
     };
 
     public reader: CardsReader;
-
-    private pin: string;
-    private card: Card | null;
+    public card: Card | null = null;
 
     public static $inject = ["AuthService"];
     constructor(
         private authService: IAuthService,
     ){
-        super(Credential.SmartCard);
+        super(Credential.ContactlessCard);
     }
 
     public $onInit() {
@@ -45,36 +43,20 @@ export default class SmartCardAuthControl extends TokenAuth
         this.reader.off("CardRemoved", this.handleCardRemoved);
     }
 
-    private handleCardInserted = (ev: CardInserted) => {
-        this.reader.getCardInfo(ev.deviceId).then(info => {
-            if (info && info.Type === CardType.Contact) {
-                this.card = info;
-                super.emitOnUpdate();
-            }
-        });
-    }
-
-    private handleCardRemoved = (ev: CardRemoved) => {
-        if (this.card && (this.card.Name === ev.cardId)) {
-            this.card = null;
-            super.emitOnUpdate();
-        }
-    }
-
-    public updatePin(value: string) {
-        this.pin = value || "";
-        super.resetError();
-    }
-
-    public async submit() {
-        if (!this.card) return;
-        super.emitOnBusy();
+    private handleCardInserted = async (ev: CardInserted) => {
+        if (this.isAuthenticated()) return;
         try {
-            // First use pin to obtain card data
-            const cardData = await this.reader.getCardAuthData(this.card.Reader, this.pin);
+            const card = await this.reader.getCardInfo(ev.deviceId);
+            if (!card || card.Type !== CardType.Contactless) return;
+            this.card = card;
+            super.emitOnBusy();
+            const cardData = await this.reader.getCardAuthData(card.Reader);
             try {
-                // Then send card data to the server
-                const token = await new SmartCardAuth(this.authService).authenticate(this.identity, cardData);
+                const service = new ContactlessCardAuth(this.authService);
+                const token = await (this.user.name
+                    ?  service.authenticate(this.identity, cardData)
+                    :  service.identify(cardData)
+                );
                 super.emitOnToken(token);
             }
             catch (error) {
@@ -86,9 +68,18 @@ export default class SmartCardAuthControl extends TokenAuth
         }
     }
 
+    private handleCardRemoved = (ev: CardRemoved) => {
+        if (this.card && (this.card.Name === ev.cardId)) {
+            this.card = null;
+            super.emitOnUpdate();
+        }
+    }
+
     private mapServiceError(error: ServiceError): string {
         switch (error.code) {
-            case -2147023652: return "Cards.Auth.Error.NoMatch";
+            case -2147023652:
+            case -2147024288:
+                return "Cards.Auth.Error.NoMatch";
             default: return error.message;
         }
     }
