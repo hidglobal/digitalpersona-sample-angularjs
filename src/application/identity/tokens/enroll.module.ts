@@ -13,6 +13,7 @@ import cards from './cards/cardsChange';
 import smartCard from './cards/smartCard/smartCardChange';
 import contactlessCard from './cards/contactlessCard/contactlessCardChange';
 import proximityCards from './cards/proximityCard/proximityCardChange';
+import otp from './otp/otpChange';
 
 export default ng
 .module("example.identity.tokens.enroll", [
@@ -28,4 +29,5 @@ export default ng
 .component('smartCardChange', smartCard.Component)
 .component('contactlessCardChange', contactlessCard.Component)
 .component('proximityCardChange', proximityCards.Component)
+.component('otpChange', otp.Component)
 .name;

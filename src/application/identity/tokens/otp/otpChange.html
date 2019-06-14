@@ -1,0 +1,71 @@
+<form ng-submit="$ctrl.submit()">
+    <ul class="list-group" role="navigation">
+        <li class="list-group-item" title="{{'OTP.Type.Software'| translate }}" ng-class="{'panel panel-primary': ($ctrl.selected=='Software')}">
+            <a class="btn btn-link panel-title" ng-click="$ctrl.select('Software')" ng-bind="'OTP.Type.Software'| translate"></a>
+            <fieldset class="panel-body" ng-if="$ctrl.selected=='Software'">
+                <div class="control-label">
+                    <label for="phone" ng-bind="'OTP.Create.PromptPhone'|translate"></label>
+                </div>
+                <div class="control-body">
+                    <div class="input-group">
+                        <input id="phone" type="text" class="form-control"
+                            ng-model="$ctrl.phoneNumber"
+                            ng-mode-options="{debounce: 1000}"
+                        ></input>
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-secondary"
+                                ng-bind="'OTP.Send SMS'|translate"
+                                ng-disabled="!$ctrl.canSendSMS()"
+                                ng-click="$ctrl.sendSMS()"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <label class="control-label" ng-bind="'OTP.Create.PromptQRCode'|translate"></label>
+                <div class="text-center">
+                    <img src="{{$ctrl.qrCode}}" height="170px" />
+                </div>
+
+                <x-password label="{{'OTP.Create.PromptCode'|translate}}"
+                    on-change="$ctrl.updateCode(value)"
+                    show-password="$ctrl.showCode"></x-password>
+                <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error | translate" ng-show="$ctrl.error"></div>
+            </fieldset>
+        </li>
+
+        <li class="list-group-item" title="{{'OTP.Type.Hardware'| translate }}" ng-class="{'panel panel-primary': ($ctrl.selected=='Hardware')}">
+            <a class="btn btn-link panel-title" ng-click="$ctrl.select('Hardware')" ng-bind="'OTP.Type.Hardware'| translate"></a>
+            <fieldset class="panel-body" ng-if="$ctrl.selected=='Hardware'">
+                <div class="control-label">
+                    <label for="serial" ng-bind="'OTP.Create.PromptSerialNumber'|translate"></label>
+                </div>
+                <div class="control-body">
+                    <input id="serial" class="form-control" type="text"
+                        ng-model="$ctrl.serialNumber"
+                        ng-mode-options="{debounce: 1000}"
+                    ></input>
+                </div>
+
+                <x-password label="{{'OTP.Create.PromptCode'|translate}}"
+                    on-change="$ctrl.updateCode(value)"
+                    show-password="$ctrl.showCode"></x-password>
+                <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error | translate" ng-show="$ctrl.error"></div>
+            </fieldset>
+        </li>
+    </ul>
+
+    <button
+        type="submit"
+        class="btn btn-primary"
+        ng-disabled="!$ctrl.canSubmit()"
+        ng-bind="'Credential.Create' | translate"
+    ></button>
+    <button
+        type="button"
+        class="btn btn-link"
+        ng-click="$ctrl.deleteOtp()"
+    >
+        <span class="text-danger" ng-bind="'OTP.Delete.Prompt'|translate"></span>
+    </button>
+
+</form>

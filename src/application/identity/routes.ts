@@ -88,5 +88,9 @@ export default function routes(
             template: activityView('Cards', 'x-cards-change'),
             resolve: { identity, changeToken, $window: "$window" },
         })
+        .when('/user/change/OTP', {
+            template: activityView('OTP', 'x-otp-change'),
+            resolve: { identity, changeToken, $window: "$window" },
+        })
 
 }

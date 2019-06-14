@@ -53,7 +53,7 @@ export default class SignupControl
         if (/[ ]/.test(value)) return 'Username.Error.HasSpaces';
         if (/@.*?@/.test(value)) return 'Username.Error.InvalidFormat';
         if (/-{2}?/.test(value)) return 'Username.Error.ConsecutiveDashes';
-        if (!/^[a-zA-Z0-9\.\_\@\-]*$/.test(value)) return 'Username.Error.InvalidCharacters';
+        if (!/^[a-zA-Z0-9:\.\_\@\-]*$/.test(value)) return 'Username.Error.InvalidCharacters';
 }
 
     private validatePassword(value: string): string|void {
@@ -62,7 +62,7 @@ export default class SignupControl
         if (!/[A-Z]/.test(value)) return 'Password.Create.Error.NeedUpperCaseLetters';
         if (!/[a-z]/.test(value)) return 'Password.Create.Error.NeedLowerCaseLetters';
         if (!/\d/.test(value)) return 'Password.Create.Error.NeedDigits';
-        if (!/[^a-zA-Z0-9:]/g.test(value)) return 'Password.Create.Error.NeedSpecialCharacters';
+        if (!/[^a-zA-Z0-9]/g.test(value)) return 'Password.Create.Error.NeedSpecialCharacters';
     }
 
     public async submit() {

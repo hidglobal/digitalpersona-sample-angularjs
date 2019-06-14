@@ -29,6 +29,9 @@ module.exports = {
         { faceapi: {
             root: "face-api.js"
         }},
+        { qrcode: {
+            root: 'qrcode-generator',
+        }}
     ],
     devServer: {
         host: 'bank.alpha.local',

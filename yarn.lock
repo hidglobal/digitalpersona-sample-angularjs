@@ -27,10 +27,10 @@
     tslib "^1.9.3"
     u2f-api "^1.0.10"
 
-"@digitalpersona/core@^0.2.1":
-  version "0.2.1"
-  resolved "http://localhost:4873/@digitalpersona%2fcore/-/core-0.2.1.tgz#86509a7c0b698f8e5ccb226b27f1d886a787f87d"
-  integrity sha512-uzTTOgiBQxBqSyf7HNsdSVmtT0N0y1u0brSPbmgeVV+86k/ThMLGPVG2mfg2V5KLNdkH/w+x8hh13DyDGTvKbQ==
+"@digitalpersona/core@^0.2.1", "@digitalpersona/core@^0.2.2":
+  version "0.2.2"
+  resolved "http://localhost:4873/@digitalpersona%2fcore/-/core-0.2.2.tgz#1075969055314acc2ae6b2c4cb0d09556fe7266c"
+  integrity sha512-I6edNddlGESYTl6hBoqvKDnqCY3RWi2tMqBLsi/5Dj6mMLTKAekcLEQ/Jbg9/bKyPBXJT55tG+Eda7elc0GpgA==
   dependencies:
     tslib "^1.9.3"
     u2f-api "^1.0.10"
@@ -43,10 +43,10 @@
     "@digitalpersona/core" "^0.2.1"
     tslib "^1.9.3"
 
-"@digitalpersona/enrollment@^0.2.1":
-  version "0.2.1"
-  resolved "http://localhost:4873/@digitalpersona%2fenrollment/-/enrollment-0.2.1.tgz#f36b1733751bc4a6f1a1eaae42cfd19381ff58aa"
-  integrity sha512-TlNBKChA6xJJg5Lqm1Y9gyTDVk6cMuTNnirm3wdy1Fy8MZxatUGt1ymlkC5aaHeBO6fSLduegMGPibzXQ63s1g==
+"@digitalpersona/enrollment@^0.2.5":
+  version "0.2.5"
+  resolved "http://localhost:4873/@digitalpersona%2fenrollment/-/enrollment-0.2.5.tgz#0c71bb300a952c49b9fcaf3f29f6eaf393c5cb9c"
+  integrity sha512-mKuQ0sQrf+xLmXHTrK8UhNgKmah4+yuE+3G2LfBvJlFNWhzptjWfMyWVqb2xJg4RbEVAwmA3aKA1HFiELTP8tA==
   dependencies:
     "@digitalpersona/services" "^0.2.1"
     tslib "^1.9.3"
@@ -4444,6 +4444,11 @@ punycode@^2.1.0:
   version "2.1.1"
   resolved "http://localhost:4873/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
+
+qrcode-generator@^1.4.3:
+  version "1.4.3"
+  resolved "http://localhost:4873/qrcode-generator/-/qrcode-generator-1.4.3.tgz#4876e8f280e65b6c94615f4c19c484f6b964b199"
+  integrity sha512-++rVRvMRq5BlHfmAafl8a4ppUntzUxCCUTT2t0siUgqKwdnqRzY8IH6f6WSX5dZUhD2Ul5/MIKuTJddflwrGzw==
 
 qs@6.2.3:
   version "6.2.3"

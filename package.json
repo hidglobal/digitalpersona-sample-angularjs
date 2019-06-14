@@ -18,7 +18,7 @@
   "dependencies": {
     "@digitalpersona/authentication": "^0.2.1",
     "@digitalpersona/devices": "^0.2.1",
-    "@digitalpersona/enrollment": "^0.2.1",
+    "@digitalpersona/enrollment": "^0.2.5",
     "angular": "^1.7.8",
     "angular-animate": "^1.7.8",
     "angular-aria": "^1.7.8",
@@ -35,25 +35,26 @@
     "express": "^4.16.4",
     "face-api.js": "^0.20.0",
     "font-awesome": "^4.7.0",
+    "qrcode-generator": "^1.4.3",
     "tslib": "^1.9.3"
   },
   "resolutions": {
-    "@digitalpersona/core": "^0.2.1",
+    "@digitalpersona/core": "^0.2.2",
     "@digitalpersona/services": "^0.2.1"
   },
   "devDependencies": {
     "@types/angular": "^1.6.54",
     "@types/angular-animate": "^1.5.10",
-    "@types/angular-ui-bootstrap": "^0.13.47",
     "@types/angular-cookies": "^1.4.5",
     "@types/angular-route": "^1.7.0",
     "@types/angular-sanitize": "^1.3.7",
     "@types/angular-translate": "^2.16.0",
+    "@types/angular-ui-bootstrap": "^0.13.47",
     "@types/bootstrap": "^3.3.7",
-    "bootstrap-sass": "^3.3.7",
     "@types/node": "^11.13.7",
     "@types/webpack": "^4.4.31",
     "@types/webpack-env": "^1.13.9",
+    "bootstrap-sass": "^3.3.7",
     "browser-sync": "^2.26.4",
     "browser-sync-webpack-plugin": "^2.2.2",
     "compression-webpack-plugin": "^2.0.0",

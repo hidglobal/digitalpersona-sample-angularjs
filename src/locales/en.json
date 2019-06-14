@@ -228,10 +228,29 @@
     "Presence": "Proximity card is presented.",
     "Success": "The proximity card is verified."
   },
+
   "OTP": {
     "Title": "One-Time Password",
     "Prompt": "One-Time Password",
     "Details": "Use the <a href='https://digitalpersona.com/get-authenticator'>Authenticator</a> app to obtain a one-time use code,<br>or get the code sent to you by",
+    "Type": {
+      "Software": "I'd like to use my phone, tablet or another mobile device.",
+      "Hardware": "I'd like to use a hardware token."
+    },
+    "Create": {
+      "Title": "One-Time Password",
+      "PromptPhone": "Enter full phone number (including a country code)",
+      "PromptQRCode": "or scan the QR Code using an authentication app on your device",
+      "PromptSerialNumber": "Enter token's serial number",
+      "PromptCode": "Enter the One-Time Password once it appeares on your device",
+      "Error": {
+        "InvalidCode": "The code is invalid",
+        "AccessDenied": "Access denied. Probably your logon is expired or invalidated."
+      }
+    },
+    "Delete": {
+      "Prompt": "⚠ Delete all OTP devices"
+    },
     "SendBy": {
       "email" : "e-mail",
       "sms": "SMS",
