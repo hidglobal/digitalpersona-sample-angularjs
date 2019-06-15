@@ -7,6 +7,8 @@ import { IEnrollService, ServiceError } from '@digitalpersona/services';
 import { Credential, Base64Url } from '@digitalpersona/core';
 import { TimeOtpEnroll } from '@digitalpersona/enrollment';
 
+type OtpType = 'Software' | 'Hardware';
+
 export default class OtpChangeControl extends TokenEnroll
 {
     public static readonly Component: IComponentOptions = {
@@ -21,7 +23,7 @@ export default class OtpChangeControl extends TokenEnroll
     private keyUri: string;
     private qrCode: string;
 
-    private selected: string;
+    private selected: OtpType;
 
     private phoneNumber: string;
     private smsSent: boolean;
@@ -54,7 +56,7 @@ export default class OtpChangeControl extends TokenEnroll
         }
     }
 
-    public select(otpType: string) {
+    public select(otpType: OtpType) {
         this.selected = otpType;
     }
 
@@ -63,7 +65,10 @@ export default class OtpChangeControl extends TokenEnroll
     }
 
     public canSubmit() {
-        return !!this.otpCode;
+        switch (this.selected) {
+            case 'Software': return !!this.otpCode;
+            case 'Hardware': return !!this.serialNumber && !!this.otpCode;
+        }
     }
 
     public canSendSMS() {
@@ -73,7 +78,10 @@ export default class OtpChangeControl extends TokenEnroll
     public async sendSMS() {
         super.emitOnBusy();
         try {
-//            new TimeOtpEnroll(this.enrollService).sendSmsChallenge(this.identity, this.phoneNumber)
+            await new TimeOtpEnroll(this.enrollService)
+                .sendVerificationCode(this.identity, this.key, this.phoneNumber);
+        } catch (error) {
+            super.emitOnError(new Error(this.mapServiceError(error)));
         } finally {
             this.$scope.$apply();
         }

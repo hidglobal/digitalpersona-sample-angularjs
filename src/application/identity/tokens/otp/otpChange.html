@@ -27,6 +27,7 @@
                 </div>
 
                 <x-password label="{{'OTP.Create.PromptCode'|translate}}"
+                    type="text"
                     on-change="$ctrl.updateCode(value)"
                     show-password="$ctrl.showCode"></x-password>
                 <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error | translate" ng-show="$ctrl.error"></div>
@@ -47,6 +48,7 @@
                 </div>
 
                 <x-password label="{{'OTP.Create.PromptCode'|translate}}"
+                    type="text"
                     on-change="$ctrl.updateCode(value)"
                     show-password="$ctrl.showCode"></x-password>
                 <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error | translate" ng-show="$ctrl.error"></div>

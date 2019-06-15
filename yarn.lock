@@ -43,10 +43,10 @@
     "@digitalpersona/core" "^0.2.1"
     tslib "^1.9.3"
 
-"@digitalpersona/enrollment@^0.2.5":
-  version "0.2.5"
-  resolved "http://localhost:4873/@digitalpersona%2fenrollment/-/enrollment-0.2.5.tgz#0c71bb300a952c49b9fcaf3f29f6eaf393c5cb9c"
-  integrity sha512-mKuQ0sQrf+xLmXHTrK8UhNgKmah4+yuE+3G2LfBvJlFNWhzptjWfMyWVqb2xJg4RbEVAwmA3aKA1HFiELTP8tA==
+"@digitalpersona/enrollment@^0.2.6":
+  version "0.2.6"
+  resolved "http://localhost:4873/@digitalpersona%2fenrollment/-/enrollment-0.2.6.tgz#ed673e5eb63d09bdbf417cf6159d91fffb5b8321"
+  integrity sha512-VhcM19bauk6kzmr/3rmGmgSFdC9iBMZZqSshpUtYqW6276YKWthArDtETSNUdD3dlIIaOjWzGPVgrMfxYqKutA==
   dependencies:
     "@digitalpersona/services" "^0.2.1"
     tslib "^1.9.3"
