@@ -96,12 +96,13 @@ export default class OtpAuthControl extends TokenAuth
         }
     }
 
-    private mapServiceError(error: ServiceError) {
+    protected mapServiceError(error: ServiceError) {
         switch (error.code) {
             case -2147023652: return "OTP.Error.NoMatch";
             case -973143807: return "OTP.Error.NoPhone";
             case -2147024846: return "OTP.Error.NotSupported";
-            default: return error.message;
+            default: return super.mapServiceError(error);
+
         }
     }
 }

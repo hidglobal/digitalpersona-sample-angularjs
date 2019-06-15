@@ -37,10 +37,10 @@ export default class PasswordAuthControl extends TokenAuth
             .catch(error => super.emitOnError(new Error(this.mapServiceError(error))));
     }
 
-    private mapServiceError(error: ServiceError) {
+    protected mapServiceError(error: ServiceError) {
         switch (error.code) {
             case -2147023570: return "Password.Auth.Error.NoMatch";
-            default: return error.message;
+            default: return super.mapServiceError(error);
         }
     }
 }

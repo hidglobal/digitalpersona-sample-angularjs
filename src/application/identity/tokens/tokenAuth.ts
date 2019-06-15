@@ -1,4 +1,5 @@
 import { User, JSONWebToken, JWT, ClaimName, CredentialId } from "@digitalpersona/core";
+import { ServiceError } from '@digitalpersona/services';
 
 export interface CredInfo {
     id: string;             // credential Id
@@ -81,4 +82,10 @@ export class TokenAuth
         if (this.onError) this.onError({});
     }
 
+    protected mapServiceError(error: ServiceError) {
+        switch (error.code) {
+            case -2147023579: return 'Signin.Error.DoesNotExist';
+            default: return error.message;
+        }
+    }
 }

@@ -37,11 +37,11 @@ export default class PinAuthControl extends TokenAuth
             .catch(error => super.emitOnError(new Error(this.mapServiceError(error))));
     }
 
-    private mapServiceError(error: ServiceError) {
+    protected mapServiceError(error: ServiceError) {
         switch (error.code) {
             case -2146893044: return "PIN.Auth.Error.NoMatch";
             case -2147024894: return "PIN.Auth.Error.NotEnrolled";
-            default: return error.message;
+            default: return super.mapServiceError(error);
         }
     }
 }

@@ -89,14 +89,14 @@ export default class FingerprintsAuthControl extends TokenAuth
         }
     }
 
-    private mapServiceError(error: ServiceError): string {
+    protected mapServiceError(error: ServiceError): string {
         switch (error.code) {
             case -2146893044:
             case -2147023652:
                 return "Fingerprints.Auth.Error.NoMatch";
             case -2146893042:
                 return "Fingerprints.Auth.Error.NotEnrolled";
-            default: return error.message;
+            default: return super.mapServiceError(error);
         }
     }
 

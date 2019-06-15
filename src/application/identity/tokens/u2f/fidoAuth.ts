@@ -37,10 +37,10 @@ export default class FidoAuthControl extends TokenAuth
             });
     }
 
-    private mapServiceError(error: ServiceError) {
+    protected mapServiceError(error: ServiceError) {
         switch (error.code) {
             case -2146893042: return "U2F.Error.NotEnrolled";
-            default: return error.message;
+            default: return super.mapServiceError(error);
         }
     }
 }

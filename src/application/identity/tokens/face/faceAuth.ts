@@ -196,12 +196,12 @@ export default class FaceAuthControl extends TokenAuth
         }
     }
 
-    private mapServiceError(error: ServiceError) {
+    protected mapServiceError(error: ServiceError) {
         switch (error.code) {
             case -2146893043:
             case -2003292320: return 'Face.Error.NoMatch';
             case -2146893042: return 'Face.Error.NotEnrolled';
-            default: return error.message;
+            default: return super.mapServiceError(error);
         }
     }
 }
