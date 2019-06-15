@@ -11,6 +11,7 @@ export default class UserInfoControl implements IController
         controller: UserInfoControl,
         bindings: {
             identity: "<",
+            changeToken: "<",
         },
     };
 
