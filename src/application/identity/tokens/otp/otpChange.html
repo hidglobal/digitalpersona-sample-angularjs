@@ -1,5 +1,5 @@
 <form ng-submit="$ctrl.submit()">
-    <ul class="list-group" role="navigation">
+    <ul class="list-group" role="navigation" ng-if="!$ctrl.success">
         <li class="list-group-item" title="{{'OTP.Type.Software'| translate }}" ng-class="{'panel panel-primary': ($ctrl.selected=='Software')}">
             <a class="btn btn-link panel-title" ng-click="$ctrl.select('Software')" ng-bind="'OTP.Type.Software'| translate"></a>
             <fieldset class="panel-body" ng-if="$ctrl.selected=='Software'">
@@ -55,6 +55,7 @@
             </fieldset>
         </li>
     </ul>
+    <div class="alert alert-success" role="alert" ng-bind="'OTP.Create.Success' | translate" ng-show="$ctrl.success"></div>
 
     <button
         type="submit"

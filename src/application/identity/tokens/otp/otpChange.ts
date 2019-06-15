@@ -92,6 +92,8 @@ export default class OtpChangeControl extends TokenEnroll
         try {
             await new TimeOtpEnroll(this.enrollService, this.changeToken)
                 .enrollSoftwareOtp(this.identity, this.otpCode, this.key, this.phoneNumber);
+            delete this.selected;
+            super.emitOnEnroll();
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
         } finally {

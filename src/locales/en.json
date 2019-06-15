@@ -26,7 +26,10 @@
     "Title": "Sign in",
     "Username": "Sign-in name",
     "FirstTime?": "First time here?",
-    "Troubles?" : "Unable to sign in?"
+    "Troubles?" : "Unable to sign in?",
+    "Error": {
+      "DoesNotExist": "The specified account does not exist."
+    }
   },
   "Install DP WS": "Install DigitalPersona Workstation",
   "Communication failure.": "Communication failure.",
@@ -243,6 +246,7 @@
       "PromptQRCode": "or scan the QR Code using an authentication app on your device",
       "PromptSerialNumber": "Enter token's serial number",
       "PromptCode": "Enter the One-Time Password once it appeares on your device",
+      "Success": "The One-Time Password is enrolled.",
       "Error": {
         "InvalidCode": "The code is invalid",
         "AccessDenied": "Access denied. Probably your logon is expired or invalidated."
