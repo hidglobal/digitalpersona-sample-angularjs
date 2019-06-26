@@ -1,5 +1,5 @@
 import { IScope, ILocationService, IComponentOptions } from 'angular';
-import { User, Ticket, UserNameType, JSONWebToken } from '@digitalpersona/core';
+import { User, Ticket, UserNameType, JSONWebToken, Url } from '@digitalpersona/core';
 import { ServiceError, IEnrollService, IAuthService } from '@digitalpersona/services';
 
 import template from './signup.html';
@@ -68,14 +68,20 @@ export default class SignupControl
     public async submit() {
         try {
             this.busy = true;
-            // TODO: obtain the token on the server, take credentials from a config
-            // const customerAccountManagerToken = await new PasswordAuth(this.authService)
-            //     .authenticate(new User("cam@alpha.local"), "aaaAAA123");
-            await this.enrollService.CreateUser(
-                new Ticket(this.changeToken),
-                new User(this.username, UserNameType.DP),
-                this.password);
-            this.$location.path('/signin');
+            const res = await fetch(Url.create('https://bank.alpha.local', 'user'), {
+                method: 'POST',
+                cache: "no-cache",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8",
+                    "Accept": "application/json",
+                },
+                body: JSON.stringify({
+                    username: this.username,
+                    password: this.password,
+                }),
+            });
+//          this.$location.path('/signin');
         }
         catch (e) {
             this.showError(e);

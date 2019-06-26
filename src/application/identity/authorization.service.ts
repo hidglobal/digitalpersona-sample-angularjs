@@ -23,6 +23,7 @@ export default class AuthorizationService
     }
 
     public async getChangeToken() {
+        return null;
         if (!this.isTokenValid(this.changeToken)) {
             this.changeToken = await new PasswordAuth(this.authService).authenticate(
                 AuthorizationService.SECURITY_OFFICER_ACCOUNT,

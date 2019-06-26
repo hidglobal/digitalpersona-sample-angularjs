@@ -1,8 +1,9 @@
 const path = require("path");
-var loaders = require("./loaders");
-var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var webpack = require('webpack');
+const loaders = require("./loaders");
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const config = require('../../server/config');
 
 module.exports = {
     devtool: "inline-eval-cheap-source-map",
@@ -34,19 +35,13 @@ module.exports = {
         }}
     ],
     devServer: {
-        host: 'bank.alpha.local',
-        port: 443,
+        host: config.site.host,
+        port: config.site.port,
         https: true,
-        pfx: 'certificates/wildcard-alpha-local.pfx',
-        pfxPassphrase: 'test',
+        pfx: config.site.sslCertificate.pfxFilename,
+        pfxPassphrase: config.site.sslCertificate.passphrase,
         publicPath: '/',
-        // proxy: {
-        //     '/' : {
-        //         target: "bank.alpha.local",
-        //         pathRewrite: { '^/\.+': '' }
-        //     },
-        // },
-    historyApiFallback: true,
+        historyApiFallback: true,
         contentBase: [
             'out/public/'
         ],
@@ -58,18 +53,9 @@ module.exports = {
             hash: true
         }),
         new BrowserSyncPlugin({
-            host: 'bank.alpha.local',
-            port: 4443,
-            proxy: "https://bank.alpha.local:443",
-            //  {
-            //     '*' : {
-            //         target: "https://bank.alpha.local:8080/",
-            //         pathRewrite: { '*': ''}
-            //     },
-            // },
-            // server: {
-            //     baseDir: path.resolve('out/public')
-            // },
+            host: config.site.host,
+            port: config.site.port + 4000,
+            proxy: `https://${config.site.host}:${config.site.port}`,
             ui: false,
             online: false,
             notify: false,

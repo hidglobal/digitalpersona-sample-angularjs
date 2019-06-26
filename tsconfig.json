@@ -32,6 +32,7 @@
     "include": [
       "src",
       "@types",
+      "server",
     ],
     "exclude": [
       "node_modules",

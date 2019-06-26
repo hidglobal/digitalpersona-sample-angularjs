@@ -1,5 +1,5 @@
 import { IWindowService } from 'angular';
-import { JSONWebToken, User, JWT, ClaimName, UserNameType } from '@digitalpersona/core';
+import { JSONWebToken } from '@digitalpersona/core';
 
 export default class IdentityService
 {

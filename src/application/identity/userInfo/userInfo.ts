@@ -1,7 +1,7 @@
 import { IComponentOptions, IController } from 'angular';
 
 import template from './userInfo.html';
-import { JSONWebToken, Ticket, User } from '@digitalpersona/core';
+import { JSONWebToken, Ticket, User, Url } from '@digitalpersona/core';
 import { IEnrollService } from '@digitalpersona/services';
 
 export default class UserInfoControl implements IController
@@ -29,6 +29,25 @@ export default class UserInfoControl implements IController
     }
 
     private async deleteAccount() {
-        await this.enrollService.DeleteUser(new Ticket(this.changeToken), User.fromJWT(this.identity));
+        try {
+            // await this.enrollService.DeleteUser(new Ticket(this.changeToken), User.fromJWT(this.identity));
+            const res = await fetch(Url.create('https://bank.alpha.local', 'user'), {
+                method: 'DELETE',
+                cache: "no-cache",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8",
+                    "Accept": "application/json",
+                },
+                body: JSON.stringify({
+                    identity: this.identity,
+                }),
+            });
+//          this.$location.path('/signin');
+        }
+        catch (e) {
+//            this.showError(e);
+//            this.$scope.$apply();
+        }
     }
 }
