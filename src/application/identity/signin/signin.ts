@@ -1,5 +1,5 @@
 import { IScope, ILocationService, IComponentOptions } from 'angular';
-import { JSONWebToken, User, JWT, ClaimName } from '@digitalpersona/core';
+import { JSONWebToken, User, JWT, ClaimName, UserNameType } from '@digitalpersona/core';
 import { ServiceError, IPolicyService, ResourceActions, ContextualInfo, PolicyInfo, Policy } from '@digitalpersona/services';
 import { CardsReader, FingerprintReader, SampleFormat } from '@digitalpersona/devices';
 
@@ -24,11 +24,12 @@ export default class SigninControl
     private fingerprintReader: FingerprintReader;
     private cardReader: CardsReader;
 
-    public static $inject = ["PolicyService", "$scope", "$location", "SupportedCredentials", "Identity"];
+    public static $inject = ["PolicyService", "$scope", "$location", "$route", "SupportedCredentials", "Identity"];
     constructor(
         private policyService: IPolicyService,
         private $scope: IScope,
         private $location: ILocationService,
+        private $route: ng.route.IRouteService,
         private supportedCredentials: { all: CredInfo[]},
         private identityService: IdentityService,
     ){
@@ -47,7 +48,11 @@ export default class SigninControl
             .catch(error => this.showError(error, 'Cards'));
 
         this.updateCredentials();
-        await this.updateIdentity(User.Anonymous());
+        if (this.$route.current) {
+            const { username } = this.$route.current.params;
+            await this.updateIdentity(new User(username, UserNameType.DP));
+        } else
+            await this.updateIdentity(User.Anonymous());
         this.busy = false;
         delete this.error;
     }
@@ -82,6 +87,9 @@ export default class SigninControl
     }
 
     // TODO: should be a Policies' method
+    // TODO: if the user is has enrolled only a password but policy requires multi-factor,
+    // let the user in but redirect them to the credential enrollment page.
+    // This way fresh users with a password only will have a chance to comply.
     public isEnoughCredentials() {
         if (this.identity instanceof User)
             return false;
@@ -157,8 +165,7 @@ export default class SigninControl
         }
         if (this.isEnoughCredentials()) {
             this.identityService.set(this.identity as JSONWebToken);
-            this.$location.path("/");
-            return;
+            this.$location.url("/");
         }
         this.busy = false;
         this.$scope.$apply();

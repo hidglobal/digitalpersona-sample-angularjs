@@ -1,4 +1,4 @@
-import ng, { IComponentOptions } from 'angular';
+import ng, { IComponentOptions, ILocationService } from 'angular';
 
 import template from './app.html';
 
@@ -9,9 +9,9 @@ export default class AppControl
         controller: AppControl,
     };
 
-    public static $inject = ["$window", "$rootScope", "$translate"];
+    public static $inject = ["$location", "$rootScope", "$translate"];
     constructor(
-        private $window: ng.IWindowService,
+        private $location: ILocationService,
         private $rootScope: ng.IScope,
         private $translate: ng.translate.ITranslateService,
     ){
@@ -21,6 +21,7 @@ export default class AppControl
     public onSignin() {}
 
     public onSignout() {
-        this.$window.location.reload();
+        this.$location.url("/");
+        this.$rootScope.$apply();
     }
 }

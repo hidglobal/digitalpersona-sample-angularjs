@@ -1,6 +1,6 @@
 <div>
-    <x-welcome ng-if="!$ctrl.identity.userName">
+    <x-welcome ng-if="!$ctrl.identity.get()">
     </x-welcome>
-    <x-main ng-if="$ctrl.identity.userName"
+    <x-main ng-if="$ctrl.identity.get()"
     ></x-main>
 </div>
