@@ -7,7 +7,7 @@ import enroll from './tokens/enroll.module';
 import routes from './routes';
 
 import IdentityService from './identity.service';
-import AuthorizationService from './authorization.service';
+import UserApiService from './user.service';
 
 import profileNav from './nav/profileNav';
 import userInfo from './userInfo/userInfo';
@@ -22,7 +22,7 @@ export default ng.module('example.profile', [
 ])
 .config(routes)
 .service('Identity', IdentityService)
-.service("Authorizer", AuthorizationService)
+.service("UserApi", UserApiService)
 .component('profileNav', profileNav.Component)
 .component('userInfo', userInfo.Component)
 .component('userCredentials', userCredentials.Component)
@@ -30,4 +30,4 @@ export default ng.module('example.profile', [
 .component('signup', signup.Component)
 .name;
 
-export { IdentityService, AuthorizationService };
+export { IdentityService };

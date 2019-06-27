@@ -76,9 +76,9 @@ export default class CardsChangeControl extends TokenEnroll
         super.emitOnBusy();
         try {
             const deletions = [
-                new SmartCardEnroll(this.enrollService, this.changeToken).unenroll(this.identity),
-                new ContactlessCardEnroll(this.enrollService, this.changeToken).unenroll(this.identity),
-                new ProximityCardEnroll(this.enrollService, this.changeToken).unenroll(this.identity),
+                new SmartCardEnroll(this.enrollService).unenroll(this.identity),
+                new ContactlessCardEnroll(this.enrollService).unenroll(this.identity),
+                new ProximityCardEnroll(this.enrollService).unenroll(this.identity),
             ];
             await Promise.all(deletions);
             super.emitOnDelete();

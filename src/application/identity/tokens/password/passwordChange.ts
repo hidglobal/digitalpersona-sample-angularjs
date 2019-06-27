@@ -37,8 +37,8 @@ export default class PasswordChangeControl extends TokenEnroll
     public async submit() {
         super.emitOnBusy();
         try {
-            await new PasswordEnroll(this.enrollService, this.changeToken)
-                .enroll(this.identity, this.newPassword, this.oldPassword, this.changeToken);
+            await new PasswordEnroll(this.enrollService)
+                .enroll(this.identity, this.newPassword, this.oldPassword);
             super.emitOnEnroll();
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));

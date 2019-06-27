@@ -71,8 +71,8 @@ export default class FaceChangeControl extends TokenEnroll
     public async deleteFace() {
         super.emitOnBusy();
         try {
-            await new FaceEnroll(this.enrollService, this.changeToken)
-                .unenroll(this.identity, this.changeToken);
+            await new FaceEnroll(this.enrollService)
+                .unenroll(this.identity);
             super.emitOnDelete();
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));

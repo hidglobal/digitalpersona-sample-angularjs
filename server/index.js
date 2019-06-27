@@ -26,7 +26,7 @@ const app = express();
 app.use(express.json());
 //app.use(methodOverride());
 app.use(express.urlencoded({ extended: true }));
-app.use('/user', userApi);
+app.use('/api/user', userApi);
 app.use(logErrors);
 
 app.use(express.static(path.join(__dirname, '../out/public')));

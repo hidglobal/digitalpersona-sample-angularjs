@@ -32,8 +32,8 @@ export default class PinChangeControl extends TokenEnroll
     public async submit() {
         super.emitOnBusy();
         try {
-            await new PinEnroll(this.enrollService, this.changeToken)
-                .enroll(this.identity, this.newPin, this.changeToken);
+            await new PinEnroll(this.enrollService)
+                .enroll(this.identity, this.newPin);
             super.emitOnEnroll();
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
@@ -43,8 +43,8 @@ export default class PinChangeControl extends TokenEnroll
     public async deletePin() {
         super.emitOnBusy();
         try {
-            await new PinEnroll(this.enrollService, this.changeToken)
-                .unenroll(this.identity, this.changeToken);
+            await new PinEnroll(this.enrollService)
+                .unenroll(this.identity);
             super.emitOnDelete();
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));

@@ -12,14 +12,6 @@ export default class IdentityService
         console.log("IdentityService created");
     }
 
-    // public get userName(): string|null {
-    //     const token: JSONWebToken|null = this.get();
-    //     if (!token) return null;
-    //     const subject = JWT.claims(token)[ClaimName.SubjectName];
-    //     if (!subject) return null;
-    //     return (subject instanceof User) ? subject.name : subject;
-    // }
-
     public get() : JSONWebToken | null {
         return this.$window.sessionStorage.getItem(IdentityService.IDENTITY_KEY);
     }

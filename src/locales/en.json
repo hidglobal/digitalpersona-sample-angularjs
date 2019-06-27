@@ -84,7 +84,6 @@
       "Repeat": "Repeat the password",
       "Success": "A new password is created.",
       "Error": {
-        "PasswordMismatch": "Passwords you typed do not match each other.",
         "SameAsUsername": "Password cannot be the same as your sign-in name.",
         "NeedUpperCaseLetters": "Password must contain at least one capital letter.",
         "NeedLowerCaseLetters": "Password must contain at least one lower case letter.",
@@ -96,7 +95,8 @@
     },
     "Success": "Password is verified.",
     "Error": {
-      "Required": "This field is required."
+      "Required": "This field is required.",
+      "PasswordMismatch": "Passwords you typed do not match each other."
     }
   },
   "PIN": {
@@ -113,6 +113,7 @@
       "Title": "Create a new PIN",
       "NewPin": "New PIN",
       "Repeat": "Repeat the PIN",
+      "Success": "A new PIN is created",
       "Error": {
         "AccessDenied": "Access denied. Probably your logon is expired or invalidated."
       }

@@ -10,10 +10,23 @@ const enrollService = new EnrollService(endpoints.enroll);
 
 const userApi = express.Router();
 
-userApi.use(asSecurityOfficer);
-userApi.post('/', createUser);
-userApi.delete('/', deleteUser);
+userApi.post('/', asSecurityOfficer, createUser);
+userApi.delete('/', withBearerToken, asSecurityOfficer, deleteUser);
 userApi.use(handleError);
+
+const HTTP_STATUS = {
+    OK: 200,
+    CREATED: 201,
+    OK_NO_CONTENT: 204,
+    BAD_REQUEST: 400,
+    UNAUTHORIZED: 401,
+    PAYMENT_REQUIRED: 402,
+    FORBIDDEN: 403,
+    NOT_FOUND: 404,
+    CONFLICT: 409,
+    INTERNAL_SERVER_ERROR: 500,
+    NOT_IMPLEMENTED: 501,
+}
 
 async function asSecurityOfficer(req, res, next)
 {
@@ -31,30 +44,47 @@ async function asSecurityOfficer(req, res, next)
     }
 }
 
+async function withBearerToken(req, res, next) {
+    try {
+        console.debug('> withBearerToken')
+        const { authorization } = req.headers;
+        if (!authorization) return res.sendStatus(HTTP_STATUS.UNAUTHORIZED);
+        const token = authorization.match(/Bearer (.+)/)[1];
+        req.bearer = token;
+        console.debug('< withBearerToken')
+        next();
+    } catch (e) {
+        console.debug('? withBearerToken')
+        console.debug(e);
+        return res.sendStatus(HTTP_STATUS.BAD_REQUEST);
+    }
+}
+
 function handleError(err, req, res, next) {
     if (err instanceof ServiceError) {
         switch(err.code) {
-            // TODO: map error code to HTTP code
-            case -2147023501: return res.sendStatus(402);    // license is expired or user quota is exceeded
-            default: return res.sendStatus(400);
+            case -2147023501: return res.sendStatus(HTTP_STATUS.PAYMENT_REQUIRED);    // license is expired or user quota is exceeded
+            case -2147023580: return res.sendStatus(HTTP_STATUS.CONFLICT);            // the account already exists
+            case -2147023579: return res.sendStatus(HTTP_STATUS.NOT_FOUND);           // account does not exist
+            default: return res.sendStatus(HTTP_STATUS.INTERNAL_SERVER_ERROR);
         }
     } else
-        res.sendStatus(500);
+        res.sendStatus(HTTP_STATUS.INTERNAL_SERVER_ERROR);
 }
 
 async function createUser(req, res, next)
 {
     console.debug('> createUser')
-    const { body, token } = req;
     try {
-        const { username, password } = body;
-        console.debug(`user: ${username}, pass: ${password}, token: ${token}`)
+        const { token } = req;
+        const { username, password } = req.body;
+        console.debug(`user: ${username}, token: ${token}`)
         await enrollService.CreateUser(
             new Ticket(token),
             new User(username, UserNameType.DP),
             password);
         console.debug('< createUser')
-        res.sendStatus(201);
+        res.sendStatus(HTTP_STATUS.CREATED);
     } catch (e) {
         console.debug(e);
         next(e);
@@ -64,18 +94,25 @@ async function createUser(req, res, next)
 async function deleteUser(req, res)
 {
     console.debug('> deleteUser')
-    const { body, token } = req;
     try {
-        const { identity } = body;
+        const { token, bearer } = req;
+        const { username } = req.query;
+
+        // verify the token bearer is the same user as the one we about to delete.
+        // we allow only self-deletion
+        if (!bearer) return res.sendStatus(HTTP_STATUS.UNAUTHORIZED);
+        const user = User.fromJWT(bearer);
+        if (user.name !== username) return res.sendStatus(HTTP_STATUS.FORBIDDEN);
+
         await enrollService.DeleteUser(
             new Ticket(token),
-            User.fromJWT(identity),
+            new User(username, UserNameType.DP),
         );
         console.debug('< deleteUser')
-        res.sendStatus(200);
+        res.sendStatus(HTTP_STATUS.OK);
     } catch (e) {
         console.debug(e);
-        res.sendStatus(204);
+        res.sendStatus(HTTP_STATUS.OK_NO_CONTENT);
     }
 }
 

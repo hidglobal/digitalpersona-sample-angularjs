@@ -3,6 +3,9 @@
         <fieldset disabled>
             <x-username label="{{'Signin.Username' | translate}}" value="{{$ctrl.userName()}}"></x-username>
         </fieldset>
+
+        <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error.message | translate" ng-show="$ctrl.error"></div>
+
         <button type="button" class="btn btn-link" ng-click="$ctrl.deleteAccount()">
             <span class="text-danger" ng-bind="'Profile.DeleteAccount'|translate"></span>
         </button>

@@ -6,7 +6,6 @@ export class TokenEnroll
     protected static readonly Component: ng.IComponentOptions = {
         bindings: {
             identity: "<",
-            changeToken: "<",
             onBusy: "&",
             onUpdate: "&",
             onEnroll: "&",
@@ -16,7 +15,6 @@ export class TokenEnroll
     };
 
     public identity    : JSONWebToken;  // a token of a user changing/enrolling the credential
-    public changeToken : JSONWebToken;  // a token permitting to change/enroll the credential (e.g. a security officer)
     public onBusy   : () => void;
     public onUpdate : () => void;
     public onEnroll : () => void;

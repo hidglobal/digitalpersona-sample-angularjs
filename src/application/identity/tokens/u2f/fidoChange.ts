@@ -39,7 +39,7 @@ export default class FidoChangeControl extends TokenEnroll
             const appId = await new U2FAuth(this.authService).getAppId();
 
             await new U2FEnroll(appId, this.enrollService)
-                .enroll(this.identity, this.changeToken);
+                .enroll(this.identity);
             this.isEnrolled = await super.getEnrolled();
             super.emitOnEnroll();
         } catch (error) {
@@ -55,8 +55,8 @@ export default class FidoChangeControl extends TokenEnroll
         try {
             const appId = await new U2FAuth(this.authService).getAppId();
 
-            await new U2FEnroll(appId, this.enrollService, this.changeToken)
-                .unenroll(this.identity, this.changeToken);
+            await new U2FEnroll(appId, this.enrollService)
+                .unenroll(this.identity);
             this.isEnrolled = await super.getEnrolled();
             super.emitOnDelete();
         } catch (error) {

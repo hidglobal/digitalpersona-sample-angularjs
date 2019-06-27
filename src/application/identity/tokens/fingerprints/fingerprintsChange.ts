@@ -116,8 +116,8 @@ export default class FingerprintsChangeControl extends TokenEnroll
     private async submit() {
         super.emitOnBusy();
         try {
-            await new FingerprintsEnroll(this.enrollService, this.changeToken)
-                .enroll(this.identity, FingerPosition.RightIndex, this.samples, this.changeToken);
+            await new FingerprintsEnroll(this.enrollService)
+                .enroll(this.identity, FingerPosition.RightIndex, this.samples);
             super.emitOnEnroll();
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
@@ -127,8 +127,8 @@ export default class FingerprintsChangeControl extends TokenEnroll
     public async deleteFingerprints() {
         super.emitOnBusy();
         try {
-            await new FingerprintsEnroll(this.enrollService, this.changeToken)
-                .unenroll(this.identity, undefined, this.changeToken);
+            await new FingerprintsEnroll(this.enrollService)
+                .unenroll(this.identity, undefined);
             super.emitOnDelete();
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));

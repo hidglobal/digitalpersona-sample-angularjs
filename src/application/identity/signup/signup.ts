@@ -1,19 +1,15 @@
 import { IScope, ILocationService, IComponentOptions } from 'angular';
-import { User, Ticket, UserNameType, JSONWebToken, Url } from '@digitalpersona/core';
-import { ServiceError, IEnrollService, IAuthService } from '@digitalpersona/services';
+import { JSONWebToken } from '@digitalpersona/core';
+import { ServiceError } from '@digitalpersona/services';
 
 import template from './signup.html';
-import { PasswordAuth } from '@digitalpersona/authentication';
-import AuthorizationService from '../authorization.service';
+import UserService from '../user.service';
 
 export default class SignupControl
 {
     public static readonly Component: IComponentOptions = {
         template,
         controller: SignupControl,
-        bindings: {
-            changeToken: '<',
-        },
     };
 
     public changeToken: JSONWebToken;
@@ -24,10 +20,9 @@ export default class SignupControl
     private busy: boolean;
     private showPassword: boolean;
 
-    public static $inject = ["EnrollService", "AuthService", "$scope", "$location"];
+    public static $inject = ["UserApi", "$scope", "$location"];
     constructor(
-        private enrollService: IEnrollService,
-        private authService: IAuthService,
+        private userApi: UserService,
         private $scope: IScope,
         private $location: ILocationService,
     ){
@@ -68,23 +63,12 @@ export default class SignupControl
     public async submit() {
         try {
             this.busy = true;
-            const res = await fetch(Url.create('https://bank.alpha.local', 'user'), {
-                method: 'POST',
-                cache: "no-cache",
-                mode: "cors",
-                headers: {
-                    "Content-Type": "application/json;charset=utf-8",
-                    "Accept": "application/json",
-                },
-                body: JSON.stringify({
-                    username: this.username,
-                    password: this.password,
-                }),
-            });
-//          this.$location.path('/signin');
+            const res = await this.userApi.create(this.username, this.password);
+            this.$location.url(`/signin?username=${this.username}`);
         }
         catch (e) {
             this.showError(e);
+        } finally {
             this.$scope.$apply();
         }
     }

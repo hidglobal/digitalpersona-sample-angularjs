@@ -67,7 +67,7 @@ export default class ProximityCardChangeControl extends TokenEnroll
         super.emitOnBusy();
         try {
             const data = await this.reader.getCardEnrollData(card.Reader);
-            await new ProximityCardEnroll(this.enrollService, this.changeToken)
+            await new ProximityCardEnroll(this.enrollService)
                 .enroll(this.identity, data);
             super.emitOnEnroll();
         } catch (error) {

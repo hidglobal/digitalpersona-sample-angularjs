@@ -76,7 +76,7 @@ export default class SmartCardChangeControl extends TokenEnroll
         super.emitOnBusy();
         try {
             const data = await this.reader.getCardEnrollData(card.Reader, this.pin);
-            await new SmartCardEnroll(this.enrollService, this.changeToken)
+            await new SmartCardEnroll(this.enrollService)
                 .enroll(this.identity, data);
             super.emitOnEnroll();
         } catch (error) {

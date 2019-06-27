@@ -1,8 +1,10 @@
-import { IComponentOptions, IController } from 'angular';
+import { IComponentOptions, IController, IScope, ILocationService } from 'angular';
 
+import { JSONWebToken, User } from '@digitalpersona/core';
+
+import UserService from '../user.service';
 import template from './userInfo.html';
-import { JSONWebToken, Ticket, User, Url } from '@digitalpersona/core';
-import { IEnrollService } from '@digitalpersona/services';
+import { IdentityService } from '..';
 
 export default class UserInfoControl implements IController
 {
@@ -11,16 +13,20 @@ export default class UserInfoControl implements IController
         controller: UserInfoControl,
         bindings: {
             identity: "<",
-            changeToken: "<",
         },
     };
 
     public readonly identity: JSONWebToken;
-    public readonly changeToken: JSONWebToken;
 
-    public static $inject = ["EnrollService"];
+    private busy: boolean = false;
+    private error?: Error;
+
+    public static $inject = ["UserApi", "Identity", "$scope", "$location"];
     public constructor(
-        private readonly enrollService: IEnrollService,
+        private readonly userApi: UserService,
+        private readonly identityService: IdentityService,
+        private readonly $scope: IScope,
+        private readonly $location: ILocationService,
     ){}
 
     private userName() {
@@ -28,26 +34,28 @@ export default class UserInfoControl implements IController
         return user.name;
     }
 
-    private async deleteAccount() {
+    public async deleteAccount() {
+        this.busy = true;
         try {
-            // await this.enrollService.DeleteUser(new Ticket(this.changeToken), User.fromJWT(this.identity));
-            const res = await fetch(Url.create('https://bank.alpha.local', 'user'), {
-                method: 'DELETE',
-                cache: "no-cache",
-                mode: "cors",
-                headers: {
-                    "Content-Type": "application/json;charset=utf-8",
-                    "Accept": "application/json",
-                },
-                body: JSON.stringify({
-                    identity: this.identity,
-                }),
-            });
-//          this.$location.path('/signin');
+            await this.userApi.delete(this.identity);
+            this.identityService.clear();
+            this.$location.path('/');
         }
         catch (e) {
 //            this.showError(e);
-//            this.$scope.$apply();
+        } finally {
+            this.busy = false;
+            this.$scope.$apply();
         }
     }
+
+    public resetError() {
+        delete this.error;
+    }
+
+    public showError(error: Error) {
+        this.busy = false;
+        this.error = error;
+    }
+
 }

@@ -45,7 +45,7 @@ export default class OtpChangeControl extends TokenEnroll
         try {
             const crypto = window.crypto || window["msCrypto"];
             this.key = crypto.getRandomValues(this.key);
-            this.keyUri = await new TimeOtpEnroll(this.enrollService, this.changeToken)
+            this.keyUri = await new TimeOtpEnroll(this.enrollService)
                 .createKeyUri(this.identity, this.key);
             const qr = QRCode(10, "L");
             qr.addData(this.keyUri);
@@ -90,7 +90,7 @@ export default class OtpChangeControl extends TokenEnroll
     public async submit() {
         super.emitOnBusy();
         try {
-            await new TimeOtpEnroll(this.enrollService, this.changeToken)
+            await new TimeOtpEnroll(this.enrollService)
                 .enrollSoftwareOtp(this.identity, this.otpCode, this.key, this.phoneNumber);
             delete this.selected;
             super.emitOnEnroll();
@@ -104,8 +104,8 @@ export default class OtpChangeControl extends TokenEnroll
     public async deleteOtp() {
         super.emitOnBusy();
         try {
-            await new TimeOtpEnroll(this.enrollService, this.changeToken)
-                .unenroll(this.identity, this.changeToken);
+            await new TimeOtpEnroll(this.enrollService)
+                .unenroll(this.identity);
             super.emitOnDelete();
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
