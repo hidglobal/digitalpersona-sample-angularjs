@@ -4,7 +4,7 @@
   "description": "Example of using @digitalpersona/* libraries in an AngularJS application",
   "main": "index.js",
   "scripts": {
-    "start": "node ./server/index.js",
+    "start": "supervisor -w server ./server/index.js",
     "clean": "rimraf ./out",
     "tsc": "tsc --p tsconfig.typings.json",
     "build": "npm run clean && npm run tsc",

@@ -33,9 +33,10 @@ To let customers to enroll new credentials, add an `Enroll Self` task definition
 role using the AzMan console.
 
 When DigitalPersona LDS Web Management Components are configured, make sure the public certificate 
-of its root CA is imported to the `Trusted Roots` store on the sample server. If your sample server
-is in a different domain, you may need to manualy import the public Root CA certificate into the
-`Trusted Roots` store.
+of its root CA is imported to the `Trusted Roots` store on the sample server. If your SSL ceritificates
+are issued by your ActiveDirectory CA rather that some public CA, and if your sample server
+is located a different domain, you may need to manualy import the public Root CA certificate into the
+`Trusted Roots` store on the sample server machine.
 
 Add DigitalPersona LDS Web Management Components endpoints to the sample server configuration,
 in the `endpoints` section:
