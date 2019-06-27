@@ -1,5 +1,9 @@
 {
   "CompanyName": "Bank of DigitalPersona",
+  "Error": {
+    "AccessDenied": "Access denied. Probably your logon is expired or invalidated.",
+    "DoesNotExist": "The specified account does not exist."
+  },
   "Profile": {
     "Title": "User information",
     "Security": {
@@ -69,6 +73,7 @@
     "IWA": "Your Windows credentials are verified.",
     "Recovery questions": "Recovery questions are verified."
   },
+
   "Password": {
     "Title": "Password",
     "Auth": {
@@ -89,8 +94,7 @@
         "NeedLowerCaseLetters": "Password must contain at least one lower case letter.",
         "NeedDigits": "Password must contain at least one number",
         "NeedSpecialCharacters": "Password must contain at least one special character (!, @, $, etc...)",
-        "HasSpaces": "Your password cannot contain space characters",
-        "AccessDenied": "Access denied. Probably your logon is expired or invalidated."
+        "HasSpaces": "Your password cannot contain space characters"
       }
     },
     "Success": "Password is verified.",
@@ -99,6 +103,7 @@
       "PasswordMismatch": "Passwords you typed do not match each other."
     }
   },
+
   "PIN": {
     "Title": "PIN",
     "Auth": {
@@ -115,10 +120,11 @@
       "Repeat": "Repeat the PIN",
       "Success": "A new PIN is created",
       "Error": {
-        "AccessDenied": "Access denied. Probably your logon is expired or invalidated."
       }
     },
-    "Delete": "⚠ Delete existing PIN",
+    "Delete": {
+      "Prompt": "⚠ Delete existing PIN"
+    },
     "Error": {
       "NoMatch": "Invalid PIN or sign-in name.",
       "NotEnrolled": "No PIN was enrolled for this user."
@@ -142,7 +148,6 @@
       "Prompt": "Place your finger on a reader several times.",
       "Success": "Fingerprint is enrolled.",
       "Error": {
-        "AccessDenied": "Access denied. Probably your logon is expired or invalidated."
       }
     },
     "Delete": {
@@ -179,6 +184,7 @@
       "RotatedTooMuch": "Lift your finger and try again. Place it flat on the fingerprint reader."
     }
   },
+
   "Cards": {
     "Title": "Cards",
     "Auth": {
@@ -195,7 +201,6 @@
       "Prompt": "Present a card you want to enroll.",
       "Success": "The card is enrolled",
       "Error": {
-        "AccessDenied": "Access denied. Probably your logon is expired or invalidated."
       }
     },
     "Delete": {
@@ -211,6 +216,7 @@
       "Proximity": "Proximity card"
     }
   },
+
   "SmartCard": {
     "Title": "Smartcard",
     "Presence": "Smartcard is presented.",
@@ -222,11 +228,13 @@
       "Blocked": "The card cannot be accessed because the maximum number of PIN entry attempts has been reached."
     }
   },
+
   "ContactlessCard": {
     "Title": "Contactless Card",
     "Presence": "Contactless card is presented.",
     "Success": "The contactless card is verified."
   },
+
   "ProximityCard": {
     "Title": "Proximity Card",
     "Presence": "Proximity card is presented.",
@@ -249,8 +257,7 @@
       "PromptCode": "Enter the One-Time Password once it appeares on your device",
       "Success": "The One-Time Password is enrolled.",
       "Error": {
-        "InvalidCode": "The code is invalid",
-        "AccessDenied": "Access denied. Probably your logon is expired or invalidated."
+        "InvalidCode": "The code is invalid"
       }
     },
     "Delete": {
@@ -281,6 +288,7 @@
       "NoEmail": "No e-mail address is registered for this user."
     }
   },
+
   "Face": {
     "Title": "Face",
     "Usage": "Have your camera ready, place your face in front of the camera then press Start.",
@@ -292,7 +300,6 @@
       "Title": "Enroll your face",
       "Success": "Face is enrolled.",
       "Error": {
-        "AccessDenied": "Access denied. Probably your logon is expired or invalidated."
       }
     },
     "Delete": {
@@ -314,6 +321,7 @@
       "CameraConstraintError": "The selected camera does not meet the minimum constraints required."
     }
   },
+
   "U2F": {
     "Title": "FIDO Key",
     "Usage": "Insert your FIDO token then press Start.",
@@ -324,7 +332,6 @@
       "Title": "Enroll FIDO Key",
       "Success": "The FIDO key is enrolled.",
       "Error": {
-        "AccessDenied": "Access denied. Probably your logon is expired or invalidated."
       }
     },
     "Delete": {
@@ -341,6 +348,7 @@
       "u2f: TIMEOUT": "The FIDO key authentication took too long. Please try again."
     }
   },
+
   "SecurityQuestions": {
     "Title": "Security Questions",
     "Success": "Security questions are verified.",

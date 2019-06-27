@@ -113,11 +113,10 @@ export default class OtpChangeControl extends TokenEnroll
 
     }
 
-    private mapServiceError(error: ServiceError) {
+    protected mapServiceError(error: ServiceError) {
         switch (error.code) {
             case -2147023652: return "OTP.Create.Error.InvalidCode";
-            case -2147024891: return "OTP.Create.Error.AccessDenied";
-            default: return error.message;
+            default: return super.mapServiceError(error);
         }
     }
 

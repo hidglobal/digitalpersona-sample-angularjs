@@ -1,5 +1,5 @@
-import { JSONWebToken, JWT, ClaimName, CredentialId, User, UserNameType } from "@digitalpersona/core";
-import { IEnrollService } from '@digitalpersona/services';
+import { JSONWebToken, JWT, CredentialId, User, UserNameType } from "@digitalpersona/core";
+import { IEnrollService, ServiceError } from '@digitalpersona/services';
 
 export class TokenEnroll
 {
@@ -14,7 +14,7 @@ export class TokenEnroll
         },
     };
 
-    public identity    : JSONWebToken;  // a token of a user changing/enrolling the credential
+    public identity : JSONWebToken;  // a token of a user changing/enrolling the credential
     public onBusy   : () => void;
     public onUpdate : () => void;
     public onEnroll : () => void;
@@ -74,4 +74,13 @@ export class TokenEnroll
         this.success = false;
         if (this.onError) this.onError({});
     }
+    protected mapServiceError(error: ServiceError) {
+        switch (error.code) {
+            case -2146893033:
+            case -2147024891: return "Error.AccessDenied";
+            case -2147023579: return 'Error.DoesNotExist';
+            default: return error.message;
+        }
+    }
+
 }

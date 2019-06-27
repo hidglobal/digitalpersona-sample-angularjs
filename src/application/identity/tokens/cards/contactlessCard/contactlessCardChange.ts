@@ -77,11 +77,9 @@ export default class ContactlessCardChangeControl extends TokenEnroll
         }
     }
 
-    private mapServiceError(error: ServiceError) {
+    protected mapServiceError(error: ServiceError) {
         switch (error.code) {
-            case -2146893033:
-            case -2147024891: return "Cards.Create.Error.AccessDenied";
-            default: return error.message;
+            default: return super.mapServiceError(error);
         }
     }
 

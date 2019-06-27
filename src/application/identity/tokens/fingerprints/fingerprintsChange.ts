@@ -135,14 +135,14 @@ export default class FingerprintsChangeControl extends TokenEnroll
         }
     }
 
-    private showError(error: ServiceError|Error) {
+    private showError(err: ServiceError|Error) {
         this.busy = false;
-        if (this.error === error.message) return;
-        if (error) {
-            this.error = error.message;
+        if (this.error === err.message) return;
+        if (err) {
+            this.error = err.message;
         } else
             delete this.error;
-        if (error instanceof ServiceError) {
+        if (err instanceof ServiceError) {
             // if (error.code === -2146893033) {  // Authentication context expired, drop the token and replace with a user
             //     this.updateIdentity(this.getUser());
             // }
@@ -150,10 +150,9 @@ export default class FingerprintsChangeControl extends TokenEnroll
 //        $this.update();
     }
 
-    private mapServiceError(error: ServiceError) {
-        switch (error.code) {
-            case -2147024891: return "Fingerprints.Create.Error.AccessDenied";
-            default: return error.message;
+    protected mapServiceError(err: ServiceError) {
+        switch (err.code) {
+            default: return super.mapServiceError(err);
         }
     }
 

@@ -45,10 +45,9 @@ export default class PasswordChangeControl extends TokenEnroll
         }
     }
 
-    private mapServiceError(error: ServiceError) {
+    protected mapServiceError(error: ServiceError) {
         switch (error.code) {
-            case -2147024891: return "Password.Create.Error.AccessDenied";
-            default: return error.message;
+            default: return super.mapServiceError(error);
         }
     }
 }
