@@ -22,12 +22,11 @@ export default class ContactlessCardChangeControl extends TokenEnroll
     private reader: CardsReader;
     private cards: Card[] = [];
 
-    public static $inject = ["EnrollService", "$scope"];
+    public static $inject = ["$scope"];
     constructor(
-        enrollService: IEnrollService,
         private readonly $scope: IScope,
     ){
-        super(Credential.ContactlessCard, enrollService);
+        super(Credential.ContactlessCard);
     }
 
     public $onInit() {
@@ -67,8 +66,8 @@ export default class ContactlessCardChangeControl extends TokenEnroll
         super.emitOnBusy();
         try {
             const data = await this.reader.getCardEnrollData(card.Reader);
-            await new ContactlessCardEnroll(this.enrollService)
-                .enroll(this.identity, data);
+            await new ContactlessCardEnroll(this.context)
+                .enroll(data);
             super.emitOnEnroll();
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));

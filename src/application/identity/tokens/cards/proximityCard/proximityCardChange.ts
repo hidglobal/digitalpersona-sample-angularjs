@@ -22,12 +22,11 @@ export default class ProximityCardChangeControl extends TokenEnroll
     private reader: CardsReader;
     private cards: Card[] = [];
 
-    public static $inject = ["EnrollService", "$scope"];
+    public static $inject = ["$scope"];
     constructor(
-        enrollService: IEnrollService,
         private readonly $scope: IScope,
     ){
-        super(Credential.ProximityCard, enrollService);
+        super(Credential.ProximityCard);
     }
 
     public $onInit() {
@@ -67,8 +66,8 @@ export default class ProximityCardChangeControl extends TokenEnroll
         super.emitOnBusy();
         try {
             const data = await this.reader.getCardEnrollData(card.Reader);
-            await new ProximityCardEnroll(this.enrollService)
-                .enroll(this.identity, data);
+            await new ProximityCardEnroll(this.context)
+                .enroll(data);
             super.emitOnEnroll();
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));

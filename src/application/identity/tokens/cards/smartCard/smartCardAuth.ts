@@ -35,8 +35,8 @@ export default class SmartCardAuthControl extends TokenAuth
         // if a reader is not provided by a parent, work as a standalone component
         // Use multicast subscription here because several controlers will listen for several card types
         if (!super.isAuthenticated()) {
-            this.reader.on<CardInserted>("CardInserted", this.handleCardInserted);
-            this.reader.on<CardRemoved>("CardRemoved", this.handleCardRemoved);
+            this.reader.on("CardInserted", this.handleCardInserted);
+            this.reader.on("CardRemoved", this.handleCardRemoved);
         }
     }
 

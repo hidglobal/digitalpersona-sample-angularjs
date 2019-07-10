@@ -1,11 +1,12 @@
 import { JSONWebToken, JWT, CredentialId, User, UserNameType } from "@digitalpersona/core";
 import { IEnrollService, ServiceError } from '@digitalpersona/services';
+import { EnrollmentContext } from '@digitalpersona/enrollment';
 
 export class TokenEnroll
 {
     protected static readonly Component: ng.IComponentOptions = {
         bindings: {
-            identity: "<",
+            context: "<",
             onBusy: "&",
             onUpdate: "&",
             onEnroll: "&",
@@ -14,7 +15,7 @@ export class TokenEnroll
         },
     };
 
-    public identity : JSONWebToken;  // a token of a user changing/enrolling the credential
+    public context  : EnrollmentContext;  // a token of a user changing/enrolling the credential
     public onBusy   : () => void;
     public onUpdate : () => void;
     public onEnroll : () => void;
@@ -27,25 +28,24 @@ export class TokenEnroll
 
     constructor(
         public readonly credId: CredentialId,
-        protected readonly enrollService: IEnrollService,
     ){}
 
     protected async getEnrolled() {
-        const user = User.fromJWT(this.identity);
+        const user = this.context.getUser();
         try {
-            const creds = (await this.enrollService.GetUserCredentials(user)).map(c => c.toUpperCase());
+            const creds = (await this.context.enrollService.GetUserCredentials(user)).map(c => c.toUpperCase());
             return creds.includes(this.credId);
         } catch (e) {
             return false;
         }
     }
 
-    protected static getUser(token: JSONWebToken): User {
-        const claims = JWT.claims(token);
-        return  claims.sub && (claims.sub instanceof User) ? claims.sub :
-                claims.wan ? new User(claims.wan) :
-                claims.sub ? new User(claims.sub, UserNameType.DP) : User.Anonymous();
-    }
+    // protected static getUser(token: JSONWebToken): User {
+    //     const claims = JWT.claims(token);
+    //     return  claims.sub && (claims.sub instanceof User) ? claims.sub :
+    //             claims.wan ? new User(claims.wan) :
+    //             claims.sub ? new User(claims.sub, UserNameType.DP) : User.Anonymous();
+    // }
     protected emitOnBusy() {
         this.success = false;
         if (this.onBusy) this.onBusy();

@@ -19,12 +19,11 @@ export default class CardsChangeControl extends TokenEnroll
     private isReaderConnected: boolean = false;
     private cardsPresented: number = 0;
 
-    public static $inject = ["EnrollService", "$scope"];
+    public static $inject = ["$scope"];
     constructor(
-        enrollService: IEnrollService,
         private readonly $scope: IScope,
     ){
-        super(Credential.Cards, enrollService);
+        super(Credential.Cards);
     }
 
     public async $onInit() {
@@ -76,9 +75,9 @@ export default class CardsChangeControl extends TokenEnroll
         super.emitOnBusy();
         try {
             const deletions = [
-                new SmartCardEnroll(this.enrollService).unenroll(this.identity),
-                new ContactlessCardEnroll(this.enrollService).unenroll(this.identity),
-                new ProximityCardEnroll(this.enrollService).unenroll(this.identity),
+                new SmartCardEnroll(this.context).unenroll(),
+                new ContactlessCardEnroll(this.context).unenroll(),
+                new ProximityCardEnroll(this.context).unenroll(),
             ];
             await Promise.all(deletions);
             super.emitOnDelete();

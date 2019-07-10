@@ -33,14 +33,13 @@ export default class FaceChangeControl extends TokenEnroll
     private samples: BioSample[] = [];
     private lastSampleTaken: number | null = null;
 
-    public static $inject = ["EnrollService", "$scope", "$element", "$timeout"];
+    public static $inject = ["$scope", "$element", "$timeout"];
     constructor(
-        enrollService: IEnrollService,
         private readonly $scope: ng.IScope,
         private readonly $element: ng.IAugmentedJQuery,
         private readonly $timeout: ng.ITimeoutService,
     ){
-        super(Credential.Face, enrollService);
+        super(Credential.Face);
     }
 
     public async $onInit() {
@@ -57,8 +56,8 @@ export default class FaceChangeControl extends TokenEnroll
     public async submit() {
         super.emitOnBusy();
         try {
-            await new FaceEnroll (this.enrollService)
-                .enroll(this.identity, this.samples);
+            await new FaceEnroll(this.context)
+                .enroll(this.samples);
             super.emitOnEnroll();
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
@@ -71,8 +70,8 @@ export default class FaceChangeControl extends TokenEnroll
     public async deleteFace() {
         super.emitOnBusy();
         try {
-            await new FaceEnroll(this.enrollService)
-                .unenroll(this.identity);
+            await new FaceEnroll(this.context)
+                .unenroll();
             super.emitOnDelete();
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
@@ -210,6 +209,5 @@ export default class FaceChangeControl extends TokenEnroll
             ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         }
     }
-
 
 }

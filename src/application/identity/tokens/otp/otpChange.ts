@@ -3,8 +3,8 @@ import QRCode from 'qrcode-generator';
 
 import { TokenEnroll } from '../tokenEnroll';
 import template from './otpChange.html';
-import { IEnrollService, ServiceError } from '@digitalpersona/services';
-import { Credential, Base64Url } from '@digitalpersona/core';
+import { ServiceError } from '@digitalpersona/services';
+import { Credential } from '@digitalpersona/core';
 import { TimeOtpEnroll } from '@digitalpersona/enrollment';
 
 type OtpType = 'Software' | 'Hardware';
@@ -18,6 +18,8 @@ export default class OtpChangeControl extends TokenEnroll
     };
 
     private static KEY_LENGTH = 20;
+
+    private api: TimeOtpEnroll;
 
     private key: Uint8Array = new Uint8Array(OtpChangeControl.KEY_LENGTH);
     private keyUri: string;
@@ -33,20 +35,19 @@ export default class OtpChangeControl extends TokenEnroll
     private otpCode: string;
     private showCode: boolean;
 
-    public static $inject = ["EnrollService", "$scope"];
+    public static $inject = ["$scope"];
     constructor(
-        enrollervice: IEnrollService,
         private readonly $scope: IScope,
     ){
-        super(Credential.OneTimePassword, enrollervice);
+        super(Credential.OneTimePassword);
     }
 
     public async $onInit() {
         try {
+            this.api = new TimeOtpEnroll(this.context);
             const crypto = window.crypto || window["msCrypto"];
             this.key = crypto.getRandomValues(this.key);
-            this.keyUri = await new TimeOtpEnroll(this.enrollService)
-                .createKeyUri(this.identity, this.key);
+            this.keyUri = await this.api.createKeyUri(this.key);
             const qr = QRCode(10, "L");
             qr.addData(this.keyUri);
             qr.make();
@@ -78,8 +79,7 @@ export default class OtpChangeControl extends TokenEnroll
     public async sendSMS() {
         super.emitOnBusy();
         try {
-            await new TimeOtpEnroll(this.enrollService)
-                .sendVerificationCode(this.identity, this.key, this.phoneNumber);
+            await this.api.sendVerificationCode(this.key, this.phoneNumber);
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
         } finally {
@@ -90,8 +90,7 @@ export default class OtpChangeControl extends TokenEnroll
     public async submit() {
         super.emitOnBusy();
         try {
-            await new TimeOtpEnroll(this.enrollService)
-                .enrollSoftwareOtp(this.identity, this.otpCode, this.key, this.phoneNumber);
+            await this.api.enrollSoftwareOtp(this.otpCode, this.key, this.phoneNumber);
             delete this.selected;
             super.emitOnEnroll();
         } catch (error) {
@@ -104,13 +103,13 @@ export default class OtpChangeControl extends TokenEnroll
     public async deleteOtp() {
         super.emitOnBusy();
         try {
-            await new TimeOtpEnroll(this.enrollService)
-                .unenroll(this.identity);
+            await this.api.unenroll();
             super.emitOnDelete();
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
+        } finally {
+            this.$scope.$apply();
         }
-
     }
 
     protected mapServiceError(error: ServiceError) {
@@ -119,36 +118,4 @@ export default class OtpChangeControl extends TokenEnroll
             default: return super.mapServiceError(error);
         }
     }
-
-    private toBase32(arr: Uint32Array): string {
-        const base32 = {
-            alphabet: "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567",
-            bits: 32,
-            base: 5,
-            remaining: 27,
-        };
-
-        const c = base32.alphabet;
-        const bl = arr.byteLength * 8;
-
-        let out = "";
-        let i = 0;
-        let bits = 0;
-        let ta = 0;
-
-        for (i = 0; out.length * base32.base < bl;) {
-            out += c.charAt((ta ^ arr[i] >>> bits) >>> base32.remaining);
-            if (bits < base32.base) {
-                ta = arr[i] << (base32.base - bits);
-                bits += base32.remaining;
-                i++;
-            } else {
-                ta <<= base32.base;
-                bits -= base32.base;
-            }
-        }
-
-        return out;
-    }
-
 }

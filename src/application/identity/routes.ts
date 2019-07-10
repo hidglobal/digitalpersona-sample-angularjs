@@ -1,5 +1,7 @@
 import { IQService } from 'angular';
 import IdentityService from './identity.service';
+import { EnrollService } from '@digitalpersona/services';
+import { EnrollmentContext } from '@digitalpersona/enrollment';
 
 routes.$inject = ["$routeProvider"];
 export default function routes(
@@ -11,10 +13,19 @@ export default function routes(
     const identity = ["$q", "Identity", ($q: IQService, identityService: IdentityService) =>
         identityService.get() ? $q.resolve(identityService.get()) : $q.reject() ];
 
+    const enrollment = ["$q", "Identity", "EnrollService",
+        ( $q: IQService , identityService: IdentityService , enrollService: EnrollService) =>
+        {
+            const user = identityService.get();
+            if (!user) return $q.reject();
+            const context = new EnrollmentContext(enrollService, user);
+            return $q.resolve(context);
+        }];
+
     const activityView = (name: string, component: string) =>
     `<x-activity-view title="'${name}.Create.Title' | translate">
         <${component}
-            identity="$resolve.identity"
+            context="$resolve.enrollment"
         ></${component}>
     </x-activity-view>`;
 
@@ -52,40 +63,38 @@ export default function routes(
 
         // Home routes for authenticated users
         .when('/user', {
-            template:   `<x-user-info
-                            identity="$resolve.identity"
-                        ></x-user-info>`,
+            template: '<x-user-info identity="$resolve.identity"></x-user-info>',
             resolve: { identity },
         })
 
         // credential enrollment/change pages
         .when('/user/change/Password', {
             template: activityView('Password', 'x-password-change'),
-            resolve: { identity },
+            resolve: { enrollment },
         })
         .when('/user/change/PIN', {
             template: activityView('PIN', 'x-pin-change'),
-            resolve: { identity },
+            resolve: { enrollment },
         })
         .when('/user/change/Fingerprints', {
             template: activityView('Fingerprints', 'x-fingerprints-change'),
-            resolve: { identity },
+            resolve: { enrollment },
         })
         .when('/user/change/Face', {
             template: activityView('Face', 'x-face-change'),
-            resolve: { identity },
+            resolve: { enrollment },
         })
         .when('/user/change/U2F', {
             template: activityView('U2F', 'x-fido-change'),
-            resolve: { identity },
+            resolve: { enrollment },
         })
         .when('/user/change/Cards', {
             template: activityView('Cards', 'x-cards-change'),
-            resolve: { identity },
+            resolve: { enrollment },
         })
         .when('/user/change/OTP', {
             template: activityView('OTP', 'x-otp-change'),
-            resolve: { identity },
+            resolve: { enrollment },
         })
 
 }

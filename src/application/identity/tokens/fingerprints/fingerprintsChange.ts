@@ -12,7 +12,6 @@ import success from './images/success.png';
 import warning from './images/warning.png';
 import prompt from '../images/credentials/fingerprints.png';
 
-
 export default class FingerprintsChangeControl extends TokenEnroll
 {
     public static readonly Component: IComponentOptions = {
@@ -37,12 +36,11 @@ export default class FingerprintsChangeControl extends TokenEnroll
     private minFingers = 1;
     private maxFingers = 10;
 
-    public static $inject = ["EnrollService", "$scope"];
+    public static $inject = ["$scope"];
     constructor(
-        enrollService: IEnrollService,
         private readonly $scope: ng.IScope,
     ){
-        super(Credential.Fingerprints, enrollService);
+        super(Credential.Fingerprints);
     }
 
     public $onInit() {
@@ -68,7 +66,7 @@ export default class FingerprintsChangeControl extends TokenEnroll
         this.reader
             .startAcquisition(SampleFormat.Intermediate)
             .then(() => this.$scope.$apply())
-            .catch(error => this.showError(error));
+            .catch(err => this.showError(err));
 
     }
 
@@ -86,9 +84,9 @@ export default class FingerprintsChangeControl extends TokenEnroll
                 this.isReaderConnected = devices.length > 0;
                 super.emitOnUpdate();
             })
-            .catch(error => {
+            .catch(err => {
                 this.isReaderConnected = false;
-                super.emitOnError(new Error(this.mapDeviceError(error)));
+                super.emitOnError(new Error(this.mapDeviceError(err)));
             });
     }
 
@@ -116,8 +114,8 @@ export default class FingerprintsChangeControl extends TokenEnroll
     private async submit() {
         super.emitOnBusy();
         try {
-            await new FingerprintsEnroll(this.enrollService)
-                .enroll(this.identity, FingerPosition.RightIndex, this.samples);
+            await new FingerprintsEnroll(this.context)
+                .enroll(FingerPosition.RightIndex, this.samples);
             super.emitOnEnroll();
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
@@ -127,8 +125,8 @@ export default class FingerprintsChangeControl extends TokenEnroll
     public async deleteFingerprints() {
         super.emitOnBusy();
         try {
-            await new FingerprintsEnroll(this.enrollService)
-                .unenroll(this.identity, undefined);
+            await new FingerprintsEnroll(this.context)
+                .unenroll(undefined);
             super.emitOnDelete();
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));

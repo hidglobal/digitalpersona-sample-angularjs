@@ -3,7 +3,7 @@ import { IComponentOptions } from 'angular';
 
 import template from './fidoChange.html';
 import { Credential } from '@digitalpersona/core';
-import { IEnrollService, ServiceError, IAuthService } from '@digitalpersona/services';
+import { ServiceError, IAuthService } from '@digitalpersona/services';
 import { U2FEnroll } from '@digitalpersona/enrollment';
 import { U2FAuth } from '@digitalpersona/authentication';
 
@@ -15,18 +15,20 @@ export default class FidoChangeControl extends TokenEnroll
         controller: FidoChangeControl,
     };
 
+    private api: U2FEnroll;
     private started: boolean = false;
 
-    public static $inject = ["AuthService", "EnrollService", "$scope"];
+    public static $inject = ["AuthService", "$scope"];
     constructor(
         private readonly authService: IAuthService,
-        enrollService: IEnrollService,
         private readonly $scope: ng.IScope,
     ){
-        super(Credential.U2F, enrollService);
+        super(Credential.U2F);
     }
 
     public async $onInit() {
+        const appId = await new U2FAuth(this.authService).getAppId();
+        this.api = new U2FEnroll(this.context, appId);
         this.isEnrolled = await this.getEnrolled();
         this.$scope.$apply();
     }
@@ -36,10 +38,7 @@ export default class FidoChangeControl extends TokenEnroll
         super.resetError();
         super.emitOnBusy();
         try {
-            const appId = await new U2FAuth(this.authService).getAppId();
-
-            await new U2FEnroll(appId, this.enrollService)
-                .enroll(this.identity);
+            await this.api.enroll();
             this.isEnrolled = await super.getEnrolled();
             super.emitOnEnroll();
         } catch (error) {
@@ -53,10 +52,7 @@ export default class FidoChangeControl extends TokenEnroll
     public async deleteFido() {
         super.emitOnBusy();
         try {
-            const appId = await new U2FAuth(this.authService).getAppId();
-
-            await new U2FEnroll(appId, this.enrollService)
-                .unenroll(this.identity);
+            await this.api.unenroll();
             this.isEnrolled = await super.getEnrolled();
             super.emitOnDelete();
         } catch (error) {

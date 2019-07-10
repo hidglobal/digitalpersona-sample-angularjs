@@ -1,5 +1,4 @@
 <form ng-submit="$ctrl.submit()">
-    <div class="alert alert-success" role="alert" ng-bind="'PIN.Create.Success' | translate" ng-show="$ctrl.success"></div>
     <fieldset>
         <x-password
             label="{{ 'PIN.Create.NewPin' | translate }}"
@@ -12,6 +11,7 @@
             on-change="$ctrl.updateNewPin(value)"></x-password>
         <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error | translate" ng-show="$ctrl.error"></div>
     </fieldset>
+    <div class="alert alert-success" role="alert" ng-bind="'PIN.Create.Success' | translate" ng-show="$ctrl.success"></div>
     <button
         type="submit"
         class="btn btn-primary"

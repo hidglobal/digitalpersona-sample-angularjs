@@ -24,12 +24,11 @@ export default class SmartCardChangeControl extends TokenEnroll
     private pin: string;
     private showPin: boolean;
 
-    public static $inject = ["EnrollService", "$scope"];
+    public static $inject = ["$scope"];
     constructor(
-        enrollService: IEnrollService,
         private readonly $scope: IScope,
     ){
-        super(Credential.SmartCard, enrollService);
+        super(Credential.SmartCard);
     }
 
     public $onInit() {
@@ -76,8 +75,8 @@ export default class SmartCardChangeControl extends TokenEnroll
         super.emitOnBusy();
         try {
             const data = await this.reader.getCardEnrollData(card.Reader, this.pin);
-            await new SmartCardEnroll(this.enrollService)
-                .enroll(this.identity, data);
+            await new SmartCardEnroll(this.context)
+                .enroll(data);
             super.emitOnEnroll();
         } catch (error) {
             super.emitOnError(new Error(

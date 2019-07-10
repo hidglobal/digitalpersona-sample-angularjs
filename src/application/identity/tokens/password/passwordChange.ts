@@ -1,6 +1,6 @@
-import { IComponentOptions } from 'angular';
-import { Credential, JSONWebToken } from "@digitalpersona/core";
-import { IEnrollService, ServiceError } from '@digitalpersona/services';
+import { IComponentOptions, IScope } from 'angular';
+import { Credential } from "@digitalpersona/core";
+import { ServiceError } from '@digitalpersona/services';
 import { PasswordEnroll } from '@digitalpersona/enrollment';
 
 import template from './passwordChange.html';
@@ -14,15 +14,20 @@ export default class PasswordChangeControl extends TokenEnroll
         controller: PasswordChangeControl,
     };
 
+    private api: PasswordEnroll;
     private newPassword : string;
     private oldPassword: string;
     private showPassword: boolean;
 
-    public static $inject = ["EnrollService"];
+    public static $inject = ["$scope"];
     constructor(
-        enrollService: IEnrollService,
+        private readonly $scope: IScope,
     ){
-        super(Credential.Password, enrollService);
+        super(Credential.Password);
+    }
+
+    public $onInit() {
+        this.api = new PasswordEnroll(this.context);
     }
 
     public updateOldPassword(value: string) {
@@ -37,11 +42,13 @@ export default class PasswordChangeControl extends TokenEnroll
     public async submit() {
         super.emitOnBusy();
         try {
-            await new PasswordEnroll(this.enrollService)
-                .enroll(this.identity, this.newPassword, this.oldPassword);
+            await this.api.enroll(this.newPassword, this.oldPassword);
             super.emitOnEnroll();
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
+        }
+        finally {
+            this.$scope.$apply();
         }
     }
 

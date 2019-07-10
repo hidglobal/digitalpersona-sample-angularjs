@@ -1,5 +1,4 @@
 <form ng-submit="$ctrl.toggleCapture()">
-    <div class="alert alert-success" role="alert" ng-bind="'Face.Create.Success' | translate" ng-show="$ctrl.success"></div>
     <div ng-hide="$ctrl.success" style="text-align: center">
         <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error | translate" ng-show="$ctrl.error"></div>
         <div ng-show="$ctrl.video.paused && !$ctrl.samples.length" ng-bind="'Face.Usage'|translate"></div>
@@ -27,6 +26,8 @@
             </div>
         </div>
         <br>
+        <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error | translate" ng-show="$ctrl.error"></div>
+        <div class="alert alert-success" role="alert" ng-bind="'Face.Create.Success' | translate" ng-show="$ctrl.success"></div>
         <button
             type="submit"
             class="btn btn-primary"

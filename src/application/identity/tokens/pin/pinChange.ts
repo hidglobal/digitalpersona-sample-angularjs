@@ -1,4 +1,4 @@
-import { IComponentOptions } from 'angular';
+import { IComponentOptions, IScope } from 'angular';
 import { Credential } from "@digitalpersona/core";
 import { IEnrollService, ServiceError } from '@digitalpersona/services';
 import { PinEnroll } from '@digitalpersona/enrollment';
@@ -14,14 +14,19 @@ export default class PinChangeControl extends TokenEnroll
         controller: PinChangeControl,
     };
 
+    private api: PinEnroll;
     private newPin : string;
     private showPin: boolean;
 
-    public static $inject = ["EnrollService"];
+    public static $inject = ["$scope"];
     constructor(
-        enrollService: IEnrollService,
+        private readonly $scope: IScope,
     ){
-        super(Credential.PIN, enrollService);
+        super(Credential.PIN);
+    }
+
+    public $onInit() {
+        this.api = new PinEnroll(this.context);
     }
 
     public updateNewPin(value: string) {
@@ -32,22 +37,26 @@ export default class PinChangeControl extends TokenEnroll
     public async submit() {
         super.emitOnBusy();
         try {
-            await new PinEnroll(this.enrollService)
-                .enroll(this.identity, this.newPin);
+            await this.api.enroll(this.newPin);
             super.emitOnEnroll();
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
+        }
+        finally {
+            this.$scope.$apply();
         }
     }
 
     public async deletePin() {
         super.emitOnBusy();
         try {
-            await new PinEnroll(this.enrollService)
-                .unenroll(this.identity);
+            await this.api.unenroll();
             super.emitOnDelete();
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
+        }
+        finally {
+            this.$scope.$apply();
         }
     }
 
