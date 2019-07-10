@@ -4,7 +4,7 @@
   "description": "Example of using @digitalpersona/* libraries in an AngularJS application",
   "main": "index.js",
   "scripts": {
-    "start": "supervisor -w server ./server/index.js",
+    "server": "supervisor -w server ./server/index.js",
     "clean": "rimraf ./out",
     "tsc": "tsc --p tsconfig.typings.json",
     "build": "npm run clean && npm run tsc",
@@ -16,9 +16,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@digitalpersona/authentication": "^0.2.1",
-    "@digitalpersona/devices": "^0.2.1",
-    "@digitalpersona/enrollment": "^0.2.6",
+    "@digitalpersona/authentication": "^0.2",
+    "@digitalpersona/devices": "^0.2",
+    "@digitalpersona/enrollment": "^0.2",
     "angular": "^1.7.8",
     "angular-animate": "^1.7.8",
     "angular-aria": "^1.7.8",
@@ -40,10 +40,6 @@
     "qrcode-generator": "^1.4.3",
     "tslib": "^1.9.3",
     "win-ca": "^3.0.5"
-  },
-  "resolutions": {
-    "@digitalpersona/core": "^0.2.2",
-    "@digitalpersona/services": "^0.2.1"
   },
   "devDependencies": {
     "@types/angular": "^1.6.54",

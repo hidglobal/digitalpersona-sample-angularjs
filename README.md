@@ -11,8 +11,8 @@ The sample requires following products to be installed and configured:
 * DigitalPersona LDS Administration Tools (DP LDS AT)
 * DigitalPersona LDS Web Management Components (DP LDS WMC)
 
-To let customers register new accounts and enroll/delete new credentials, create a dedicated
-`security officer` Windows account, assign it a role of `Security Officer` using the AzMan console.
+To let customers register new accounts, create a dedicated `security officer` Windows account, 
+and assign it a role of `Security Officer` using the AzMan console.
 Then add the account name and password to the sample configuration file `/server/config.js` in the
 `serviceIdentity` section:
 
