@@ -254,7 +254,7 @@
       "PromptPhone": "Enter full phone number (including a country code)",
       "PromptQRCode": "or scan the QR Code using an authentication app on your device",
       "PromptSerialNumber": "Enter token's serial number",
-      "PromptCode": "Enter the One-Time Password once it appeares on your device",
+      "PromptCode": "Enter the One-Time Password once it appears on your device",
       "Success": "The One-Time Password is enrolled.",
       "Error": {
         "InvalidCode": "The code is invalid"
