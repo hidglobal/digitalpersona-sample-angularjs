@@ -2,6 +2,7 @@ import ng from 'angular';
 
 import UsernameControl from './fields/username/username';
 import PasswordControl from './fields/password/password';
+import AlertControl from './alert/alert';
 import FaceCaptureControl from './faceCapture/faceCapture';
 
 import activityView from './activityView/activityView';
@@ -14,6 +15,7 @@ export default ng.module("example.components", [
 ])
 .component('username', UsernameControl.Component)
 .component('password', PasswordControl.Component)
+.component('alert', AlertControl.Component)
 .component('faceCapture', FaceCaptureControl.Component)
 .component('activityView', activityView.Component)
 .directive('mustMatch', mustMatch)

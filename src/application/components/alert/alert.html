@@ -1,0 +1,6 @@
+<div ng-show="$ctrl.status"
+    class="alert"
+    ng-class="$ctrl.isError() ? 'alert-danger' : 'alert-success'"
+    role="alert"
+    ng-bind="$ctrl.status.message | translate"
+></div>
