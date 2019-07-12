@@ -1,4 +1,4 @@
-import { IComponentOptions, IOnChangesObject, IFormController, INgModelController } from 'angular';
+import { IComponentOptions, IFormController, INgModelController } from 'angular';
 import 'angular-messages';
 import 'font-awesome/scss/font-awesome.scss';
 
@@ -11,6 +11,7 @@ export default class PasswordControl
         controller: PasswordControl,
         require: {
             parent: '^form',
+
         },
         bindings: {
             type            : '@',  // field type ('password' for a masked text or 'text' for a plain text)
@@ -47,8 +48,10 @@ export default class PasswordControl
     }
 
     public $doCheck() {
-        if (this.match)
-            this.parent._form[this.name].$error.match = this.value !== this.match;
+        if (this.match) {
+            const ngModel: INgModelController = this.parent._form[this.name];
+            ngModel.$setValidity("match", this.value === this.match);
+        }
     }
 
     public update() {

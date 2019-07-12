@@ -100,7 +100,7 @@
     "Success": "Password is verified.",
     "Error": {
       "Required": "This field is required.",
-      "PasswordMismatch": "Passwords you typed do not match each other."
+      "Mismatch": "Values must match each other."
     }
   },
 
@@ -123,7 +123,8 @@
       }
     },
     "Delete": {
-      "Prompt": "⚠ Delete existing PIN"
+      "Prompt": "⚠ Delete existing PIN",
+      "Success": "PIN is deleted."
     },
     "Error": {
       "NoMatch": "Invalid PIN or sign-in name.",
@@ -151,7 +152,9 @@
       }
     },
     "Delete": {
-      "Prompt": "⚠ Delete existing fingerprints"
+      "Prompt": "⚠ Delete existing fingerprints",
+      "Success": "Fingerprint data is deleted."
+
     },
     "Error" : {
       "NoReader": "Connect a fingerprint reader."
@@ -204,7 +207,9 @@
       }
     },
     "Delete": {
-      "Prompt": "⚠ Delete all cards"
+      "Prompt": "⚠ Delete all cards",
+      "Success": "Card is deleted."
+
     },
     "Error": {
       "NoReader": "Connect a card reader.",
@@ -261,7 +266,8 @@
       }
     },
     "Delete": {
-      "Prompt": "⚠ Delete all OTP devices"
+      "Prompt": "⚠ Delete all OTP devices",
+      "Success": "OTP is deleted."
     },
     "SendBy": {
       "email" : "e-mail",
@@ -303,7 +309,8 @@
       }
     },
     "Delete": {
-      "Prompt": "⚠ Delete existing face enrollment"
+      "Prompt": "⚠ Delete existing face enrollment",
+      "Success": "Face data is deleted."
     },
     "Quality": {
       "NoFace": "No face detected. Try improving lighting conditions.",
@@ -335,7 +342,8 @@
       }
     },
     "Delete": {
-      "Prompt": "⚠ Delete existing FIDO key"
+      "Prompt": "⚠ Delete existing FIDO key",
+      "Success": "FIDO key is deleted."
     },
     "Error": {
       "NoMatch": "The FIDO key does not match the sign-in name.",
