@@ -1,6 +1,6 @@
 import { IComponentOptions, IScope } from 'angular';
 
-import { TokenEnroll } from '../../tokenEnroll';
+import { TokenEnroll, Success } from '../../tokenEnroll';
 import template from './contactlessCardChange.html';
 import { Credential } from '@digitalpersona/core';
 import { IEnrollService, ServiceError } from '@digitalpersona/services';
@@ -23,10 +23,8 @@ export default class ContactlessCardChangeControl extends TokenEnroll
     private cards: Card[] = [];
 
     public static $inject = ["$scope"];
-    constructor(
-        private readonly $scope: IScope,
-    ){
-        super(Credential.ContactlessCard);
+    constructor($scope: IScope){
+        super(Credential.ContactlessCard, $scope);
     }
 
     public $onInit() {
@@ -58,7 +56,7 @@ export default class ContactlessCardChangeControl extends TokenEnroll
         const idx = this.cards.findIndex(c => c.Name === ev.cardId);
         if (idx < 0) return;
         this.cards.splice(idx);
-        super.emitOnUpdate();
+        // super.emitOnUpdate();
         this.$scope.$apply();
     }
 
@@ -68,7 +66,7 @@ export default class ContactlessCardChangeControl extends TokenEnroll
             const data = await this.reader.getCardEnrollData(card.Reader);
             await new ContactlessCardEnroll(this.context)
                 .enroll(data);
-            super.emitOnEnroll();
+            super.emitOnSuccess(new Success('Card.Create.Success'));
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
         } finally {

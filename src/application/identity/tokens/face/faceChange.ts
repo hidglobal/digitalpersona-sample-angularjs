@@ -1,7 +1,7 @@
 import { IComponentOptions } from 'angular';
 import { Credential, BioSample } from '@digitalpersona/core';
 
-import { TokenEnroll } from '../tokenEnroll';
+import { TokenEnroll, Success } from '../tokenEnroll';
 import template from './faceChange.html';
 import { ServiceError } from '@digitalpersona/services';
 import { FaceEnroll } from '@digitalpersona/enrollment';
@@ -17,15 +17,14 @@ export default class FaceChangeControl extends TokenEnroll
     private capturing: boolean;
 
     public static $inject = ["$scope"];
-    constructor(
-        private readonly $scope: ng.IScope,
-    ){
-        super(Credential.Face);
+    constructor($scope: ng.IScope){
+        super(Credential.Face, $scope);
     }
 
     public toggleCapture() {
+        this.resetStatus();
         this.capturing = !this.capturing;
-        this.$scope.$apply();
+//        this.$scope.$apply();
     }
 
     private handleStartCapture()
@@ -43,7 +42,7 @@ export default class FaceChangeControl extends TokenEnroll
         try {
             await new FaceEnroll(this.context)
                 .enroll(samples);
-            super.emitOnEnroll();
+            super.emitOnSuccess(new Success('Face.Create.Success'));
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
         } finally {
@@ -56,7 +55,7 @@ export default class FaceChangeControl extends TokenEnroll
         try {
             await new FaceEnroll(this.context)
                 .unenroll();
-            super.emitOnDelete();
+            super.emitOnSuccess(new Success('Face.Delete.Success'));
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
         } finally {

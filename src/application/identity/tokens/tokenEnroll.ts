@@ -1,6 +1,8 @@
-import { JSONWebToken, JWT, CredentialId, User, UserNameType } from "@digitalpersona/core";
-import { IEnrollService, ServiceError } from '@digitalpersona/services';
+import { CredentialId } from "@digitalpersona/core";
+import { ServiceError } from '@digitalpersona/services';
 import { EnrollmentContext } from '@digitalpersona/enrollment';
+import { Success } from '../../common';
+export { Success } from '../../common';
 
 export class TokenEnroll
 {
@@ -9,8 +11,7 @@ export class TokenEnroll
             context: "<",
             onBusy: "&",
             onUpdate: "&",
-            onEnroll: "&",
-            onDelete: "&",
+            onSuccess: "&",
             onError: "&",
         },
     };
@@ -18,18 +19,27 @@ export class TokenEnroll
     public context  : EnrollmentContext;  // a token of a user changing/enrolling the credential
     public onBusy   : () => void;
     public onUpdate : () => void;
-    public onEnroll : () => void;
+    public onSuccess: (locals: {result?: Success}) => void;
     public onDelete : () => void;
     public onError  : (locals: {error?: Error }) => void;
-    public error    : string;
 
-    protected success: boolean;
+    protected status: Success|Error|null;
     protected isEnrolled: boolean;
 
     constructor(
         public readonly credId: CredentialId,
+        protected readonly $scope: ng.IScope,
     ){}
 
+    protected get success() {
+        return (this.status instanceof Success);
+    }
+    protected get error() {
+        return (this.status instanceof Error);
+    }
+    protected resetStatus() {
+        this.status = null;
+    }
     protected async getEnrolled() {
         const user = this.context.getUser();
         try {
@@ -47,32 +57,21 @@ export class TokenEnroll
     //             claims.sub ? new User(claims.sub, UserNameType.DP) : User.Anonymous();
     // }
     protected emitOnBusy() {
-        this.success = false;
+        this.resetStatus();
         if (this.onBusy) this.onBusy();
+//        this.$scope.$apply();
     }
-    protected emitOnUpdate() {
-        this.success = false;
-        if (this.onUpdate) this.onUpdate();
-    }
-    protected emitOnEnroll() {
-        this.error = "";
-        this.success = true;
-        if (this.onEnroll) this.onEnroll();
-    }
-    protected emitOnDelete() {
-        this.error = "";
-        this.success = true;
-        if (this.onDelete) this.onDelete();
+    // protected emitOnUpdate() {
+    //     this.resetStatus();
+    //     if (this.onUpdate) this.onUpdate();
+    // }
+    protected emitOnSuccess(result: Success) {
+        this.status = result;
+        if (this.onSuccess) this.onSuccess({result});
     }
     protected emitOnError(error: Error) {
-        this.error = error.message;
-        this.success = false;
+        this.status = error;
         if (this.onError) this.onError({error});
-    }
-    protected resetError() {
-        this.error = "";
-        this.success = false;
-        if (this.onError) this.onError({});
     }
     protected mapServiceError(error: ServiceError) {
         switch (error.code) {

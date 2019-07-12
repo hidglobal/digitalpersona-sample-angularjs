@@ -4,7 +4,7 @@ import { IEnrollService, ServiceError } from '@digitalpersona/services';
 import { CardsReader, Card, CardInserted, CardRemoved, CardType } from '@digitalpersona/devices';
 import { ProximityCardEnroll } from '@digitalpersona/enrollment';
 
-import { TokenEnroll } from '../../tokenEnroll';
+import { TokenEnroll, Success } from '../../tokenEnroll';
 import template from './proximityCardChange.html';
 
 export default class ProximityCardChangeControl extends TokenEnroll
@@ -23,10 +23,8 @@ export default class ProximityCardChangeControl extends TokenEnroll
     private cards: Card[] = [];
 
     public static $inject = ["$scope"];
-    constructor(
-        private readonly $scope: IScope,
-    ){
-        super(Credential.ProximityCard);
+    constructor($scope: IScope){
+        super(Credential.ProximityCard, $scope);
     }
 
     public $onInit() {
@@ -58,7 +56,7 @@ export default class ProximityCardChangeControl extends TokenEnroll
         const idx = this.cards.findIndex(c => c.Name === ev.cardId);
         if (idx < 0) return;
         this.cards.splice(idx);
-        super.emitOnUpdate();
+        // super.emitOnUpdate();
         this.$scope.$apply();
     }
 
@@ -68,7 +66,7 @@ export default class ProximityCardChangeControl extends TokenEnroll
             const data = await this.reader.getCardEnrollData(card.Reader);
             await new ProximityCardEnroll(this.context)
                 .enroll(data);
-            super.emitOnEnroll();
+            super.emitOnSuccess(new Success('Card.Create.Success'));
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
         } finally {

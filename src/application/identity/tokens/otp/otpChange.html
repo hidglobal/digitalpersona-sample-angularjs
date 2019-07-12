@@ -30,7 +30,6 @@
                     type="text"
                     on-change="$ctrl.updateCode(value)"
                     show-password="$ctrl.showCode"></x-password>
-                <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error | translate" ng-show="$ctrl.error"></div>
             </fieldset>
         </li>
 
@@ -55,17 +54,21 @@
             </fieldset>
         </li>
     </ul>
-    <div class="alert alert-success" role="alert" ng-bind="'OTP.Create.Success' | translate" ng-show="$ctrl.success"></div>
+
+    <x-alert status="$ctrl.status"></x-alert>
 
     <button
         type="submit"
         class="btn btn-primary"
+        ng-hide="$ctrl.success"
         ng-disabled="!$ctrl.canSubmit()"
         ng-bind="'Credential.Create' | translate"
     ></button>
+
     <button
         type="button"
         class="btn btn-link"
+        ng-hide="$ctrl.success"
         ng-click="$ctrl.deleteOtp()"
     >
         <span class="text-danger" ng-bind="'OTP.Delete.Prompt'|translate"></span>

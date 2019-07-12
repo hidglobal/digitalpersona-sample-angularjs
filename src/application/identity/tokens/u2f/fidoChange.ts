@@ -1,4 +1,4 @@
-import { TokenEnroll } from '../tokenEnroll';
+import { TokenEnroll, Success } from '../tokenEnroll';
 import { IComponentOptions } from 'angular';
 
 import template from './fidoChange.html';
@@ -18,12 +18,12 @@ export default class FidoChangeControl extends TokenEnroll
     private api: U2FEnroll;
     private started: boolean = false;
 
-    public static $inject = ["AuthService", "$scope"];
+    public static $inject = ["$scope", "AuthService"];
     constructor(
+        $scope: ng.IScope,
         private readonly authService: IAuthService,
-        private readonly $scope: ng.IScope,
     ){
-        super(Credential.U2F);
+        super(Credential.U2F, $scope);
     }
 
     public async $onInit() {
@@ -35,12 +35,12 @@ export default class FidoChangeControl extends TokenEnroll
 
     public async start() {
         this.started = true;
-        super.resetError();
+        super.resetStatus();
         super.emitOnBusy();
         try {
             await this.api.enroll();
             this.isEnrolled = await super.getEnrolled();
-            super.emitOnEnroll();
+            super.emitOnSuccess(new Success('U2F.Create.Success'));
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
         } finally {
@@ -54,7 +54,7 @@ export default class FidoChangeControl extends TokenEnroll
         try {
             await this.api.unenroll();
             this.isEnrolled = await super.getEnrolled();
-            super.emitOnDelete();
+            super.emitOnSuccess(new Success('U2F.Delete.Success'));
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
         } finally {

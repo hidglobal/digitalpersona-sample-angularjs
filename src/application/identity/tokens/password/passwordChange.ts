@@ -4,7 +4,7 @@ import { ServiceError } from '@digitalpersona/services';
 import { PasswordEnroll } from '@digitalpersona/enrollment';
 
 import template from './passwordChange.html';
-import { TokenEnroll } from '../tokenEnroll';
+import { TokenEnroll, Success } from '../tokenEnroll';
 
 export default class PasswordChangeControl extends TokenEnroll
 {
@@ -20,10 +20,8 @@ export default class PasswordChangeControl extends TokenEnroll
     private showPassword: boolean;
 
     public static $inject = ["$scope"];
-    constructor(
-        private readonly $scope: IScope,
-    ){
-        super(Credential.Password);
+    constructor($scope: IScope){
+        super(Credential.Password, $scope);
     }
 
     public $onInit() {
@@ -32,18 +30,18 @@ export default class PasswordChangeControl extends TokenEnroll
 
     public updateOldPassword(value: string) {
         this.oldPassword = value || "";
-        super.resetError();
+        super.resetStatus();
     }
     public updateNewPassword(value: string) {
         this.newPassword = value || "";
-        super.resetError();
+        super.resetStatus();
     }
 
     public async submit() {
         super.emitOnBusy();
         try {
             await this.api.enroll(this.newPassword, this.oldPassword);
-            super.emitOnEnroll();
+            super.emitOnSuccess(new Success('Password.Create.Success'));
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
         }

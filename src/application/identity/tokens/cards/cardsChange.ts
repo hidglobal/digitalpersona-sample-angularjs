@@ -1,6 +1,6 @@
 import { IComponentOptions, IScope } from 'angular';
 
-import { TokenEnroll } from '../tokenEnroll';
+import { TokenEnroll, Success } from '../tokenEnroll';
 import template from './cardsChange.html';
 import { CardsReader } from '@digitalpersona/devices';
 import { Credential } from '@digitalpersona/core';
@@ -20,10 +20,8 @@ export default class CardsChangeControl extends TokenEnroll
     private cardsPresented: number = 0;
 
     public static $inject = ["$scope"];
-    constructor(
-        private readonly $scope: IScope,
-    ){
-        super(Credential.Cards);
+    constructor($scope: IScope){
+        super(Credential.Cards, $scope);
     }
 
     public async $onInit() {
@@ -37,7 +35,7 @@ export default class CardsChangeControl extends TokenEnroll
             await this.reader.subscribe();
             this.updateReaderStatus();
         } catch (error) {
-            this.error = this.mapDeviceError(error);
+            this.emitOnError(new Error(this.mapDeviceError(error)));
         } finally {
             this.$scope.$apply();
         }
@@ -62,7 +60,7 @@ export default class CardsChangeControl extends TokenEnroll
         try {
             const devices = await this.reader.enumerateReaders();
             this.isReaderConnected = devices.length > 0;
-            super.emitOnUpdate();
+            // super.emitOnUpdate();
         } catch (error) {
             this.isReaderConnected = false;
             super.emitOnError(new Error(this.mapDeviceError(error)));
@@ -80,7 +78,7 @@ export default class CardsChangeControl extends TokenEnroll
                 new ProximityCardEnroll(this.context).unenroll(),
             ];
             await Promise.all(deletions);
-            super.emitOnDelete();
+            super.emitOnSuccess(new Success('Card.Delete.Success'));
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
         }

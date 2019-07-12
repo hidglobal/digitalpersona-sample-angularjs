@@ -4,7 +4,7 @@ import { IEnrollService, ServiceError } from '@digitalpersona/services';
 import { CardsReader, Card, CardInserted, CardRemoved, CardType } from '@digitalpersona/devices';
 import { SmartCardEnroll } from '@digitalpersona/enrollment';
 
-import { TokenEnroll } from '../../tokenEnroll';
+import { TokenEnroll, Success } from '../../tokenEnroll';
 import template from './smartCardChange.html';
 
 export default class SmartCardChangeControl extends TokenEnroll
@@ -25,10 +25,8 @@ export default class SmartCardChangeControl extends TokenEnroll
     private showPin: boolean;
 
     public static $inject = ["$scope"];
-    constructor(
-        private readonly $scope: IScope,
-    ){
-        super(Credential.SmartCard);
+    constructor($scope: IScope){
+        super(Credential.SmartCard, $scope);
     }
 
     public $onInit() {
@@ -45,7 +43,7 @@ export default class SmartCardChangeControl extends TokenEnroll
 
     private handleCardInserted = async (ev: CardInserted) => {
         try {
-            this.resetError();
+            this.resetStatus();
             const card = await this.reader.getCardInfo(ev.deviceId);
             if (!card || card.Type !== CardType.Contact) return;
             this.cards.push(card);
@@ -58,16 +56,16 @@ export default class SmartCardChangeControl extends TokenEnroll
     }
 
     private handleCardRemoved = (ev: CardRemoved) => {
-        this.resetError();
+        this.resetStatus();
         const idx = this.cards.findIndex(c => c.Name === ev.cardId);
         if (idx < 0) return;
         this.cards.splice(idx);
-        super.emitOnUpdate();
+        // super.emitOnUpdate();
         this.$scope.$apply();
     }
 
     public updatePin(value: string) {
-        this.resetError();
+        this.resetStatus();
         this.pin = value || "";
     }
 
@@ -77,7 +75,7 @@ export default class SmartCardChangeControl extends TokenEnroll
             const data = await this.reader.getCardEnrollData(card.Reader, this.pin);
             await new SmartCardEnroll(this.context)
                 .enroll(data);
-            super.emitOnEnroll();
+            super.emitOnSuccess(new Success('Card.Create.Success'));
         } catch (error) {
             super.emitOnError(new Error(
                 error instanceof ServiceError ?

@@ -19,9 +19,10 @@
         ></x-proximity-card-change>
     </div>
 
-    <button
-        type="button"
-        class="btn btn-link"
+    <x-alert status="$ctrl.status"></x-alert>
+
+    <button type="button" class="btn btn-link"
+        ng-hide="$ctrl.success"
         ng-click="$ctrl.deleteAllCards()"
     >
         <span class="text-danger" ng-bind="'Cards.Delete.Prompt' | translate"></span>

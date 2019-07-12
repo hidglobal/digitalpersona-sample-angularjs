@@ -4,7 +4,7 @@ import { IEnrollService, ServiceError } from '@digitalpersona/services';
 import { PinEnroll } from '@digitalpersona/enrollment';
 
 import template from './pinChange.html';
-import { TokenEnroll } from '../tokenEnroll';
+import { TokenEnroll, Success } from '../tokenEnroll';
 
 export default class PinChangeControl extends TokenEnroll
 {
@@ -19,10 +19,8 @@ export default class PinChangeControl extends TokenEnroll
     private showPin: boolean;
 
     public static $inject = ["$scope"];
-    constructor(
-        private readonly $scope: IScope,
-    ){
-        super(Credential.PIN);
+    constructor($scope: IScope){
+        super(Credential.PIN, $scope);
     }
 
     public $onInit() {
@@ -31,14 +29,14 @@ export default class PinChangeControl extends TokenEnroll
 
     public updateNewPin(value: string) {
         this.newPin = value || "";
-        super.resetError();
+        super.resetStatus();
     }
 
     public async submit() {
         super.emitOnBusy();
         try {
             await this.api.enroll(this.newPin);
-            super.emitOnEnroll();
+            super.emitOnSuccess(new Success('PIN.Create.Success'));
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
         }
@@ -51,7 +49,7 @@ export default class PinChangeControl extends TokenEnroll
         super.emitOnBusy();
         try {
             await this.api.unenroll();
-            super.emitOnDelete();
+            super.emitOnSuccess(new Success('PIN.Delete.Success'));
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
         }

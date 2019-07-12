@@ -1,5 +1,5 @@
 <form ng-submit="$ctrl.submit()">
-    <fieldset>
+    <fieldset ng-hide="$ctrl.success">
         <x-password
             label="{{ 'PIN.Create.NewPin' | translate }}"
             show-password="$ctrl.showPin"
@@ -7,20 +7,22 @@
         <x-password
             label="{{ 'PIN.Create.Repeat' | translate }}"
             show-password="$ctrl.showPin"
-            match="$ctrl.newPin"
-            on-change="$ctrl.updateNewPin(value)"></x-password>
-        <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error | translate" ng-show="$ctrl.error"></div>
+            match="$ctrl.newPin""></x-password>
     </fieldset>
-    <div class="alert alert-success" role="alert" ng-bind="'PIN.Create.Success' | translate" ng-show="$ctrl.success"></div>
+
+    <x-alert status="$ctrl.status"></x-alert>
+
     <button
         type="submit"
         class="btn btn-primary"
+        ng-hide="$ctrl.success"
         ng-disabled="!$ctrl.newPin"
         ng-bind="'Credential.Create' | translate"
     ></button>
     <button
         type="button"
         class="btn btn-link"
+        ng-hide="$ctrl.success"
         ng-click="$ctrl.deletePin()"
     >
         <span class="text-danger" ng-bind="'PIN.Delete.Prompt' | translate"></span>

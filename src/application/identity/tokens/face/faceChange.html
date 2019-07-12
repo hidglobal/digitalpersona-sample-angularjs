@@ -1,6 +1,6 @@
 <form ng-submit="$ctrl.toggleCapture()">
     <div style="text-align: center">
-        <div ng-hide="$ctrl.capturing" ng-bind="'Face.Usage'|translate"></div>
+        <div ng-hide="$ctrl.capturing || $ctrl.success" ng-bind="'Face.Usage'|translate"></div>
         <div ng-show="$ctrl.capturing" style="display: inline-block">
             <div ng-bind="'Face.Prompt' | translate"></div>
             <face-capture
@@ -16,16 +16,19 @@
             ></face-capture>
         </div>
         <br>
-        <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error | translate" ng-show="$ctrl.error"></div>
-        <div class="alert alert-success" role="alert" ng-bind="'Face.Create.Success' | translate" ng-show="$ctrl.success"></div>
+
+        <x-alert status="$ctrl.status"></x-alert>
+
         <button
             type="submit"
             class="btn btn-primary"
+            ng-hide="$ctrl.success"
             ng-bind="$ctrl.capturing ? 'Face.Stop' : 'Face.Start' | translate"
         ></button>
         <button
             type="button"
             class="btn btn-link"
+            ng-hide="$ctrl.success"
             ng-click="$ctrl.deleteFace()"
         >
             <span class="text-danger" ng-bind="'Face.Delete.Prompt' | translate"></span>

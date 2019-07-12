@@ -1,7 +1,7 @@
 import { IComponentOptions, IScope } from 'angular';
 import QRCode from 'qrcode-generator';
 
-import { TokenEnroll } from '../tokenEnroll';
+import { TokenEnroll, Success } from '../tokenEnroll';
 import template from './otpChange.html';
 import { ServiceError } from '@digitalpersona/services';
 import { Credential } from '@digitalpersona/core';
@@ -36,10 +36,8 @@ export default class OtpChangeControl extends TokenEnroll
     private showCode: boolean;
 
     public static $inject = ["$scope"];
-    constructor(
-        private readonly $scope: IScope,
-    ){
-        super(Credential.OneTimePassword);
+    constructor($scope: IScope){
+        super(Credential.OneTimePassword, $scope);
     }
 
     public async $onInit() {
@@ -92,7 +90,7 @@ export default class OtpChangeControl extends TokenEnroll
         try {
             await this.api.enrollSoftwareOtp(this.otpCode, this.key, this.phoneNumber);
             delete this.selected;
-            super.emitOnEnroll();
+            super.emitOnSuccess(new Success('OTP.Create.Success'));
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
         } finally {
@@ -104,7 +102,7 @@ export default class OtpChangeControl extends TokenEnroll
         super.emitOnBusy();
         try {
             await this.api.unenroll();
-            super.emitOnDelete();
+            super.emitOnSuccess(new Success('OTP.Delete.Success'));
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
         } finally {

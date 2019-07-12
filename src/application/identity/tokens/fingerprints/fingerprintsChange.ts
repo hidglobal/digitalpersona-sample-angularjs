@@ -4,7 +4,7 @@ import { IEnrollService, ServiceError } from '@digitalpersona/services';
 import { FingerprintReader, ErrorOccurred, QualityCode, SampleFormat } from '@digitalpersona/devices';
 import { FingerprintsEnroll } from '@digitalpersona/enrollment';
 
-import { TokenEnroll } from '../tokenEnroll';
+import { TokenEnroll, Success } from '../tokenEnroll';
 import template from './fingerprintsChange.html';
 
 import error from "./images/error.png";
@@ -37,10 +37,8 @@ export default class FingerprintsChangeControl extends TokenEnroll
     private maxFingers = 10;
 
     public static $inject = ["$scope"];
-    constructor(
-        private readonly $scope: ng.IScope,
-    ){
-        super(Credential.Fingerprints);
+    constructor($scope: ng.IScope) {
+        super(Credential.Fingerprints, $scope);
     }
 
     public $onInit() {
@@ -66,7 +64,7 @@ export default class FingerprintsChangeControl extends TokenEnroll
         this.reader
             .startAcquisition(SampleFormat.Intermediate)
             .then(() => this.$scope.$apply())
-            .catch(err => this.showError(err));
+            .catch(err => super.emitOnError(err));
 
     }
 
@@ -77,26 +75,26 @@ export default class FingerprintsChangeControl extends TokenEnroll
         delete this.samples;
     }
 
-    private updateReaderStatus() {
-        this.reader
-            .enumerateDevices()
-            .then(devices => {
-                this.isReaderConnected = devices.length > 0;
-                super.emitOnUpdate();
-            })
-            .catch(err => {
-                this.isReaderConnected = false;
-                super.emitOnError(new Error(this.mapDeviceError(err)));
-            });
+    private async updateReaderStatus() {
+        try {
+            const devices = await this.reader.enumerateDevices();
+            this.isReaderConnected = devices && devices.length > 0;
+        } catch (err) {
+            this.isReaderConnected = false;
+            super.emitOnError(new Error(this.mapDeviceError(err)));
+        } finally {
+            this.$scope.$apply();
+        }
     }
 
     private updateSampleQuality(quality: QualityCode) {
-        if (quality === QualityCode.Good) {
-            super.resetError();
-            super.emitOnUpdate();
-            return;
+        try {
+            if (quality === QualityCode.Good)
+                return super.resetStatus();
+            super.emitOnError(new Error(`Fingerprints.QualityCode.${QualityCode[quality]}`));
+        } finally {
+            this.$scope.$apply();
         }
-        super.emitOnError(new Error(`Fingerprints.QualityCode.${QualityCode[quality]}`));
     }
 
     private allSamplesCollected() {
@@ -105,10 +103,9 @@ export default class FingerprintsChangeControl extends TokenEnroll
 
     private async addSamples(samples: BioSample[]) {
         this.samples.push(...samples);
-        if (this.allSamplesCollected()) {
-            await this.submit();
-        }
         this.$scope.$apply();
+        if (this.allSamplesCollected())
+            await this.submit();
     }
 
     private async submit() {
@@ -116,9 +113,11 @@ export default class FingerprintsChangeControl extends TokenEnroll
         try {
             await new FingerprintsEnroll(this.context)
                 .enroll(FingerPosition.RightIndex, this.samples);
-            super.emitOnEnroll();
+            super.emitOnSuccess(new Success('Fingerprints.Create.Success'));
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
+        } finally {
+            this.$scope.$apply();
         }
     }
 
@@ -127,25 +126,12 @@ export default class FingerprintsChangeControl extends TokenEnroll
         try {
             await new FingerprintsEnroll(this.context)
                 .unenroll(undefined);
-            super.emitOnDelete();
+            super.emitOnSuccess(new Success('Fingerprints.Delete.Success'));
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
+        } finally {
+            this.$scope.$apply();
         }
-    }
-
-    private showError(err: ServiceError|Error) {
-        this.busy = false;
-        if (this.error === err.message) return;
-        if (err) {
-            this.error = err.message;
-        } else
-            delete this.error;
-        if (err instanceof ServiceError) {
-            // if (error.code === -2146893033) {  // Authentication context expired, drop the token and replace with a user
-            //     this.updateIdentity(this.getUser());
-            // }
-        }
-//        $this.update();
     }
 
     protected mapServiceError(err: ServiceError) {
