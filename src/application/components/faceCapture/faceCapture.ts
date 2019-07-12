@@ -86,6 +86,12 @@ export default class FaceCaptureControl
         if (this.onError) this.onError({error});
     }
 
+    private resetCapture() {
+        this.samples = [];
+        this.lastSampleTaken = null;
+        this.drawFaceBoundaries(null);
+    }
+
     private async handleNextFrame() {
         if (this.video.paused || this.video.ended || !this.loaded)
             return this.$timeout(() => { this.handleNextFrame(); });
@@ -127,9 +133,7 @@ export default class FaceCaptureControl
             }
         } else {
             // reset if detection has interrupted
-            this.samples = [];
-            this.lastSampleTaken = null;
-            this.drawFaceBoundaries(null);
+            this.resetCapture();
         }
         return this.$timeout(() => { this.handleNextFrame(); });
     }
@@ -138,6 +142,7 @@ export default class FaceCaptureControl
         try {
             if (this.transitional) return;
             this.transitional = true;
+            this.resetCapture();
             const stream = await navigator.mediaDevices.getUserMedia({ video: {} });
             this.video.srcObject = stream;
             console.log("play()");
