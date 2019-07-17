@@ -1,8 +1,9 @@
 const path = require("path");
 const loaders = require("./loaders");
-const preloaders = require("./preloaders");
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
+const config = require('../../server/config');
 
 module.exports = {
     devtool: 'source-map',
@@ -15,7 +16,7 @@ module.exports = {
         path: path.resolve('out/public'),
     },
     optimization: {
-        minimize: false,
+        minimize: true,
         runtimeChunk: 'single',
         splitChunks: {
             cacheGroups: {
@@ -29,12 +30,35 @@ module.exports = {
     },
     resolve: {
         modules: [
+            path.resolve(__dirname, "src/modules"),
             'node_modules',                             // standard NPM modules
-            path.resolve(__dirname, 'modules')          // non-NPM modules
+            'modules',            // non-NPM modules
         ],
-        extensions: ['.ts', '.mjs', '.js' ],    // try to resolve extension of require('module') in this order
+        extensions: [ '.ts', '.mjs', '.js' ],    // try to resolve extension of require('module') in this order
     },
-    externals: [ "WebSdk", /^angular/ ],
+    externals: [
+        { WebSdk: {
+            root: "WebSdk"
+        }},
+        { faceapi: {
+            root: "face-api.js"
+        }},
+        { qrcode: {
+            root: 'qrcode-generator',
+        }}
+    ],
+    devServer: {
+        host: config.site.host,
+        port: config.site.port,
+        https: true,
+        pfx: config.site.sslCertificate.pfxFilename,
+        pfxPassphrase: config.site.sslCertificate.passphrase,
+        publicPath: '/',
+        historyApiFallback: true,
+        contentBase: [
+            'out/public/'
+        ],
+    },
     plugins: [
         // new webpack.optimize.UglifyJsPlugin(
         //     {
@@ -56,8 +80,12 @@ module.exports = {
         // })
         new webpack.HashedModuleIdsPlugin(),
     ],
+    resolveLoader: {
+        alias: {
+            copy: 'file-loader?name=[path][name].[ext]&context=src/'
+        }
+    },
     module:{
-//        preLoaders:preloaders,
         rules: loaders
     },
     // tslint: {
