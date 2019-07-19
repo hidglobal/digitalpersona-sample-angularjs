@@ -15,18 +15,23 @@ Typescript/Javascript libraries and will work with any JS framework.
 
 1. Install Node JS (use the [download link](https://nodejs.org))
 
-2. Clone the sample repository:
+2. Install a `supervisor` NPM package globally:
+```
+npm install supervisor -g
+```
+
+3. Clone the sample repository:
 ```
 git clone https://github.com/hidglobal/digitalpersona-sample-angularjs.git
 ```
 
-3. Install dependencies:
+4. Install dependencies:
 ```
 cd digitalpersona-sample-angularjs
 npm install
 ```
 
-4. Build the site:
+5. Build the site:
 
 Production:
 ```
@@ -38,14 +43,14 @@ Development:
 npm run build-dev
 ```
 
-5. Configure the server (see [instructions below](#configure)).
+6. Configure the server (see [instructions below](#configure)).
 
-6. Start the server:
+7. Start the server:
 ```
 npm run server
 ```
 
-7. Open a main page in a browser.
+8. Open a main page in a browser.
 
 <a name="configure"></a>
 ## Configuration
@@ -94,8 +99,10 @@ module.exports = {
 }
 ```
 
-To let customers to enroll new credentials, add an `Enroll Self` task definition to the `Altus User`
-role using the AzMan console.
+### Self-enrollemnt 
+
+To let customers to enroll new credentials, add an `Enroll Self` task definition to the 
+`DigitalPersona User` role using the AzMan console.
 
 ### Domain Name
 
@@ -106,8 +113,9 @@ Make sure your sample server machine has a DNS record.
 Your sample server must use HTTPS, so make sure you have issued a valid SSL/TLS certificate. 
 The certificate must match the sample server DNS name.
 
-The certificate cannot be self-signed, it must be signed by a Certificate Authority which is 
-trusted both by your sample server machine and by your client's machines.
+**The certificate must be signed by a Certificate Authority which is trusted
+both by your sample server machine and by your client's machines.** Avoid using self-signed
+certificates!
 
 If you use a private CA (e.g. your ActiveDirectory CA), make sure all participants (server and clients)
 are either joined the AD domain or have the public key of the Root CA certificate manually imported 

@@ -63,32 +63,18 @@ export default class SignupControl
     public async submit() {
         try {
             this.busy = true;
-            const res = await this.userApi.create(this.username, this.password);
+            await this.userApi.create(this.username, this.password);
             this.$location.url(`/signin?username=${this.username}`);
         }
         catch (e) {
-            this.showError(e);
+            this.error = new Error(e.data);
         } finally {
+            this.busy = false;
             this.$scope.$apply();
         }
     }
 
     public resetError() {
         delete this.error;
-    }
-
-    public showError(error: ServiceError|Error) {
-        this.busy = false;
-        if (this.error === error) return;
-        this.error = (error instanceof ServiceError)
-            ? new Error(this.mapServiceError(error))
-            : error;
-    }
-
-    private mapServiceError(e: ServiceError) {
-        switch (e.code) {
-            case -2147023580: return "Signup.Error.AlreadyExists";
-            default: return e.message;
-        }
     }
 }

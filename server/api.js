@@ -8,11 +8,12 @@ const express = require('express');
 const authService = new AuthService(endpoints.auth);
 const enrollService = new EnrollService(endpoints.enroll);
 
-const userApi = express.Router();
+const api = express.Router();
 
-userApi.post('/', asSecurityOfficer, createUser);
-userApi.delete('/', withBearerToken, asSecurityOfficer, deleteUser);
-userApi.use(handleError);
+api.get('/settings', getSettings);
+api.post('/user', asSecurityOfficer, createUser);
+api.delete('/user', withBearerToken, asSecurityOfficer, deleteUser);
+api.use(handleError);
 
 const HTTP_STATUS = {
     OK: 200,
@@ -60,16 +61,20 @@ async function withBearerToken(req, res, next) {
     }
 }
 
-function handleError(err, req, res, next) {
+function handleError(err, req, res) {
     if (err instanceof ServiceError) {
-        switch(err.code) {
-            case -2147023501: return res.sendStatus(HTTP_STATUS.PAYMENT_REQUIRED);    // license is expired or user quota is exceeded
-            case -2147023580: return res.sendStatus(HTTP_STATUS.CONFLICT);            // the account already exists
-            case -2147023579: return res.sendStatus(HTTP_STATUS.NOT_FOUND);           // account does not exist
-            default: return res.sendStatus(HTTP_STATUS.INTERNAL_SERVER_ERROR);
-        }
+        return res.status(HTTP_STATUS.BAD_REQUEST).send(err.message)
     } else
-        res.sendStatus(HTTP_STATUS.INTERNAL_SERVER_ERROR);
+        res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(err.message);
+}
+
+function getSettings(req, res)
+{
+    console.debug('> getSettings')
+    res.json({
+        endpoints,
+    });
+    console.debug('< getSettings')
 }
 
 async function createUser(req, res, next)
@@ -116,4 +121,4 @@ async function deleteUser(req, res)
     }
 }
 
-module.exports = userApi;
+module.exports = api;

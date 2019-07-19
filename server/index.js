@@ -14,7 +14,7 @@ const https = require('https');
 const express = require('express');
 //const methodOverride = require('method-override');
 const config = require('./config.js');
-const userApi = require('./api');
+const api = require('./api');
 
 function logErrors (err, req, res, next) {
   console.error(err.stack)
@@ -26,7 +26,7 @@ const app = express();
 app.use(express.json());
 //app.use(methodOverride());
 app.use(express.urlencoded({ extended: true }));
-app.use('/api/user', userApi);
+app.use('/api', api);
 app.use(logErrors);
 
 app.use(express.static(path.join(__dirname, '../out/public')));

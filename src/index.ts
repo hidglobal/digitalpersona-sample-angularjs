@@ -1,4 +1,4 @@
-import ng, { IRootScopeService } from 'angular';
+import ng, { IHttpService } from 'angular';
 import cookies from 'angular-cookies';
 import route from 'angular-route';
 import sanitize from 'angular-sanitize';
@@ -17,7 +17,17 @@ import routes from './config/routes';
 import app from './application/app.module';
 import { AuthService, PolicyService, EnrollService } from '@digitalpersona/services';
 
-ng.module("example", [
+interface ServerSettings
+{
+    endpoints: {
+        auth: string,
+        enroll: string,
+        policies: string,
+        u2fAppId: string,
+    };
+}
+
+const module = ng.module("example", [
     route,
     cookies,
     sanitize,
@@ -26,29 +36,34 @@ ng.module("example", [
     app,
 ])
 .config(localization)
-.config(routes)
+.config(routes);
 
-// Environment
-.value("Domain", "websvr-12-64.alpha.local")
-.factory("AppId", ["Domain", (domain: string) => {
-    return `https://${domain}/DPFido/app-id.json`;
-}])
+// The trick below allows us to lazily register services configured with runtime configuration data.
+// First we save a reference to the $provide service which is usually available only
+// on a AngularJS bootstrapping phase.
+// At the run phase we ask our server for configuration data (e.g. service endpoints),
+// then we configure our services with the data and dynamically register them in AngularJS DI.
+// This way we do not need to inject our configuration data into a page content, but
+// provide it using an api request.
 
-// DigitalPersona Web Management endpoints
-.factory("AuthService", ["Domain", (domain: string) => {
-    return new AuthService(`https://${domain}/DPWebAUTH/DPWebAUTHService.svc`);
+let provide: ng.auto.IProvideService;
+
+module.config(["$provide", ($provide: ng.auto.IProvideService) => {
+    provide = $provide;
 }])
-.factory("EnrollService", ["Domain", (domain: string) => {
-    return new EnrollService(`https://${domain}/DPWebEnroll/DPWebEnrollService.svc`);
-}])
-.factory("PolicyService", ["Domain", (domain: string) => {
-    return new PolicyService(`https://${domain}/DPWebPolicies/DPWebPolicyService.svc`);
-}])
-// .run(["$rootScope", ($rootScope: IRootScopeService) => {
-//     $rootScope.$on('$routeChangeSuccess', function(event, current) {
-//         $scope.currentLink = getCurrentLinkFromRoute(current);
-//     });
-// }]);
+.run(["$http", (
+        $http: IHttpService,
+    ) => {
+        // request server configuration data
+        $http.get("api/settings").then(res => {
+            const { endpoints } = res.data as ServerSettings;
+            // configure our services and register them in DI
+            provide.constant("AppId", endpoints.u2fAppId);
+            provide.constant("AuthService", new AuthService(endpoints.auth));
+            provide.constant("EnrollService", new EnrollService(endpoints.enroll));
+            provide.constant("PolicyService", new PolicyService(endpoints.policies));
+        });
+}]);
 
 ng.bootstrap(document, ["example"], {
     strictDi: true,
