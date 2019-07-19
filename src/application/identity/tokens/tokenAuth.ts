@@ -50,7 +50,7 @@ export class TokenAuth
     public get user() : User {
         if (!this.identity) return User.Anonymous();
         if (this.identity instanceof User) return this.identity;
-        return new User(JWT.claims(this.identity)[ClaimName.WindowsAccountName] || "");
+        return User.fromJWT(this.identity);
     }
     public isIdentified() {
         return this.identity && !(this.identity instanceof User);
