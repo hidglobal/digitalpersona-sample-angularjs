@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "server": "supervisor -w server ./server/index.js",
+    "server-dev": "set NODE_TLS_REJECT_UNAUTHORIZED=0&& supervisor -w server ./server/index.js",
     "clean": "rimraf ./out",
     "tsc": "tsc --p tsconfig.typings.json",
     "build": "npm run clean && npm run tsc",
