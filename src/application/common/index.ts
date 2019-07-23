@@ -1,1 +1,1 @@
-export * from './success';
+export * from './statusAlert';
