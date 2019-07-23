@@ -1,8 +1,7 @@
 <div>
-    <div class="alert alert-success" role="alert" ng-bind="'Fingerprints.Auth.Success' | translate" ng-show="$ctrl.isAuthenticated()"></div>
+    <x-alert status="$ctrl.status"></x-alert>
     <div ng-hide="$ctrl.isAuthenticated()">
         <div ng-hide="$ctrl.isReaderConnected" class="alert alert-warning" role="alert" ng-bind="'Fingerprints.Error.NoReader'|translate"></div>
         <div ng-show="$ctrl.isReaderConnected" ng-bind="'Fingerprints.Auth.Prompt' | translate "></div>
-        <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error | translate" ng-show="$ctrl.error"></div>
     </div>
 </div>

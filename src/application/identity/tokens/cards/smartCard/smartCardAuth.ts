@@ -1,10 +1,10 @@
-import { IComponentOptions } from 'angular';
+import { IComponentOptions, IScope } from 'angular';
 import { Credential } from "@digitalpersona/core";
 import { SmartCardAuth } from '@digitalpersona/authentication';
 import { IAuthService, ServiceError } from '@digitalpersona/services';
 import { CardsReader, Card, CardType, CardInserted, CardRemoved } from '@digitalpersona/devices';
 
-import { TokenAuth } from '../../tokenAuth';
+import { TokenAuth, Success } from '../../tokenAuth';
 import template from './smartCardAuth.html';
 
 export default class SmartCardAuthControl extends TokenAuth
@@ -24,16 +24,16 @@ export default class SmartCardAuthControl extends TokenAuth
     private pin: string;
     private showPin: boolean;
 
-    public static $inject = ["AuthService"];
+    public static $inject = ["$scope", "AuthService"];
     constructor(
+        private $scope: IScope,
         private authService: IAuthService,
     ){
         super(Credential.SmartCard);
     }
 
     public $onInit() {
-        // if a reader is not provided by a parent, work as a standalone component
-        // Use multicast subscription here because several controlers will listen for several card types
+        // Notice the use of arrow functions for event handlers for proper and effortless binding to `this`.
         if (!super.isAuthenticated()) {
             this.reader.on("CardInserted", this.handleCardInserted);
             this.reader.on("CardRemoved", this.handleCardRemoved);
@@ -45,19 +45,25 @@ export default class SmartCardAuthControl extends TokenAuth
         this.reader.off("CardRemoved", this.handleCardRemoved);
     }
 
-    private handleCardInserted = (ev: CardInserted) => {
-        this.reader.getCardInfo(ev.deviceId).then(info => {
-            if (info && info.Type === CardType.Contact) {
-                this.card = info;
-                super.emitOnUpdate();
+    private handleCardInserted = async (ev: CardInserted) => {
+        try {
+            const card = await this.reader.getCardInfo(ev.deviceId);
+            if (card && card.Type === CardType.Contact) {
+                this.card = card;
             }
-        });
+        }
+        catch (error) {
+            super.notify(new Error(this.mapDeviceError(error)));
+        }
+        finally {
+            this.$scope.$applyAsync();
+        }
     }
 
     private handleCardRemoved = (ev: CardRemoved) => {
         if (this.card && (this.card.Name === ev.cardId)) {
             this.card = null;
-            super.emitOnUpdate();
+            this.$scope.$applyAsync();
         }
     }
 
@@ -76,6 +82,7 @@ export default class SmartCardAuthControl extends TokenAuth
                 // Then send card data to the server
                 const token = await new SmartCardAuth(this.authService).authenticate(this.identity, cardData);
                 super.emitOnToken(token);
+                super.notify(new Success('Cards.Auth.Success'));
             }
             catch (error) {
                 super.emitOnError(new Error(this.mapServiceError(error)));
@@ -83,6 +90,9 @@ export default class SmartCardAuthControl extends TokenAuth
         }
         catch (error) {
             super.emitOnError(new Error(this.mapDeviceError(error)));
+        }
+        finally {
+            this.$scope.$applyAsync();
         }
     }
 

@@ -1,9 +1,9 @@
-import { IComponentOptions, IAugmentedJQuery, ITimeoutService } from 'angular';
-import { Credential, BioSample, FaceImage } from '@digitalpersona/core';
+import { IComponentOptions } from 'angular';
+import { Credential, BioSample } from '@digitalpersona/core';
 import { IAuthService, ServiceError } from '@digitalpersona/services';
 import { FaceAuth } from '@digitalpersona/authentication';
 
-import { TokenAuth } from '../tokenAuth';
+import { TokenAuth, Success } from '../tokenAuth';
 import template from './faceAuth.html';
 
 export default class FaceAuthControl extends TokenAuth
@@ -26,7 +26,7 @@ export default class FaceAuthControl extends TokenAuth
 
     public toggleCapture() {
         this.capturing = !this.capturing;
-        this.$scope.$apply();
+//        this.$scope.$apply();
     }
 
     private handleStartCapture()
@@ -36,7 +36,7 @@ export default class FaceAuthControl extends TokenAuth
     {
     }
     private handleCaptureError(error: Error) {
-        super.emitOnError(error);
+        super.notify(error);
     }
 
     private async handleCaptured(samples: BioSample[])
@@ -48,8 +48,9 @@ export default class FaceAuthControl extends TokenAuth
                 ? auth.identify(samples)                           // NOT SUPPORTED YET!
                 : auth.authenticate(this.identity, samples));
             super.emitOnToken(token);
+            super.notify(new Success('Face.Auth.Success'));
         } catch (error) {
-            super.emitOnError(new Error(this.mapServiceError(error)));
+            super.notify(new Error(this.mapServiceError(error)));
         } finally {
             this.$scope.$apply();
         }
@@ -58,8 +59,8 @@ export default class FaceAuthControl extends TokenAuth
     protected mapServiceError(error: ServiceError) {
         switch (error.code) {
             case -2146893043:
-            case -2003292320: return 'Face.Error.NoMatch';
-            case -2146893042: return 'Face.Error.NotEnrolled';
+            case -2003292320: return 'Face.Auth.Error.NoMatch';
+            case -2146893042: return 'Face.Auth.Error.NotEnrolled';
             default: return super.mapServiceError(error);
         }
     }

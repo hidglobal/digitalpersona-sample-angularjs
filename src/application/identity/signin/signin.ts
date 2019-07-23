@@ -6,6 +6,7 @@ import { CardsReader, FingerprintReader, SampleFormat } from '@digitalpersona/de
 import { CredInfo } from '../tokens/configuration/credInfo';
 import { IdentityService } from '../../identity';
 import template from './signin.html';
+import { StatusAlert } from '../../common';
 
 export default class SigninControl
 {
@@ -36,16 +37,23 @@ export default class SigninControl
     }
 
     public async $onInit() {
+        this.identity = User.Anonymous();
         this.fingerprintReader = new FingerprintReader();
-        this.fingerprintReader
-            .startAcquisition(SampleFormat.Intermediate)
-            .then(() => this.update())
-            .catch(error => this.showError(error, 'Fingerprints'));
-
         this.cardReader = new CardsReader();
-        this.cardReader.subscribe()
-            .then(() => this.update())
-            .catch(error => this.showError(error, 'Cards'));
+
+        try {
+            await this.fingerprintReader.startAcquisition(SampleFormat.Intermediate);
+            this.update();
+        } catch (err) {
+            this.showError(err, 'Fingerprints');
+        }
+
+        try {
+            await this.cardReader.subscribe();
+            this.update();
+        } catch (err) {
+            this.showError(err, 'Cards');
+        }
 
         this.updateCredentials();
         if (this.$route.current) {
@@ -91,6 +99,7 @@ export default class SigninControl
     // let the user in but redirect them to the credential enrollment page.
     // This way fresh users with a password only will have a chance to comply.
     public isEnoughCredentials() {
+        if (!this.identity) return false;
         if (this.identity instanceof User)
             return false;
         const authenticated = JWT.claims(this.identity)[ClaimName.CredentialsUsed];
@@ -206,6 +215,21 @@ export default class SigninControl
             if (cred)
                 this.show(cred.name);
         }
+    }
+
+    public updateStatus(cred: string, status?: StatusAlert) {
+        this.busy = false;
+        if (status instanceof Error) {
+            this.error = status;
+            this.selected = cred;
+        } else
+            delete this.error;
+        // if (error instanceof ServiceError) {
+        //     if (error.code === -2146893033) {  // Authentication context expired, drop the token and replace with a user
+        //         this.updateIdentity(this.getUser());
+        //     }
+        // }
+        this.update();
     }
 
     public showError(error: ServiceError|Error, cred: string) {

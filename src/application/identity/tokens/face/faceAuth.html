@@ -1,7 +1,6 @@
 <form ng-submit="$ctrl.toggleCapture()">
-    <div class="alert alert-success" role="alert" ng-bind="'Face.Success' | translate" ng-show="$ctrl.isAuthenticated()"></div>
+    <x-alert status="$ctrl.status"></x-alert>
     <div ng-hide="$ctrl.isAuthenticated()" style="text-align: center">
-        <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error | translate" ng-show="$ctrl.error"></div>
         <div ng-hide="$ctrl.capturing" ng-bind="'Face.Usage'|translate"></div>
         <div ng-show="$ctrl.capturing" style="display: inline-block">
             <div ng-bind="'Face.Prompt' | translate"></div>

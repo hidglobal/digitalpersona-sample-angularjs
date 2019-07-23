@@ -1,9 +1,9 @@
-import { IComponentOptions } from 'angular';
+import { IComponentOptions, IScope } from 'angular';
 import { Credential } from "@digitalpersona/core";
 import { PinAuth } from '@digitalpersona/authentication';
 import { IAuthService, ServiceError } from '@digitalpersona/services';
 
-import { TokenAuth } from '../tokenAuth';
+import { TokenAuth, Success } from '../tokenAuth';
 import template from './pinAuth.html';
 
 export default class PinAuthControl extends TokenAuth
@@ -17,8 +17,9 @@ export default class PinAuthControl extends TokenAuth
     private pin: string;
     private showPin: boolean = false;
 
-    public static $inject = ["AuthService"];
+    public static $inject = ["$scope", "AuthService"];
     constructor(
+        private $scope: IScope,
         private authService: IAuthService,
     ){
         super(Credential.PIN);
@@ -29,12 +30,18 @@ export default class PinAuthControl extends TokenAuth
         super.resetError();
     }
 
-    public submit() {
+    public async submit() {
         super.emitOnBusy();
-        new PinAuth(this.authService)
-            .authenticate(this.identity, this.pin)
-            .then(token => super.emitOnToken(token))
-            .catch(error => super.emitOnError(new Error(this.mapServiceError(error))));
+        try {
+            const api = new PinAuth(this.authService);
+            const token = await api.authenticate(this.identity, this.pin);
+            super.emitOnToken(token);
+            super.notify(new Success('PIN.Auth.Success'));
+        } catch (error) {
+            super.notify(new Error(this.mapServiceError(error)));
+        } finally {
+            this.$scope.$applyAsync();
+        }
     }
 
     protected mapServiceError(error: ServiceError) {

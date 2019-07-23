@@ -75,7 +75,7 @@ export default class SmartCardChangeControl extends TokenEnroll
             const data = await this.reader.getCardEnrollData(card.Reader, this.pin);
             await new SmartCardEnroll(this.context)
                 .enroll(data);
-            super.emitOnSuccess(new Success('Card.Create.Success'));
+            super.emitOnSuccess(new Success('Cards.Create.Success'));
         } catch (error) {
             super.emitOnError(new Error(
                 error instanceof ServiceError ?

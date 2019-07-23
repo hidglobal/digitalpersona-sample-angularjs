@@ -30,80 +30,70 @@
             <x-password-auth ng-show="$ctrl.isSelected('Password')"
                 identity="$ctrl.identity"
                 on-busy="$ctrl.setBusy()"
-                on-update="$ctrl.update()"
                 on-token="$ctrl.updateToken(token)"
-                on-error="$ctrl.showError(error, 'Password')"
+                on-status="$ctrl.updateStatus('Password', status)"
             ></x-password-auth>
             <x-pin-auth ng-show="$ctrl.isSelected('PIN')"
                 identity="$ctrl.identity"
                 on-busy="$ctrl.setBusy()"
-                on-update="$ctrl.update()"
                 on-token="$ctrl.updateToken(token)"
-                on-error="$ctrl.showError(error, 'PIN')"
+                on-status="$ctrl.updateStatus('PIN', status)"
             ></x-pin-auth>
             <x-otp-auth ng-show="$ctrl.isSelected('OTP')"
                 identity="$ctrl.identity"
                 on-busy="$ctrl.setBusy()"
-                on-update="$ctrl.update()"
                 on-token="$ctrl.updateToken(token)"
-                on-error="$ctrl.showError(error, 'OTP')"
+                on-status="$ctrl.updateStatus('OTP', status)"
             ></x-otp-auth>
             <x-fingerprints-auth ng-show="$ctrl.isSelected('Fingerprints')"
                 identity="$ctrl.identity"
                 reader="$ctrl.fingerprintReader"
                 on-busy="$ctrl.setBusy()"
-                on-update="$ctrl.update()"
+                on-status="$ctrl.updateStatus('Fingerprints', status)"
                 on-token="$ctrl.updateToken(token)"
-                on-error="$ctrl.showError(error, 'Fingerprints')"
             ></x-fingerprints-auth>
 
             <x-cards-auth ng-show="$ctrl.isSelected('Cards')"
                 identity="$ctrl.identity"
                 reader="$ctrl.cardReader"
                 on-busy="$ctrl.setBusy()"
-                on-update="$ctrl.update()"
                 on-token="$ctrl.updateToken(token)"
-                on-error="$ctrl.showError(error, 'Cards')"
+                on-status="$ctrl.updateStatus('Cards', status)"
             >
                 <x-smart-card-auth
                     identity="$ctrl.identity"
                     reader="$ctrl.cardReader"
                     on-busy="$ctrl.setBusy()"
-                    on-update="$ctrl.update()"
                     on-token="$ctrl.updateToken(token)"
-                    on-error="$ctrl.showError(error, 'Cards')"
+                    on-status="$ctrl.updateStatus('Cards', status)"
                 ></x-smart-card-auth>
                 <x-contactless-card-auth
                     identity="$ctrl.identity"
                     reader="$ctrl.cardReader"
                     on-busy="$ctrl.setBusy()"
-                    on-update="$ctrl.update()"
                     on-token="$ctrl.updateToken(token)"
-                    on-error="$ctrl.showError(error, 'Cards')"
+                    on-status="$ctrl.updateStatus('Cards', status)"
                 ></x-contactless-card-auth>
                 <x-proximity-card-auth
                     identity="$ctrl.identity"
                     reader="$ctrl.cardReader"
                     on-busy="$ctrl.setBusy()"
-                    on-update="$ctrl.update()"
                     on-token="$ctrl.updateToken(token)"
-                    on-error="$ctrl.showError(error, 'Cards')"
+                    on-status="$ctrl.updateStatus('Cards', status)"
                 ></x-proximity-card-auth>
             </x-cards-auth>
 
             <x-fido-auth ng-show="$ctrl.isSelected('U2F')"
                 identity="$ctrl.identity"
                 on-busy="$ctrl.setBusy()"
-                on-update="$ctrl.update()"
                 on-token="$ctrl.updateToken(token)"
-                on-error="$ctrl.showError(error, 'U2F')"
+                on-status="$ctrl.updateStatus('U2F', status)"
             ></x-fido-auth>
             <x-face-auth ng-show="$ctrl.isSelected('Face')"
                 identity="$ctrl.identity"
                 on-busy="$ctrl.setBusy()"
-                on-update="$ctrl.update()"
                 on-token="$ctrl.updateToken(token)"
-                on-error="$ctrl.showError(error, 'Face')"
+                on-status="$ctrl.updateStatus('Face', status)"
             ></x-face-auth>
         </div>
     </fieldset>

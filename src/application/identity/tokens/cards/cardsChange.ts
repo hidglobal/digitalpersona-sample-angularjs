@@ -13,6 +13,9 @@ export default class CardsChangeControl extends TokenEnroll
         ...TokenEnroll.Component,
         template,
         controller: CardsChangeControl,
+        bindings: {
+            ...TokenEnroll.Component.bindings,
+        },
     };
 
     private reader: CardsReader = new CardsReader();
@@ -78,9 +81,11 @@ export default class CardsChangeControl extends TokenEnroll
                 new ProximityCardEnroll(this.context).unenroll(),
             ];
             await Promise.all(deletions);
-            super.emitOnSuccess(new Success('Card.Delete.Success'));
+            super.emitOnSuccess(new Success('Cards.Delete.Success'));
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
+        } finally {
+            this.$scope.$applyAsync();
         }
     }
 

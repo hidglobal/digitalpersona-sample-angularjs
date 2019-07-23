@@ -1,6 +1,5 @@
 <form ng-submit="$ctrl.start()">
-    <div class="alert alert-success" role="alert" ng-bind="'U2F.Success' | translate" ng-show="$ctrl.isAuthenticated()"></div>
-    <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error | translate" ng-show="$ctrl.error"></div>
+    <x-alert status="$ctrl.status"></x-alert>
     <div ng-hide="$ctrl.isAuthenticated()" style="text-align: center">
         <div ng-hide="$ctrl.started" ng-bind="'U2F.Usage'|translate"></div>
         <br>
@@ -11,6 +10,6 @@
             ng-hide="$ctrl.started"
             ng-bind="'U2F.Start' | translate"></button>
 
-        <div ng-show="$ctrl.started && !$ctrl.error" ng-bind="'U2F.Prompt' | translate "></div>
+        <div ng-show="$ctrl.started && !$ctrl.hasError()" ng-bind="'U2F.Prompt' | translate "></div>
     </div>
 </form>

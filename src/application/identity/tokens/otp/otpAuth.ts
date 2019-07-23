@@ -1,9 +1,9 @@
-import { IComponentOptions } from 'angular';
+import { IComponentOptions, IScope } from 'angular';
 import { Credential } from "@digitalpersona/core";
 import { TimeOtpAuth, PushOtpAuth, EmailOtpAuth, SmsOtpAuth  } from '@digitalpersona/authentication';
 import { IAuthService, ServiceError } from '@digitalpersona/services';
 
-import { TokenAuth } from '../tokenAuth';
+import { TokenAuth, Success } from '../tokenAuth';
 import template from './otpAuth.html';
 
 type OtpMode = "time" | "email" | "sms" | "push";
@@ -21,8 +21,9 @@ export default class OtpAuthControl extends TokenAuth
     private mode: OtpMode = "time";
     private challengeSent: boolean = false;
 
-    public static $inject = ["AuthService"];
+    public static $inject = ["$scope", "AuthService"];
     constructor(
+        private $scope: IScope,
         private authService: IAuthService,
     ){
         super(Credential.OneTimePassword);
@@ -42,27 +43,26 @@ export default class OtpAuthControl extends TokenAuth
                 this.emitOnUpdate();
                 const token = await new PushOtpAuth(this.authService).authenticate(this.identity);
                 super.emitOnToken(token);
+                super.notify(new Success('OTP.Auth.Success'));
             }
             if (mode === "email") {
                 this.mode = mode;
                 this.challengeSent = false;
-                this.emitOnUpdate();
                 await new EmailOtpAuth(this.authService).sendChallenge(this.user);
                 this.challengeSent = true;
-                super.emitOnUpdate();
             }
             if (mode === "sms") {
                 this.mode = mode;
                 this.challengeSent = false;
-//                this.emitOnUpdate();
                 await new SmsOtpAuth(this.authService).sendChallenge(this.user);
                 this.challengeSent = true;
-                super.emitOnUpdate();
             }
         }
         catch (error) {
             this.resetMode();
             this.emitOnError(new Error(this.mapServiceError(error)));
+        } finally {
+            this.$scope.$applyAsync();
         }
     }
 
@@ -72,12 +72,12 @@ export default class OtpAuthControl extends TokenAuth
 
     public updateCode(value: string) {
         this.code = value || "";
-        super.resetError();
+        super.notify();
     }
 
     public updateMode(mode: OtpMode) {
         this.mode = mode;
-        super.resetError();
+        super.notify();
     }
 
     public async submit() {
@@ -90,17 +90,21 @@ export default class OtpAuthControl extends TokenAuth
                                         :   new PushOtpAuth(this.authService).authenticate(this.identity)
             );
             super.emitOnToken(token);
+            super.notify(new Success('OTP.Auth.Success'));
         }
         catch (error) {
-            super.emitOnError(new Error(this.mapServiceError(error)));
+            super.notify(new Error(this.mapServiceError(error)));
+        }
+        finally {
+            this.$scope.$applyAsync();
         }
     }
 
     protected mapServiceError(error: ServiceError) {
         switch (error.code) {
-            case -2147023652: return "OTP.Error.NoMatch";
-            case -973143807: return "OTP.Error.NoPhone";
-            case -2147024846: return "OTP.Error.NotSupported";
+            case -2147023652: return "OTP.Auth.Error.NoMatch";
+            case -973143807: return "OTP.Auth.Error.NoPhone";
+            case -2147024846: return "OTP.Auth.Error.NotSupported";
             default: return super.mapServiceError(error);
 
         }

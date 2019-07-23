@@ -1,10 +1,10 @@
-import { IComponentOptions } from 'angular';
+import { IComponentOptions, IScope } from 'angular';
 import { Credential, BioSample } from "@digitalpersona/core";
 import { FingerprintsAuth } from '@digitalpersona/authentication';
 import { IAuthService, ServiceError } from '@digitalpersona/services';
 import { FingerprintReader, QualityCode, ErrorOccurred } from '@digitalpersona/devices';
 
-import { TokenAuth } from '../tokenAuth';
+import { TokenAuth, Success } from '../tokenAuth';
 import template from './fingerprintsAuth.html';
 
 export default class FingerprintsAuthControl extends TokenAuth
@@ -23,28 +23,34 @@ export default class FingerprintsAuthControl extends TokenAuth
 
     private isReaderConnected: boolean = false;
 
-    public static $inject = ["AuthService"];
+    public static $inject = ["$scope", "AuthService"];
     constructor(
+        private $scope: IScope,
         private authService: IAuthService,
     ){
         super(Credential.Fingerprints);
     }
 
     public $onInit() {
-        this.reader.onDeviceConnected = (device) => {
-            this.updateReaderStatus();
+        this.reader.onDeviceConnected = async (device) => {
+            await this.updateReaderStatus();
+            this.$scope.$applyAsync();
         };
-        this.reader.onDeviceDisconnected = (device) => {
-            this.updateReaderStatus();
+        this.reader.onDeviceDisconnected = async (device) => {
+            await this.updateReaderStatus();
+            this.$scope.$applyAsync();
         };
         this.reader.onQualityReported = (quality) => {
             this.updateSampleQuality(quality.quality);
+            this.$scope.$applyAsync();
         };
-        this.reader.onSamplesAcquired = (data) => {
-            this.submit(data.samples);
+        this.reader.onSamplesAcquired = async (data) => {
+            await this.submit(data.samples);
+            this.$scope.$applyAsync();
         };
         this.reader.onErrorOccurred = (reason) => {
-            super.emitOnError(new Error(this.mapDeviceError(reason)));
+            super.notify(new Error(this.mapDeviceError(reason)));
+            this.$scope.$applyAsync();
         };
     }
 
@@ -52,26 +58,20 @@ export default class FingerprintsAuthControl extends TokenAuth
         this.reader.off();
     }
 
-    private updateReaderStatus() {
-        this.reader
-            .enumerateDevices()
-            .then(devices => {
-                this.isReaderConnected = devices.length > 0;
-                super.emitOnUpdate();
-            })
-            .catch(error => {
-                this.isReaderConnected = false;
-                super.emitOnError(new Error(this.mapDeviceError(error)));
-            });
+    private async updateReaderStatus() {
+        try {
+            const devices = await this.reader.enumerateDevices();
+            this.isReaderConnected = devices.length > 0;
+        } catch (err) {
+            this.isReaderConnected = false;
+            super.notify(new Error(this.mapDeviceError(err)));
+        }
     }
 
     private updateSampleQuality(quality: QualityCode) {
-        if (quality === QualityCode.Good) {
-            super.resetError();
-            super.emitOnUpdate();
-            return;
-        }
-        this.error = `Fingerprints.QualityCode.${QualityCode[quality]}`;
+        super.notify(quality !== QualityCode.Good
+            ? new Error(`Fingerprints.QualityCode.${QualityCode[quality]}`)
+            : undefined);
     }
 
     public async submit(samples: BioSample[]) {
@@ -83,9 +83,10 @@ export default class FingerprintsAuthControl extends TokenAuth
                 ? auth.authenticate(this.identity, samples)
                 : auth.identify(samples));
             super.emitOnToken(token);
+            super.notify(new Success('Fingerprints.Auth.Success'));
         }
         catch (error) {
-            super.emitOnError(new Error(this.mapServiceError(error)));
+            super.notify(new Error(this.mapServiceError(error)));
         }
     }
 

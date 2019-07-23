@@ -1,10 +1,10 @@
-import { IComponentOptions } from 'angular';
+import { IComponentOptions, IScope } from 'angular';
 import { Credential } from "@digitalpersona/core";
 import { ContactlessCardAuth } from '@digitalpersona/authentication';
 import { IAuthService, ServiceError } from '@digitalpersona/services';
 import { CardsReader, CardType, CardInserted, Card, CardRemoved } from '@digitalpersona/devices';
 
-import { TokenAuth } from '../../tokenAuth';
+import { TokenAuth, Success } from '../../tokenAuth';
 import template from './contactlessCardAuth.html';
 
 export default class ContactlessCardAuthControl extends TokenAuth
@@ -22,19 +22,19 @@ export default class ContactlessCardAuthControl extends TokenAuth
     public reader: CardsReader;
     public card: Card | null = null;
 
-    public static $inject = ["AuthService"];
+    public static $inject = ["$scope", "AuthService"];
     constructor(
+        private $scope: IScope,
         private authService: IAuthService,
     ){
         super(Credential.ContactlessCard);
     }
 
     public $onInit() {
-        // if a reader is not provided by a parent, work as a standalone component
-        // Use multicast subscription here because several controlers will listen for several card types
+        // Notice the use of arrow functions for event handlers for proper and effortless binding to `this`.
         if (!super.isAuthenticated()) {
-            this.reader.on<CardInserted>("CardInserted", this.handleCardInserted);
-            this.reader.on<CardRemoved>("CardRemoved", this.handleCardRemoved);
+            this.reader.on("CardInserted", this.handleCardInserted);
+            this.reader.on("CardRemoved", this.handleCardRemoved);
         }
     }
 
@@ -58,20 +58,24 @@ export default class ContactlessCardAuthControl extends TokenAuth
                     :  service.identify(cardData)
                 );
                 super.emitOnToken(token);
+                super.notify(new Success('Cards.Auth.Success'));
             }
             catch (error) {
-                super.emitOnError(new Error(this.mapServiceError(error)));
+                super.notify(new Error(this.mapServiceError(error)));
             }
         }
         catch (error) {
-            super.emitOnError(new Error(this.mapDeviceError(error)));
+            super.notify(new Error(this.mapDeviceError(error)));
+        }
+        finally {
+            this.$scope.$applyAsync();
         }
     }
 
     private handleCardRemoved = (ev: CardRemoved) => {
         if (this.card && (this.card.Name === ev.cardId)) {
             this.card = null;
-            super.emitOnUpdate();
+            this.$scope.$applyAsync();
         }
     }
 

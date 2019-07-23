@@ -1,5 +1,6 @@
 <form ng-submit="$ctrl.submit()">
-    <div class="alert alert-success" role="alert" ng-bind="'OTP.Success' | translate" ng-show="$ctrl.isAuthenticated()"></div>
+    <x-alert status="$ctrl.status"></x-alert>
+    <!-- <div class="alert alert-success" role="alert" ng-bind="'OTP.Success' | translate" ng-show="$ctrl.isAuthenticated()"></div> -->
     <div ng-hide="$ctrl.isAuthenticated() || !$ctrl.user.name">
         <div class="card-body text-muted" ng-hide="$ctrl.challengeSent">
             <span ng-bind-html="'OTP.Details' | translate"></span>
@@ -12,7 +13,7 @@
                 type="text"
                 label="{{ 'OTP.Prompt' | translate }}"
                 on-change="$ctrl.updateCode(value)"></x-password>
-            <div class="alert alert-danger" role="alert" ng-show="$ctrl.error" ng-bind="$ctrl.error | translate"</div>
+            <!-- <div class="alert alert-danger" role="alert" ng-show="$ctrl.error" ng-bind="$ctrl.error | translate"</div> -->
         </fieldset>
         <div ng-show=$ctrl.challengeSent ng-switch="$ctrl.mode">
             <div ng-switch-when="email">

@@ -28,30 +28,42 @@ export default class CardsAuthControl extends TokenAuth
         private readonly $scope: IScope,
     ){
         super(Credential.Cards);
-        this.reader = new CardsReader();
     }
 
     public $onInit() {
-        this.reader.onDeviceConnected =
-        this.reader.onDeviceDisconnected = (device) => {
-            this.updateReaderStatus(device.deviceId);
-        };
+        // Notice the use of arrow functions for event handlers for proper and effortless binding to `this`.
+        this.reader.on("DeviceConnected", this.onReaderStatus);
+        this.reader.on("DeviceDisconnected", this.onReaderStatus);
         this.reader.on("CardInserted", this.onCardInserted);
         this.reader.on("CardRemoved", this.onCardRemoved);
     }
 
     public $onDestroy() {
+        this.reader.off("DeviceConnected", this.onReaderStatus);
+        this.reader.off("DeviceDisconnected", this.onReaderStatus);
         this.reader.off("CardInserted", this.onCardInserted);
         this.reader.off("CardRemoved", this.onCardRemoved);
     }
 
     private onCardInserted = () => {
         ++this.cardsPresented;
-        super.emitOnUpdate();
+        this.$scope.$applyAsync();
     }
     private onCardRemoved = () => {
         this.cardsPresented = Math.max(0, this.cardsPresented - 1);
-        super.emitOnUpdate();
+        this.$scope.$applyAsync();
+    }
+
+    private onReaderStatus = async () => {
+        try {
+            const devices = await this.reader.enumerateReaders();
+            this.isReaderConnected = devices.length > 0;
+        } catch (err) {
+            this.isReaderConnected = false;
+            super.notify(new Error(this.mapDeviceError(err)));
+        } finally {
+            this.$scope.$applyAsync();
+        }
     }
 
     public isAuthenticated() {
@@ -70,19 +82,6 @@ export default class CardsAuthControl extends TokenAuth
         if (!authenticated) return false;
         const cardTypes = [ Credential.SmartCard, Credential.ContactlessCard, Credential.ProximityCard];
         return cardTypes.every(type => authenticated.map(used => used.id.toUpperCase()).includes(type));
-    }
-
-    private updateReaderStatus(device: string) {
-        this.reader
-            .enumerateReaders()
-            .then(devices => {
-                this.isReaderConnected = devices.length > 0;
-                super.emitOnUpdate();
-            })
-            .catch(error => {
-                this.isReaderConnected = false;
-                super.emitOnError(new Error(this.mapDeviceError(error)));
-            });
     }
 
     private mapDeviceError(error: Error) {

@@ -1,5 +1,7 @@
 import { User, JSONWebToken, JWT, ClaimName, CredentialId } from "@digitalpersona/core";
 import { ServiceError } from '@digitalpersona/services';
+import { StatusAlert } from '../../common';
+export { StatusAlert, Success, Warning } from '../../common';
 
 export interface CredInfo {
     id: string;             // credential Id
@@ -33,6 +35,7 @@ export class TokenAuth
             onUpdate: "&",
             onToken: "&",
             onError: "&",
+            onStatus: "&",
         },
     };
 
@@ -41,7 +44,10 @@ export class TokenAuth
     public onUpdate : () => void;
     public onToken  : (locals: {token: JSONWebToken}) => void;
     public onError  : (locals: {error?: Error }) => void;
+    public onStatus : (locals: {status?: StatusAlert }) => void;
     public error    : string;
+
+    public status?  : StatusAlert;
 
     constructor(
         public credId: CredentialId,
@@ -80,6 +86,15 @@ export class TokenAuth
     protected resetError() {
         this.error = "";
         if (this.onError) this.onError({});
+    }
+
+    protected notify(status?: StatusAlert) {
+        this.status = status;
+        if (this.onStatus) this.onStatus({status});
+    }
+
+    protected hasError() {
+        return this.status instanceof Error;
     }
 
     protected mapServiceError(error: ServiceError) {

@@ -254,6 +254,16 @@
       "Software": "I'd like to use my phone, tablet or another mobile device.",
       "Hardware": "I'd like to use a hardware token."
     },
+    "Auth": {
+      "Prompt": "One-Time Password",
+      "Success": "The one-time password is verified.",
+      "Error": {
+        "NotSupported": "OTP support is not enabled on the server.",
+        "NoMatch": "Invalid code or sign-in name.",
+        "NoPhone": "No phone number is registered for this user.",
+        "NoEmail": "No e-mail address is registered for this user."
+      }
+    },
     "Create": {
       "Title": "One-Time Password",
       "PromptPhone": "Enter full phone number (including a country code)",
@@ -285,14 +295,7 @@
       "push":  "send another request"
     },
     "Send push notification": "Send push notification",
-    "Send SMS": "Send SMS",
-    "Success": "The one-time password is verified.",
-    "Error": {
-      "NotSupported": "OTP support is not enabled on the server.",
-      "NoMatch": "Invalid code or sign-in name.",
-      "NoPhone": "No phone number is registered for this user.",
-      "NoEmail": "No e-mail address is registered for this user."
-    }
+    "Send SMS": "Send SMS"
   },
 
   "Face": {
@@ -302,6 +305,14 @@
     "Select camera": "Select a camera.",
     "Start": "Start",
     "Stop": "Stop",
+    "Auth": {
+      "Title": "Face",
+      "Success": "The face is verified.",
+      "Error": {
+        "NoMatch": "The face is not recognized.",
+        "NotEnrolled": "No face has been enrolled for this user."
+      }
+    },
     "Create": {
       "Title": "Enroll your face",
       "Success": "Face is enrolled.",
@@ -318,11 +329,8 @@
       "TooBig": "You are too close to the camera. Please move farther away.",
       "TooMany": "Multiple faces detected. Please have only one face in the camera."
     },
-    "Success": "The face is verified.",
     "Error": {
-      "NoMatch": "The face is not recognized.",
       "NoCamera": "To use face authentication, connect a camera.",
-      "NotEnrolled": "No face has been enrolled for this user.",
       "CameraAccessDenied": "To use face authentication, allow access to the camera in your browser.",
       "CameraNotReadable": "Could not start video stream. Make sure the camera is not being used by another application.",
       "CameraConstraintError": "The selected camera does not meet the minimum constraints required."
@@ -334,7 +342,14 @@
     "Usage": "Insert your FIDO token then press Start.",
     "Start": "Start",
     "Prompt": "Tap, press the button on, or re-insert your FIDO key.",
-    "Success": "The FIDO key is verified.",
+    "Auth": {
+      "Title": "FIDO Key",
+      "Success": "The FIDO key is verified.",
+      "Error": {
+        "NoMatch": "The FIDO key does not match the sign-in name.",
+        "NotEnrolled": "No FIDO key has been enrolled for this user."
+      }
+    },
     "Create": {
       "Title": "Enroll FIDO Key",
       "Success": "The FIDO key is enrolled.",
@@ -346,8 +361,6 @@
       "Success": "FIDO key is deleted."
     },
     "Error": {
-      "NoMatch": "The FIDO key does not match the sign-in name.",
-      "NotEnrolled": "No FIDO key has been enrolled for this user.",
       "NotSupported": "FIDO key support is not enabled.",
       "u2f: OTHER_ERROR": "The FIDO key is not recognized.",
       "u2f: BAD_REQUEST": "The FIDO key is not recognized.",

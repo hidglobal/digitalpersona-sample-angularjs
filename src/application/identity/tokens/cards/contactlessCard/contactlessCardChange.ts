@@ -66,7 +66,7 @@ export default class ContactlessCardChangeControl extends TokenEnroll
             const data = await this.reader.getCardEnrollData(card.Reader);
             await new ContactlessCardEnroll(this.context)
                 .enroll(data);
-            super.emitOnSuccess(new Success('Card.Create.Success'));
+            super.emitOnSuccess(new Success('Cards.Create.Success'));
         } catch (error) {
             super.emitOnError(new Error(this.mapServiceError(error)));
         } finally {

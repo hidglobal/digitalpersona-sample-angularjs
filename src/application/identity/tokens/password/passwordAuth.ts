@@ -1,9 +1,9 @@
-import { IComponentOptions } from 'angular';
+import { IComponentOptions, IScope } from 'angular';
 import { Credential } from "@digitalpersona/core";
 import { PasswordAuth } from '@digitalpersona/authentication';
 import { IAuthService, ServiceError } from '@digitalpersona/services';
 
-import { TokenAuth } from '../tokenAuth';
+import { TokenAuth, Success } from '../tokenAuth';
 import template from './passwordAuth.html';
 
 export default class PasswordAuthControl extends TokenAuth
@@ -17,8 +17,9 @@ export default class PasswordAuthControl extends TokenAuth
     private showPassword: boolean = false;
     private password : string = "";
 
-    public static $inject = ["AuthService"];
+    public static $inject = ["$scope", "AuthService"];
     constructor(
+        private $scope: IScope,
         private authService: IAuthService,
     ){
         super(Credential.Password);
@@ -29,12 +30,18 @@ export default class PasswordAuthControl extends TokenAuth
         super.resetError();
     }
 
-    public submit() {
+    public async submit() {
         super.emitOnBusy();
-        new PasswordAuth(this.authService)
-            .authenticate(this.identity, this.password)
-            .then(token => super.emitOnToken(token))
-            .catch(error => super.emitOnError(new Error(this.mapServiceError(error))));
+        try {
+            const api = new PasswordAuth(this.authService);
+            const token = await api.authenticate(this.identity, this.password);
+            super.emitOnToken(token);
+            super.notify(new Success('Password.Auth.Success'));
+        } catch (error) {
+            super.notify(new Error(this.mapServiceError(error)));
+        } finally {
+            this.$scope.$applyAsync();
+        }
     }
 
     protected mapServiceError(error: ServiceError) {
