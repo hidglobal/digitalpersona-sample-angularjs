@@ -60,7 +60,6 @@ export default class SmartCardChangeControl extends TokenEnroll
         const idx = this.cards.findIndex(c => c.Name === ev.cardId);
         if (idx < 0) return;
         this.cards.splice(idx);
-        // super.emitOnUpdate();
         this.$scope.$apply();
     }
 

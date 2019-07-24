@@ -59,12 +59,7 @@ export class TokenEnroll
     protected emitOnBusy() {
         this.resetStatus();
         if (this.onBusy) this.onBusy();
-//        this.$scope.$apply();
     }
-    // protected emitOnUpdate() {
-    //     this.resetStatus();
-    //     if (this.onUpdate) this.onUpdate();
-    // }
     protected emitOnSuccess(result: Success) {
         this.status = result;
         if (this.onSuccess) this.onSuccess({result});

@@ -63,7 +63,6 @@ export default class CardsChangeControl extends TokenEnroll
         try {
             const devices = await this.reader.enumerateReaders();
             this.isReaderConnected = devices.length > 0;
-            // super.emitOnUpdate();
         } catch (error) {
             this.isReaderConnected = false;
             super.emitOnError(new Error(this.mapDeviceError(error)));
