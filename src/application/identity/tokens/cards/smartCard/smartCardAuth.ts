@@ -22,7 +22,7 @@ export default class SmartCardAuthControl extends TokenAuth
     public reader: CardsReader;
     private card: Card | null;
     private pin: string;
-    private showPin: boolean;
+    private showPin: boolean = false;
 
     public static $inject = ["$scope", "AuthService"];
     constructor(
@@ -69,7 +69,7 @@ export default class SmartCardAuthControl extends TokenAuth
 
     public updatePin(value: string) {
         this.pin = value || "";
-        super.resetError();
+        super.notify();
     }
 
     public async submit() {
@@ -85,11 +85,11 @@ export default class SmartCardAuthControl extends TokenAuth
                 super.notify(new Success('Cards.Auth.Success'));
             }
             catch (error) {
-                super.emitOnError(new Error(this.mapServiceError(error)));
+                super.notify(new Error(this.mapServiceError(error)));
             }
         }
         catch (error) {
-            super.emitOnError(new Error(this.mapDeviceError(error)));
+            super.notify(new Error(this.mapDeviceError(error)));
         }
         finally {
             this.$scope.$applyAsync();

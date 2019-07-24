@@ -27,7 +27,7 @@ export default class PinAuthControl extends TokenAuth
 
     public updatePin(value: string) {
         this.pin = value || "";
-        super.resetError();
+        super.notify();
     }
 
     public async submit() {

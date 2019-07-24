@@ -6,7 +6,7 @@ import { CardsReader, FingerprintReader, SampleFormat } from '@digitalpersona/de
 import { CredInfo } from '../tokens/configuration/credInfo';
 import { IdentityService } from '../../identity';
 import template from './signin.html';
-import { StatusAlert } from '../../common';
+import { StatusAlert, Warning } from '../../common';
 
 export default class SigninControl
 {
@@ -45,14 +45,14 @@ export default class SigninControl
             await this.fingerprintReader.startAcquisition(SampleFormat.Intermediate);
             this.update();
         } catch (err) {
-            this.showError(err, 'Fingerprints');
+            this.updateStatus('Fingerprints', new Warning(err.message));
         }
 
         try {
             await this.cardReader.subscribe();
             this.update();
         } catch (err) {
-            this.showError(err, 'Cards');
+            this.updateStatus('Cards', new Warning(err.message));
         }
 
         this.updateCredentials();
@@ -112,11 +112,6 @@ export default class SigninControl
             rule.policy.every(el => ids.includes(el.cred_id.toUpperCase())),
         );
         return satisfied;
-    }
-
-    public canIdentify() {
-        return false;
-//        return this.selected && this.selected.ident;
     }
 
     public get isIdentified() {
@@ -229,7 +224,6 @@ export default class SigninControl
         //         this.updateIdentity(this.getUser());
         //     }
         // }
-        this.update();
     }
 
     public showError(error: ServiceError|Error, cred: string) {

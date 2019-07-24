@@ -72,20 +72,9 @@ export class TokenAuth
     protected emitOnBusy() {
         if (this.onBusy) this.onBusy();
     }
-    protected emitOnUpdate() {
-        if (this.onUpdate) this.onUpdate();
-    }
     protected emitOnToken(token: JSONWebToken) {
         this.error = "";
         if (this.onToken) this.onToken({token});
-    }
-    protected emitOnError(error: Error) {
-        this.error = error.message;
-        if (this.onError) this.onError({error});
-    }
-    protected resetError() {
-        this.error = "";
-        if (this.onError) this.onError({});
     }
 
     protected notify(status?: StatusAlert) {

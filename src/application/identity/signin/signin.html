@@ -20,7 +20,6 @@
         <fieldset ng-disabled="$ctrl.isIdentified">
             <x-username
                 label="{{'Signin.Username' | translate}}"
-                ng-hide="$ctrl.canIdentify()"
                 value="{{$ctrl.getUser().name}}"
                 required="true"
                 on-change="$ctrl.updateUsername(value)"

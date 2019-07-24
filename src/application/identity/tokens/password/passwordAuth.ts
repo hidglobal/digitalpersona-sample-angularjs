@@ -14,8 +14,8 @@ export default class PasswordAuthControl extends TokenAuth
         controller: PasswordAuthControl,
     };
 
-    private showPassword: boolean = false;
     private password : string = "";
+    private showPassword: boolean = false;
 
     public static $inject = ["$scope", "AuthService"];
     constructor(
@@ -27,7 +27,7 @@ export default class PasswordAuthControl extends TokenAuth
 
     public updatePassword(value: string) {
         this.password = value || "";
-        super.resetError();
+        super.notify();
     }
 
     public async submit() {

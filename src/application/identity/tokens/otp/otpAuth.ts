@@ -30,17 +30,18 @@ export default class OtpAuthControl extends TokenAuth
     }
 
     public $onInit() {
+        this.resetMode();
+    }
+
+    private resetMode() {
         this.mode = "time";
     }
 
-    private resetMode() { this.mode = "time"; }
-
     public async sendChallenge(mode: OtpMode) {
-        super.resetError();
+        super.notify();
         try {
             if (mode === "push") {
                 this.mode = mode;
-                this.emitOnUpdate();
                 const token = await new PushOtpAuth(this.authService).authenticate(this.identity);
                 super.emitOnToken(token);
                 super.notify(new Success('OTP.Auth.Success'));
@@ -60,7 +61,7 @@ export default class OtpAuthControl extends TokenAuth
         }
         catch (error) {
             this.resetMode();
-            this.emitOnError(new Error(this.mapServiceError(error)));
+            this.notify(new Error(this.mapServiceError(error)));
         } finally {
             this.$scope.$applyAsync();
         }
@@ -72,11 +73,6 @@ export default class OtpAuthControl extends TokenAuth
 
     public updateCode(value: string) {
         this.code = value || "";
-        super.notify();
-    }
-
-    public updateMode(mode: OtpMode) {
-        this.mode = mode;
         super.notify();
     }
 

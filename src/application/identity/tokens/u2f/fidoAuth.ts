@@ -26,8 +26,6 @@ export default class FidoAuthControl extends TokenAuth
 
     public async start() {
         this.started = true;
-//      super.resetError();
-//        this.notify();
         super.emitOnBusy();
         try {
             const api = new U2FAuth(this.authService);
