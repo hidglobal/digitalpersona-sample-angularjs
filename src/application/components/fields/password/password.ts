@@ -15,7 +15,7 @@ export default class PasswordControl
         },
         bindings: {
             type            : '@',  // field type ('password' for a masked text or 'text' for a plain text)
-            showPassword    : '=',  // a password peeker state; this value can be used to sync states of all password peekers on the form
+            showPassword    : '=?', // a password peeker state; this value can be used to sync states of all password peekers on the form
             match           : '<?', // when defined, the field value must be equal to the provided value, or show a mismatch error
             name            : '@',  // field name (for the form posting)
             label           : '@',  // field label text
@@ -26,7 +26,7 @@ export default class PasswordControl
 
     public parent: IFormController;
     public type  : 'password' | 'text';
-    public showPassword : boolean;
+    public showPassword : boolean = false;
     public match? : string;
     public name  : string;    // field name (for the form posting)
     public label : string;    // field label text
