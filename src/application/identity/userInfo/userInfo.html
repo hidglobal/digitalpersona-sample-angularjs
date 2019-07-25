@@ -1,16 +1,25 @@
-<x-activity-view title="'Profile.Title'|translate">
-    <ng-form class="row">
-        <fieldset disabled>
-            <x-username label="{{'Signin.Username' | translate}}" value="{{$ctrl.userName()}}"></x-username>
-        </fieldset>
+<form ng-submit="$ctrl.submit()">
+    <p ng-bind="'Profile.Info.Description'|translate"></p>
+    <fieldset>
+        <x-text
+            label="{{'Profile.Info.Email.Prompt'| translate}}"
+            value="{{$ctrl.email}}"
+            required="false"
+            on-change="$ctrl.updateEmail(value)"
+        ></x-text>
 
-        <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error.message | translate" ng-show="$ctrl.error"></div>
+        <x-text
+            label="{{'Profile.Info.DisplayName.Prompt'|translate}}"
+            value="{{$ctrl.displayName}}"
+            required="false"
+            on-change="$ctrl.updateDisplayName(value)"
+        ></x-text>
 
-        <button type="button" class="btn btn-link" ng-click="$ctrl.deleteAccount()">
-            <span class="text-danger" ng-bind="'Profile.DeleteAccount'|translate"></span>
-        </button>
+        <button
+            type="submit"
+            class="btn btn-primary"
+            ng-bind="'Profile.Info.Update.Prompt' | translate"></button>
+    </fieldset>
 
-        <h3 ng-bind="'Profile.Security.Title'|translate"></h3>
-        <x-user-credentials identity="$ctrl.identity"></x-user-credentials>
-    </ng-form>
-</x-activity-view>
+    <x-alert status="$ctrl.status"></x-alert>
+</form>

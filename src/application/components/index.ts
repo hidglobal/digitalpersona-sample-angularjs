@@ -1,5 +1,6 @@
 import ng from 'angular';
 
+import TextControl from './fields/text/text';
 import UsernameControl from './fields/username/username';
 import PasswordControl from './fields/password/password';
 import AlertControl from './alert/alert';
@@ -13,6 +14,7 @@ import mustNotMatch from './validators/mustNotMatch';
 export default ng.module("example.components", [
     'ngMessages',
 ])
+.component('text', TextControl.Component)
 .component('username', UsernameControl.Component)
 .component('password', PasswordControl.Component)
 .component('alert', AlertControl.Component)

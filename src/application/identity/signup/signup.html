@@ -7,25 +7,43 @@
         }">
         <h2>{{'Signup.Title' | translate }}</h2>
         <fieldset ng-disabled="$ctrl.busy">
-            <x-username
-                label="{{'Signup.Username' | translate}}"
-                value="{{$ctrl.username}}"
-                required="true"
-                on-change="$ctrl.updateUsername(value)"
-            ></x-username>
+            <fieldset>
+                <legend>Login data</legend>
+                <x-username
+                    label="{{'Signup.Username' | translate}}"
+                    value="{{$ctrl.username}}"
+                    required="true"
+                    on-change="$ctrl.updateUsername(value)"
+                ></x-username>
 
-            <x-password
-                label="{{ 'Password.Create.Title' | translate }}"
-                show-password="$ctrl.showPassword"
-                on-change="$ctrl.updatePassword(value)"
-            ></x-password>
-            <x-password
-                label="{{ 'Password.Create.Repeat' | translate }}"
-                match="$ctrl.password"
-                show-password="$ctrl.showPassword"
-            ></x-password>
+                <x-password
+                    label="{{ 'Password.Create.Title' | translate }}"
+                    show-password="$ctrl.showPassword"
+                    on-change="$ctrl.updatePassword(value)"
+                ></x-password>
+                <x-password
+                    label="{{ 'Password.Create.Repeat' | translate }}"
+                    match="$ctrl.password"
+                    show-password="$ctrl.showPassword"
+                ></x-password>
+            </fieldset>
+            <fieldset>
+                <legend>{{'Profile.Info.Title'|translate}}</legend>
+                <p ng-bind="'Profile.Info.Description'|translate"></p>
 
-            <div class="alert alert-danger" role="alert" ng-bind="$ctrl.error.message | translate" ng-show="$ctrl.error"></div>
+                <x-text
+                    label="{{'Profile.Info.Email.Prompt'| translate}}"
+                    required="false"
+                    on-change="$ctrl.updateEmail(value)"
+                ></x-text>
+
+                <x-text
+                    label="{{'Profile.Info.DisplayName.Prompt'|translate}}"
+                    required="false"
+                    on-change="$ctrl.updateDisplayName(value)"
+                ></x-text>
+            </fieldset>
+            <x-alert status="$ctrl.status"></x-alert>
 
             <button
                 type="submit"

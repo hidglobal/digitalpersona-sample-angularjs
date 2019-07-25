@@ -1,0 +1,28 @@
+<x-activity-view title="'Profile.Title'|translate">
+
+    <ul class="nav nav-tabs" role="navigation">
+        <li class="nav-item" ng-repeat="tab in $ctrl.tabs"
+            title="{{ 'Profile.' + tab.id + '.Title' | translate }}"
+            ng-class="{ 'active': $ctrl.selected === tab }">
+            <a class="btn btn-link"
+                ng-bind="'Profile.' + tab.id + '.Title' | translate"
+                ng-click="$ctrl.select(tab)"
+            ></a>
+        </li>
+    </ul>
+    <div style="padding-top: 1em;">
+        <x-user-info
+            identity="$ctrl.identity"
+            ng-show="$ctrl.selected.id == 'Info'"
+        ></x-user-info>
+
+        <x-user-credentials
+            identity="$ctrl.identity"
+            ng-show="$ctrl.selected.id == 'Security'"
+        ></x-user-credentials>
+
+        <button type="button" class="btn btn-link" ng-click="$ctrl.deleteAccount()">
+            <span class="text-danger" ng-bind="'Profile.DeleteAccount'|translate"></span>
+        </button>
+    </div>
+</x-activity-view>

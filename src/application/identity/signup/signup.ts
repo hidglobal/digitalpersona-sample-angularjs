@@ -1,9 +1,11 @@
 import { IScope, ILocationService, IComponentOptions } from 'angular';
-import { JSONWebToken } from '@digitalpersona/core';
-import { ServiceError } from '@digitalpersona/services';
+import { JSONWebToken, UserNameType, User, Ticket } from '@digitalpersona/core';
+import { ServiceError, IAuthService, IEnrollService, AttributeAction, Attribute, AttributeType } from '@digitalpersona/services';
 
 import template from './signup.html';
 import UserService from '../user.service';
+import { StatusAlert } from '../tokens/tokenAuth';
+import { PasswordAuth } from '@digitalpersona/authentication';
 
 export default class SignupControl
 {
@@ -16,14 +18,19 @@ export default class SignupControl
 
     private username: string;
     private password: string;
-    private error?: Error;
+    private showPassword: boolean;
+    private displayName: string;
+    private email: string;
+
+    private status?: StatusAlert;
     private busy: boolean;
     private isConsentGiven: boolean;
-    private showPassword: boolean;
 
-    public static $inject = ["UserApi", "$scope", "$location"];
+    public static $inject = ["UserApi", "AuthService", "EnrollService", "$scope", "$location"];
     constructor(
         private userApi: UserService,
+        private authService: IAuthService,
+        private enrollService: IEnrollService,
         private $scope: IScope,
         private $location: ILocationService,
     ){
@@ -32,17 +39,25 @@ export default class SignupControl
     public $onInit() {
         this.busy = false;
         this.showPassword = false;
-        delete this.error;
     }
 
     public updateUsername(value: string) {
+        this.notify();
         this.username = value;
         return this.validateUsername(value);
     }
 
     public updatePassword(value: string) {
+        this.notify();
         this.password = value;
         return this.validatePassword(value);
+    }
+
+    public updateDisplayName(value: string) {
+        this.displayName = value;
+    }
+    public updateEmail(value: string) {
+        this.email = value;
     }
 
     private validateUsername(value: string): string|void {
@@ -64,18 +79,53 @@ export default class SignupControl
     public async submit() {
         try {
             this.busy = true;
+            // create a new user account
             await this.userApi.create(this.username, this.password);
+        } catch (e) {
+            this.notify(new Error(e.data));
+        } finally {
+            this.busy = false;
+            this.$scope.$apply();
+        }
+        try {
+            // try to login temporary, to modify personal data
+            const auth = new PasswordAuth(this.authService);
+            const user = new User(this.username, UserNameType.DP);
+            const token = await auth.authenticate(user, this.password);
+            const ticket = new Ticket(token);
+            // update personal data
+            if (this.displayName) {
+                await this.enrollService.PutUserAttribute(ticket
+                    , user
+                    , "displayName"
+                    , AttributeAction.Update
+                    , new Attribute(AttributeType.String, [this.displayName]));
+            }
+            if (this.email) {
+                await this.enrollService.PutUserAttribute(ticket
+                    , user
+                    , "mail"
+                    , AttributeAction.Update
+                    , new Attribute(AttributeType.String, [this.email]));
+            }
+            // redirect to the signin page for a first logon
             this.$location.url(`/signin?username=${this.username}`);
         }
         catch (e) {
-            this.error = new Error(e.data);
+            this.notify(new Error(this.mapServiceError(e)));
         } finally {
             this.busy = false;
             this.$scope.$apply();
         }
     }
 
-    public resetError() {
-        delete this.error;
+    private mapServiceError(error: ServiceError) {
+        switch (error.code) {
+            default: return error.message;
+        }
+    }
+    private notify(status?: StatusAlert) {
+        this.busy = false;
+        this.status = status;
     }
 }

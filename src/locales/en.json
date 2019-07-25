@@ -1,6 +1,7 @@
 {
   "CompanyName": "Bank of DigitalPersona",
   "Error": {
+    "RequiredValue": "The value is required.",
     "AccessDenied": "Access denied. Probably your logon is expired or invalidated.",
     "DoesNotExist": "The specified account does not exist."
   },
@@ -17,6 +18,23 @@
   },
   "Profile": {
     "Title": "User information",
+    "Info": {
+      "Title": "Personal information",
+      "Description": "Enter your contact information (optional) if you want to be notified about your account activity by e-mail.",
+      "Email": {
+        "Prompt": "E-mail address (will be used for notifications only)"
+      },
+      "DisplayName": {
+        "Prompt": "How should we call you in our correspondence?"
+      },
+      "Update": {
+        "Prompt": "Update",
+        "Success": "Personal information is updated",
+        "Error": {
+
+        }
+      }
+    },
     "Security": {
       "Title": "Security",
       "EnrolledCredentials": "Your sign-in methods",

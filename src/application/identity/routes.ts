@@ -63,7 +63,7 @@ export default function routes(
 
         // Home routes for authenticated users
         .when('/user', {
-            template: '<x-user-info identity="$resolve.identity"></x-user-info>',
+            template: '<x-profile identity="$resolve.identity"></x-profile>',
             resolve: { identity },
         })
 
