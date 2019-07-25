@@ -15,6 +15,8 @@ import userCredentials from './userCredentials/userCredentials';
 import signin from './signin/signin';
 import signup from './signup/signup';
 
+import consent from './consent/consent';
+
 export default ng.module('example.profile', [
     route,
     auth,
@@ -28,6 +30,7 @@ export default ng.module('example.profile', [
 .component('userCredentials', userCredentials.Component)
 .component('signin', signin.Component)
 .component('signup', signup.Component)
+.component('consent', consent.Component)
 .name;
 
 export { IdentityService };

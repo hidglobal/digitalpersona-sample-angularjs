@@ -4,6 +4,17 @@
     "AccessDenied": "Access denied. Probably your logon is expired or invalidated.",
     "DoesNotExist": "The specified account does not exist."
   },
+  "DataProcessingConsent": {
+    "Intro": "Please, take a minute to read following",
+    "Title": "How we use your personal and biometric data",
+    "MustAccept": "If you wish to continue using this website and create a demo account, you must accept our privacy policies:",
+    "WeUseCookies": "We may use browser cookies to provide you with a rich, interactive experience.",
+    "WeCollectPersonalData": "We collect your personal data, such as name, e-mail or phone number, only to authenticate you on this website, or to notify you about your account activity.",
+    "WeCollectBiometricData": "We collect your biometric data, such as fingerprints and face images, only to authenticate you on this website.",
+    "WeDoNotShareData": "We never share your personal and biometric data with any third party, except when it is required by law.",
+    "WeDoNotRetainData": "We keep your personal and biometric data only during your account lifetime. When your account is deleted, either by you or automatically in 30 days, all your personal and biometric data is immediately and completely erased.",
+    "Accept": "I accept"
+  },
   "Profile": {
     "Title": "User information",
     "Security": {

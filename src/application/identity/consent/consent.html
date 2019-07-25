@@ -1,0 +1,20 @@
+<div>
+    <form ng-submit="$ctrl.submit()" ng-if="!$ctrl.consentGiven()">
+        <center><h4 ng-bind="'DataProcessingConsent.Intro' | translate"></h4></center>
+        <h2 ng-bind="'DataProcessingConsent.Title' | translate"></h2>
+        <p ng-bind="'DataProcessingConsent.MustAccept' | translate"></p>
+        <ul>
+            <li> <p ng-bind="'DataProcessingConsent.WeUseCookies' | translate"></li>
+            <li> <p ng-bind="'DataProcessingConsent.WeCollectPersonalData' | translate"></li>
+            <li> <p ng-bind="'DataProcessingConsent.WeCollectBiometricData' | translate"></li>
+            <li> <p ng-bind="'DataProcessingConsent.WeDoNotShareData' | translate"></li>
+            <li> <p ng-bind="'DataProcessingConsent.WeDoNotRetainData' | translate"></li>
+        </ul>
+        <button
+            type="submit"
+            class="btn btn-primary"
+            ng-bind="'DataProcessingConsent.Accept' | translate"></button>
+    </form>
+
+    <ng-transclude ng-if="$ctrl.consentGiven()"></ng-transclude>
+</div>

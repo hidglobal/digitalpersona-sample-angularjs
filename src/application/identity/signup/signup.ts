@@ -18,6 +18,7 @@ export default class SignupControl
     private password: string;
     private error?: Error;
     private busy: boolean;
+    private isConsentGiven: boolean;
     private showPassword: boolean;
 
     public static $inject = ["UserApi", "$scope", "$location"];
