@@ -1,6 +1,6 @@
 import { IScope, ILocationService, IComponentOptions } from 'angular';
-import { JSONWebToken, User, JWT, ClaimName, UserNameType } from '@digitalpersona/core';
-import { ServiceError, IPolicyService, ResourceActions, ContextualInfo, PolicyInfo, Policy } from '@digitalpersona/services';
+import { JSONWebToken, User, JWT, ClaimName, UserNameType, CredentialId } from '@digitalpersona/core';
+import { ServiceError, IPolicyService, ResourceActions, ContextualInfo, PolicyInfo, Policy, IAuthService } from '@digitalpersona/services';
 import { CardsReader, FingerprintReader, SampleFormat } from '@digitalpersona/devices';
 
 import { CredInfo } from '../tokens/configuration/credInfo';
@@ -18,15 +18,17 @@ export default class SigninControl
     private identity: User|JSONWebToken;
     private busy: boolean = false;
     private selected: string;
-    private policies: PolicyInfo | null;
     private credentials: CredInfo[];
+    private enrolledCredentials?: CredentialId[];
+    private policies?: PolicyInfo;
     private error?: Error;
 
     private fingerprintReader: FingerprintReader;
     private cardReader: CardsReader;
 
-    public static $inject = ["PolicyService", "$scope", "$location", "$route", "SupportedCredentials", "Identity"];
+    public static $inject = ["AuthService", "PolicyService", "$scope", "$location", "$route", "SupportedCredentials", "Identity"];
     constructor(
+        private authService: IAuthService,
         private policyService: IPolicyService,
         private $scope: IScope,
         private $location: ILocationService,
@@ -79,7 +81,12 @@ export default class SigninControl
         if (!this.policies)
             this.credentials = this.supportedCredentials.all;
         const allowed = this.getAllowedCredentials();
-        this.credentials = this.supportedCredentials.all.filter(cred => allowed.includes(cred.id));
+        this.credentials = this.supportedCredentials.all
+            .filter(cred => allowed.includes(cred.id));
+        if (this.enrolledCredentials) {
+            const enrolled = this.enrolledCredentials;
+            this.credentials = this.credentials.filter(cred => enrolled.includes(cred.id));
+        }
         if (!this.selected || !this.credentials.some(cred => cred.name === this.selected))
             this.selected = this.credentials[0].name;
     }
@@ -157,12 +164,17 @@ export default class SigninControl
     }
 
     public async updateIdentity(identity: User| JSONWebToken) {
-        if (this.identity === identity) return;
+        if (this.policies && (this.identity === identity)) return;
         this.identity = identity;
         this.update();
         try {
+            const user = this.getUser();
             this.policies = await this.policyService
-                .GetPolicyInfo(this.getUser(), "*", ResourceActions.Write, new ContextualInfo());
+                .GetPolicyInfo(user, "*", ResourceActions.Write, new ContextualInfo());
+            // if (!user.isAnonymous() && !user.isEveryone())
+            //     this.enrolledCredentials = await this.authService.GetUserCredentials(user);
+            // else
+            //     delete this.enrolledCredentials;
             this.updateCredentials();
         } catch (e) {
             console.log(e);
