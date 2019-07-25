@@ -1,6 +1,6 @@
 {
   "name": "example-angularjs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Example of using @digitalpersona/* libraries in an AngularJS application",
   "main": "index.js",
   "scripts": {
