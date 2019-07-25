@@ -1,12 +1,12 @@
 import { IComponentOptions } from 'angular';
 import 'angular-messages';
-import template from './username.html';
+import template from './text.html';
 
-export default class UsernameControl
+export default class TextControl
 {
     public static readonly Component: IComponentOptions = {
         template,
-        controller: UsernameControl,
+        controller: TextControl,
         bindings: {
             value           : '@',
             name            : '@',  // field name (for the form posting)
@@ -30,8 +30,8 @@ export default class UsernameControl
     private error?: string;
 
     public $onInit() {
-        this.name         = this.name || "username";
-        this.label        = this.label || "Username";
+        this.name         = this.name || "";
+        this.label        = this.label || "";
     }
 
     public update() {

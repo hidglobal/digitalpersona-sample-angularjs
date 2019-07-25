@@ -17,13 +17,13 @@
                     placeholder="{{:: $ctrl.placeholder}}"
                     ng-model="$ctrl.value"
                     ng-model-options="{ debounce: 500 }"
-                    ng-required="$ctrl.required"
-                    ng-pattern="::$ctrl.pattern"
+                    ng-required="{{:: $ctrl.required }}"
+                    ng-pattern="{{:: $ctrl.pattern }}"
                     ng-change="$ctrl.update()"
             />
             <div class="text-danger" ng-bind="$ctrl.error | translate" ng-if="$ctrl.error"></div>
             <ng-messages class="text-danger" for="_form[$ctrl.name].$error" ng-if="_form[$ctrl.name].$touched">
-                <ng-message when="required">{{ 'This field is required' | translate }}</ng-message>
+                <ng-message when="required">{{ 'Error.RequiredValue' | translate }}</ng-message>
             </ng-messages>
         </div>
     </div>

@@ -1,0 +1,30 @@
+<ng-form name="_form">
+    <div class="form-group"
+         ng-class="{
+             'has-error': !_form[$ctrl.name].$valid && _form[$ctrl.name].$touched,
+             'has-success': _form[$ctrl.name].$valid && $ctrl.model
+        }">
+        <div class="control-label">
+            <label  for="{{:: $id}}"
+                    ng-bind="$ctrl.label">
+            </label>
+        </div>
+        <div class="control-body">
+            <input  id="{{:: $id}}"
+                    class="form-control"
+                    name="{{:: $ctrl.name}}"
+                    type="text"
+                    placeholder="{{:: $ctrl.placeholder}}"
+                    ng-model="$ctrl.value"
+                    ng-model-options="{ debounce: 500 }"
+                    ng-required="{{:: $ctrl.required}}"
+                    ng-pattern="{{:: $ctrl.pattern}}"
+                    ng-change="$ctrl.update()"
+            />
+            <div class="text-danger" ng-bind="$ctrl.error | translate" ng-if="$ctrl.error"></div>
+            <ng-messages class="text-danger" for="_form[$ctrl.name].$error" ng-if="_form[$ctrl.name].$touched">
+                <ng-message when="required">{{ 'Error.RequiredValue' | translate }}</ng-message>
+            </ng-messages>
+        </div>
+    </div>
+</ng-form>
