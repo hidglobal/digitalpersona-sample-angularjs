@@ -1,0 +1,21 @@
+<nav class="breadcrumb-nav">
+    <ol class="breadcrumb-nav-list">
+        <li class="breadcrumb-nav-list-item">
+            <a href="{{ site.url }}/{{- site.data.product.repo -}}">
+                {{ site.data.product.name }}
+            </a>
+        </li>
+        <li class="breadcrumb-nav-list-item">
+            <a href="{{ site.url }}/{{- site.data.lib.repo -}}">
+                {{ site.data.lib.name }}
+            </a>
+        </li>
+        <li class="breadcrumb-nav-list-item">
+            <span>
+                {{ page.title }}
+            </span>
+        </li>
+    </ol>
+</nav>
+
+{% include logo.html %}
