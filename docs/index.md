@@ -187,7 +187,7 @@ The {{ site.data.lib.name }} uses following third-party libraries:
 
 ### Business logic:
 
-* Client-side facial recognition: [face-api.js](https://github.com/justadudewhohacks/face-api.js) by Vincent M�hler
+* Client-side facial recognition: [face-api.js](https://github.com/justadudewhohacks/face-api.js) by Vincent Mühler
 * QR Code generator for OTP: [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) by Kazuhiko Arase
 
 ### Server infrastructure:
