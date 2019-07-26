@@ -1,0 +1,59 @@
+digraph {
+    layout=dot;
+    rankdir=LR;
+    newrank=true;
+    compound=true;
+    concentrate=true;
+    nodesep=1;
+    ranksep=0.5;
+    splines=true;
+    label=""
+    graph[
+        style=dashed; color=gray;
+        fontname="Lucida Console"; fontsize=10; fontcolor=black;
+        labelloc=top; labeljust=left;
+    ];
+    node [
+        shape=record; color=lightgray;
+        fontname="Lucida Console"; fontsize=10; fontcolor=black;
+    ];
+    edge [
+        color="#8888FF";
+        fontname="Arial"; fontsize=10; fontcolor=darkblue;
+    ]
+
+    subgraph cluster_LDS {
+        label="Demo LDS Server (Windows Server, AD, LDS, IIS)";
+        lds_instance[ label="
+            Windows LDS instance
+        "];
+        lds_server[ label="
+            DP LDS Server
+        "];
+        lds_web[ label="
+            {<confirm>lds.domain.tld:443|
+            {DPWebAuth
+            |DPWebEnroll
+            |DPWebPolicies
+            |DPWebClaims
+            |DPWebSecret
+            }}"];
+    }
+
+    subgraph cluster_WEB {
+        label="Demo Web Server (NodeJS)";
+        bank [ label="
+            {<site> bank.domain.tld:443|
+            {<nodejs> NodeJS
+            |<public> out/public/
+            }}"];
+    }
+
+    Browser [ shape="folder" ]
+
+    Browser -> { rank=same; bank:site, lds_web:confirm } [ label="https" ];
+    lds_web -> lds_server;
+    lds_server -> lds_instance;
+    bank:nodejs -> lds_web:confirm [ label="https" ];
+
+}
