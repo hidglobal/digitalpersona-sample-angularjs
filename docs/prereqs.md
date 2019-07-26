@@ -17,6 +17,17 @@ The sample requires following products to be installed and configured:
 * DigitalPersona LDS Administration Tools (DP LDS AT)
 * DigitalPersona LDS Web Management Components (DP LDS WMC)
 
+Recommended deployment infrastructure diagram:
+
+[![Infrastructure](infrastructure.svg)](infrastructure.dot)
+
+<small>NOTE: this diagram is created using Graphviz and a `build-pipeline.dot` file.
+Do not edit the SVG file directly.
+In VS Code, use the [Graphviz Preview](https://marketplace.visualstudio.com/items?itemName=EFanZh.graphviz-preview)
+extension to preview DOT files and export them to SVG/PNG/PDF.
+</small>
+
+
 ## LDS Web Management Components
 
 DP LDS WMC services must be accessible from the Internet using DNS.
