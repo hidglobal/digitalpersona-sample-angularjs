@@ -4,7 +4,7 @@ title: Run the server
 has_toc: false
 nav_order: 4
 ---
-
+{% include header.html %}  
 # Run the server
 
 ## Prepare
