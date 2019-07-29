@@ -28,7 +28,7 @@ digraph {
             Windows LDS instance
         "];
         lds_server[ label="
-            DP LDS Server
+            <dphost>DP LDS Server
         "];
         lds_web[ label="
             {<confirm>lds.domain.tld:443|
@@ -49,11 +49,14 @@ digraph {
             }}"];
     }
 
-    Browser [ shape="folder" ]
+    Browser [ shape="folder" ];
+    SMTP [ shape="house" label="\n\n\nSMTP server" ];
 
-    Browser -> { rank=same; bank:site, lds_web:confirm } [ label="https" ];
+    Browser -> { rank=same; bank:site, lds_web:confirm } [ label="<as user>" ];
     lds_web -> lds_server;
     lds_server -> lds_instance;
-    bank:nodejs -> lds_web:confirm [ label="https" ];
+    bank:nodejs -> lds_web:confirm [ taillabel="<as officer>" ];
+    lds_server:dphost -> SMTP [ taillabel="verification, OTP"];
+    bank:nodejs -> SMTP [ taillabel="notification"];
 
 }

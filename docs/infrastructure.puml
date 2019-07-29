@@ -1,0 +1,49 @@
+@startuml
+
+skinparam componentStyle uml2
+skinparam padding 10
+left to right direction
+
+cloud {
+    actor User
+    agent Browser
+}
+
+User --> Browser : uses
+
+node "Demo LDS Server (Windows Server, AD, LDS, IIS)" {
+    interface "https://lds.domain.tld" as lds
+    package "DP Web Access Components" {
+        component "DPWebAuth\nDPWebEnroll\nDPWebPolicies\nDPWebClaims\nDPWebSecrets" as WAC
+    }
+    component "Internet Information Server" as IIS #yellow
+    component "DP LDS Server" as DPHost
+    database " Windows LDS" as LDS
+    lds - IIS
+    IIS -> WAC : hosts
+    WAC --> DPHost : uses
+    DPHost --> LDS : stores data
+    [Browser] --> lds
+}
+
+node "Demo Web Server" {
+    interface "https://demo.domain.tld" as demo
+    package "Web Access Sample" {
+        component "Sample Site" as Sample
+        component "NodeJS Server" as DemoServer #Yellow
+    }
+    demo -- DemoServer
+    DemoServer -> Sample : hosts
+    Browser <--> demo
+}
+
+cloud {
+    interface "smtp.domain.tld" as smtp
+    smtp - [Mail Server]
+    DPHost --> smtp : verification, OTP
+    DemoServer --> smtp : notification
+}
+
+[Mail Server] --> User : e-mail
+
+@enduml
