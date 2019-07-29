@@ -6,7 +6,7 @@ nav_order: 3
 ---
 {% include header.html %}  
 
-# Configuration
+# Configure the server
 
 ## Service identity
 

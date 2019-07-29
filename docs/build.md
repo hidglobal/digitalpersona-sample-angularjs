@@ -6,7 +6,7 @@ nav_order: 2
 ---
 {% include header.html %}  
 
-# Build
+# Build the server
 
 ## Prerequisites
 
