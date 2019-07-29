@@ -25,26 +25,26 @@ Run `PowerShell` as an administrator and execute the following commands:
 
 ## Install the sample
 
-Clone the sample repository:
+**Clone the sample repository**
 ```
 git clone {{site.data.lib.git}}/{{site.data.lib.repo}}.git
 ```
 
-Install dependencies:
+**Install dependencies**
 ```
 cd {{site.data.lib.repo}}
 npm install
 ```
-Build the site:
+**Build the site**
 
-* For production:
+>* For production:
 ```
-npm run build-prod
+>npm run build-prod
 ```
 
-* For development:
+>* For development:
 ```
-npm run build-dev
+>npm run build-dev
 ```
 
 ---
