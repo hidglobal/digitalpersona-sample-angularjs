@@ -8,15 +8,13 @@ nav_order: 1
 
 # Overview
 
-As a part of {{site.data.product.shortName}}, the {{ site.data.lib.name }} shows typical usage scenarios of {{ site.data.product.name }} APIs:
+As a part of {{site.data.product.shortName}}, the {{ site.data.lib.name }} shows typical usage scenarios of the {{ site.data.product.name }}, such as:
 
-* creating and deleting a user account.
-* enrolling and changing user credentials, such as password, fingerprints, cards, face, U2F tokens,
-one-time password, PIN.
-* multi-factor authentication (MFA) with enrolled credentials, driven by logon policies configured 
-on the server.
+* Creating and deleting user accounts.
+* Enrolling and modifying user credentials, such as passwords, fingerprints, cards, facial, FIDO (U2F) tokens, One-Time Passwords and PINs.
+* Multi-factor authentication (MFA) with enrolled credentials, driven by logon policies configured on the server.
 
-The sample application uses NodeJS backend and AngularJS frontend, but {{ site.data.product.shortName }} 
+This sample application uses a NodeJS backend and and AngularJS frontend, but {{ site.data.product.shortName }}
 APIs are vanilla Typescript/Javascript libraries and will work with any JS framework.
 
 ## Instructions
@@ -29,13 +27,13 @@ APIs are vanilla Typescript/Javascript libraries and will work with any JS frame
 
 ## License
 
-The "Bank of DigitalPersona" sample application is licensed under the [MIT](./LICENSE) license. 
+The "Bank of DigitalPersona" sample application is licensed under the [MIT](./LICENSE) license.
 
 Copyright (c) 2019 HID Global, Inc.
 
 ## Acknowledgements
 
-The {{ site.data.lib.name }} uses following third-party libraries:
+The {{ site.data.lib.name }} uses the following third-party libraries:
 
 ### Business logic:
 

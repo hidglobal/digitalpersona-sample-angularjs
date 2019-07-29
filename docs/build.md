@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Build
+title: Build the server
 has_toc: false
 nav_order: 2
 ---
@@ -14,16 +14,16 @@ Install [Node JS](https://nodejs.org).
 
 Install [Git](https://git-scm.com/).
 
-> NOTE: Instead of downloading and installing prerequisites one by one, you can use the [`Chocolatey` Package Manager for Windows](https://chocolatey.org/install). 
-Run `PowerShell` as administrator and execute following commands:
-```ps
-Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+> NOTE: Instead of downloading and installing prerequisites one by one, you can use the [`Chocolatey` Package Manager for Windows](https://chocolatey.org/install).
+Run `PowerShell` as an administrator and execute the following commands:  
+>  ```ps
+  Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+  ```  
+>  ```ps
+  choco install nodejs git
+  ```
 
-choco install nodejs git
-```
-
-
-## Install the sample:
+## Install the sample
 
 Clone the sample repository:
 ```
@@ -49,4 +49,3 @@ npm run build-dev
 
 ---
 Next: [Configure the server](./configure.md).
-

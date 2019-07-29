@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Run
+title: Run the server
 has_toc: false
 nav_order: 4
 ---
@@ -9,8 +9,7 @@ nav_order: 4
 
 ## Prepare
 
-The server uses the [`supervisor`](https://www.npmjs.com/package/supervisor) package to ensure 
-the server is running continuously.
+The server uses the [`supervisor`](https://www.npmjs.com/package/supervisor) package to ensure that the server is running continuously.
 
 Before starting the server, install the `supervisor` NPM package globally:
 ```

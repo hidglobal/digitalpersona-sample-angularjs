@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Configuration
+title: Configure the server
 has_toc: false
 nav_order: 3
 ---
@@ -11,11 +11,11 @@ nav_order: 3
 ## Service identity
 
 DigitalPersona Server does not allow regular users to create or delete their own accounts.
-Only an authorized account having the `Create Customer` permission can create and delete 
+Only an authorized account having the `Create Customer` permission can create and delete
 DigitalPersona User accounts. The demo NodeJS server must be able to work on behalf
 of such authorized account.
 
-* On the DigitalPersona Server: 
+* On the DigitalPersona Server:
    * create a dedicated Windows account which will be used as a customer account manager
    * add this account to the `Security Officer` role using the AzMan console.
    * for the `Security Officer` role, add the `Create Customers` task authorization.
@@ -39,11 +39,11 @@ module.exports = {
 }
 ```
 
-## Self-enrollment 
+## Self-enrollment
 
 To let users to enroll new credentials:
 
-* On the DigitalPersona Server: 
+* On the DigitalPersona Server:
   * add an `Enroll Self` task authorization to the `DigitalPersona User` role using the AzMan console.
 
 ## Host name and port
@@ -88,7 +88,7 @@ To use U2F (FIDO), add the application host name into the `app-id.json` configur
 
 ## SSL/TLS Certificate
 
-The sample server must use HTTPS, so make sure you have a valid SSL/TLS certificate 
+The sample server must use HTTPS, so make sure you have a valid SSL/TLS certificate
 matching the sample server DNS name.
 
 **The certificate must be signed by a Certificate Authority which is trusted
@@ -99,8 +99,8 @@ Avoid using self-signed certificates!
 (server and clients) are either joined the AD domain or have the public key of the Root CA
 certificate manually imported into their `Trusted Roots` stores.
 
-Import a private key of your SSL/TLS certificate into a password-protected PFX file, 
-copy the file into the `./certificates` folder of the sample and make sure the sample server config 
+Import a private key of your SSL/TLS certificate into a password-protected PFX file,
+copy the file into the `./certificates` folder of the sample and make sure the sample server config
 has the path and password to the PFX file configured:
 
 ./server/config.js:
@@ -144,7 +144,7 @@ DP LDS WMC domain and let all the service endpoint URLs to be calculated.
 
 ## Hardening security
 
-We recommend to protect the `./server` directory from unauthorized access. 
+We recommend to protect the `./server` directory from unauthorized access.
 It is especially important to protect the `./server/config.js` file from unauthorized read
 because it contains very sensitive data.
 
