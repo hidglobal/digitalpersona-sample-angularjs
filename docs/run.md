@@ -35,9 +35,19 @@ npm run server-dev
 
 Once the server is started, open the  main page of the sample in your web browser.  
 
-![](assets/BODP-Main-dpWebAccessManagementServer.png)
+![](assets/BODP-Main-page.png)
 
-Click *Sign up* to create a demo account, then sign in with your newly created password and add more authentication methods to start using multifactor authentication.
+Click *Sign up* to create a demo account,  
+
+![](assets/BODP-sign-up.png)
+
+then sign in with your newly created password.
+
+![](assets/BODP-sign-in.png)
+
+Click your user name to display your user information and select the Security tab to add more authentication methods and start using multifactor authentication.
+
+![](assets/BODP-add-methods.png)
 
 ## Stop or restart the server
 
