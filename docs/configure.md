@@ -11,21 +11,17 @@ nav_order: 3
 ## Service identity
 
 DigitalPersona Server does not allow regular users to create or delete their own accounts.
-Only an authorized account having the `Create Customer` permission can create and delete
+Only an authorized account having the *Create Customer* permission can create and delete
 DigitalPersona User accounts. The demo NodeJS server must be able to work on behalf
-of such authorized account.
+of the authorized account mentioned above.
 
-* On the DigitalPersona Server:
-   * create a dedicated Windows account which will be used as a customer account manager
-   * add this account to the `Security Officer` role using the AzMan console.
-   * for the `Security Officer` role, add the `Create Customers` task authorization.
+* **On the DigitalPersona Server**
+   * Create a dedicated Windows account to be used as a customer account manager.
+   * Add this account to the *Security Officer* role using the Microsoft AzMan console.
+   * Add the *Create Customers* task authorization to the *Security Officer* role,.
 
-* On the demo server:
-   * add the account name and password to the sample configuration file `/server/config.js`
-     in the `serviceIdentity` section:
-
-./server/config.js:
----
+* **On the demo server**
+   * Add the account name and password for the account created above to the sample configuration file */server/config.js* in the *serviceIdentity* section, as shown below.  
 ```
 module.exports = {
     site: {
@@ -41,23 +37,21 @@ module.exports = {
 
 ## Self-enrollment
 
-To let users to enroll new credentials:
+To allow users to enroll their own credentials:
 
-* On the DigitalPersona Server:
-  * add an `Enroll Self` task authorization to the `DigitalPersona User` role using the AzMan console.
+On the DigitalPersona Server:
+  * add an *Enroll Self* task authorization to the *DigitalPersona User* role using the AzMan console.
 
 ## Host name and port
 
 Make sure that your web hosting machine:
 
-* has a DNS record for the host name
-* has opened an inbound port (443 for HTTPS)
-* has opened outound port to DP Web Services (443 for HTTPS)
+* Has a DNS record for the host name.
+* Has opened an inbound port (443 for HTTPS).
+* Has opened an outound port to DP Web Services (443 for HTTPS).
 
-Configure the server:
-
-./server/config.js:
----
+On the demo server:
+* Specify thte host name and port in the sample configuration file /server/config.js:  
 ```js
 module.exports = {
     site: {
@@ -88,23 +82,20 @@ To use U2F (FIDO), add the application host name into the `app-id.json` configur
 
 ## SSL/TLS Certificate
 
-The sample server must use HTTPS, so make sure you have a valid SSL/TLS certificate
-matching the sample server DNS name.
+The sample server must use HTTPS, so make sure you have a valid SSL/TLS certificate matching the sample server DNS name.
 
 **The certificate must be signed by a Certificate Authority which is trusted
 both by your sample server machine and by your client's machines.**
 Avoid using self-signed certificates!
 
 >If you use a private CA (e.g. your ActiveDirectory CA), make sure all participants
-(server and clients) are either joined the AD domain or have the public key of the Root CA
+(server and clients) are either joined to the AD domain or have the public key of the Root CA
 certificate manually imported into their `Trusted Roots` stores.
 
 Import a private key of your SSL/TLS certificate into a password-protected PFX file,
-copy the file into the `./certificates` folder of the sample and make sure the sample server config
-has the path and password to the PFX file configured:
+copy the file into the *./certificates* folder of the sample and make sure the sample server config file *./server/config.js*
+has the path and password to the PFX file configured.
 
-./server/config.js:
----
 ```js
 module.exports = {
     site: {
@@ -121,10 +112,8 @@ module.exports = {
 ## Service Endpoints
 
 Add DigitalPersona LDS Web Management Components endpoints to the sample server configuration,
-in the `endpoints` section:
+in the *endpoints* section of *./server/config.js*.
 
-./server/config.js:
----
 ```js
 const dpWebAccessManagementServer = 'dpam.company.com'
 
@@ -139,14 +128,12 @@ module.exports = {
 }
 ```
 
-Note that in most cases all you need is just set the `dpWebAccessManagementServer` value to the
-DP LDS WMC domain and let all the service endpoint URLs to be calculated.
+Note that in most cases all you need is just set the *dpWebAccessManagementServer* value to the DP LDS WMC domain and let all the service endpoint URLs be calculated.
 
 ## Hardening security
 
-We recommend to protect the `./server` directory from unauthorized access.
-It is especially important to protect the `./server/config.js` file from unauthorized read
-because it contains very sensitive data.
+We recommend protecting the *./server* directory from unauthorized access.
+It is especially important to protect the *./server/config.js* file from unauthorized reads because it contains very sensitive data.
 
 ---
 Next: [Run the server](./run)
