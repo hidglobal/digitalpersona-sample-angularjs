@@ -1,7 +1,10 @@
 @startuml
 
-skinparam componentStyle uml2
-skinparam padding 10
+skinparam ComponentStyle uml2
+skinparam defaultFontSize 24
+skinparam padding 6
+
+
 left to right direction
 
 cloud {
