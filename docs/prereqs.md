@@ -19,13 +19,10 @@ This sample requires the following products to be installed and configured:
 
 Recommended deployment infrastructure diagram:
 
-[![Infrastructure](infrastructure.svg)](infrastructure.dot)
+[![Infrastructure](infrastructure.svg)](infrastructure.puml)
 
-<small>NOTE: this diagram is created using Graphviz and a `build-pipeline.dot` file.
-Do not edit the SVG file directly.
-In VS Code, use the [Graphviz Preview](https://marketplace.visualstudio.com/items?itemName=EFanZh.graphviz-preview)
-extension to preview DOT files and export them to SVG/PNG/PDF.
-</small>
+<small>NOTE: this diagram is created using [PlantUML](http://plantuml.com/index). Do not edit the SVG file directly.
+Use the [PlantUML](https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml) VS Code extension or [PlantUML Online Server](http://www.plantuml.com/plantuml/uml) to edit and preview pUML files and export them to SVG.</small>
 
 
 ## LDS Web Management Components
