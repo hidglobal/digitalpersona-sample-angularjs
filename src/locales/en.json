@@ -6,7 +6,7 @@
     "DoesNotExist": "The specified account does not exist."
   },
   "DataProcessingConsent": {
-    "Intro": "Please, take a minute to read following",
+    "Intro": "Please, take a minute to read the following",
     "Title": "How we use your personal and biometric data",
     "MustAccept": "If you wish to continue using this website and create a demo account, you must accept our privacy policies:",
     "WeUseCookies": "We may use browser cookies to provide you with a rich, interactive experience.",
