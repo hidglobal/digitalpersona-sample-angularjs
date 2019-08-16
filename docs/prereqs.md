@@ -32,7 +32,7 @@ Self-signed certificates won't be accepted (running in development mode is an ex
 
 ## DigitalPersona LDS Server
 
-PD LDS Server comes with an evaluation license allowing enrollment of up to 10 users
+DP LDS Server comes with an evaluation license allowing enrollment of up to 10 users
 during first 30 days. If you need more users or a longer enrollment period, you can obtain and apply a DigitalPersona Server license.
 
 ## Additional prerequisites

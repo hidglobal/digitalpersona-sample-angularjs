@@ -17,6 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@digitalpersona/services": "^0.2.5",
     "@digitalpersona/authentication": "^0.2",
     "@digitalpersona/devices": "^0.2",
     "@digitalpersona/enrollment": "^0.2",

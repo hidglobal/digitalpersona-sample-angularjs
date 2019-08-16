@@ -60,6 +60,14 @@
     "@digitalpersona/core" "^0.2"
     tslib "^1.9.3"
 
+"@digitalpersona/services@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@digitalpersona/services/-/services-0.2.5.tgz#b70755852c06b8e3d615a558e164470327da37eb"
+  integrity sha512-B2MFg5vI2UyTbCzmxaj4UDDEXQphkrpP44eZjMyFdUkRYYxsXagc5DH36Di5IFLcb/sHKmox0HQeBRMuEgQZJw==
+  dependencies:
+    "@digitalpersona/core" "^0.2"
+    tslib "^1.9.3"
+
 "@tensorflow/tfjs-core@1.2.2", "@tensorflow/tfjs-core@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@tensorflow/tfjs-core/-/tfjs-core-1.2.2.tgz#2efa89e323612a26aeccee9b3ae9f5ac5a635bbe"
