@@ -1,6 +1,6 @@
 {
   "name": "example-angularjs",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Example of using @digitalpersona/* libraries in an AngularJS application",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@digitalpersona/services": "^0.2.5",
     "@digitalpersona/authentication": "^0.2",
     "@digitalpersona/devices": "^0.2",
     "@digitalpersona/enrollment": "^0.2",

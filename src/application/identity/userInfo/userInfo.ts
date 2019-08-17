@@ -1,12 +1,10 @@
-import { IComponentOptions, IController, IScope, ILocationService } from 'angular';
+import { IComponentOptions, IScope } from 'angular';
 
 import { JSONWebToken, User, Ticket } from '@digitalpersona/core';
 
-import UserService from '../user.service';
 import template from './userInfo.html';
 import { StatusAlert, Success } from '../../common';
-import { IdentityService } from '..';
-import { IEnrollService, AttributeAction, Attribute, AttributeType, ServiceError } from '@digitalpersona/services';
+import { IEnrollService, AttributeAction, Attribute, ServiceError, VarString } from '@digitalpersona/services';
 
 export default class UserInfoControl// implements IController
 {
@@ -41,15 +39,15 @@ export default class UserInfoControl// implements IController
             // retrieve personal data
             try {
                 const displayName = await this.enrollService.GetUserAttribute(ticket, user, "displayName");
-                if (displayName && displayName.values && displayName.values.length > 0)
-                    this.displayName = displayName.values[0] as string;
+                if (displayName && displayName.data && displayName.data.values && displayName.data.values.length > 0)
+                    this.displayName = displayName.data.values[0] as string;
             } catch (e){
                 this.notify(new Error(this.mapServiceError(e)));
             }
             try {
                 const email = await this.enrollService.GetUserAttribute(ticket, user, "mail");
-                if (email && email.values && email.values.length > 0)
-                    this.email = email.values[0] as string;
+                if (email && email.data && email.data.values && email.data.values.length > 0)
+                    this.email = email.data.values[0] as string;
             } catch (e){
                 this.notify(new Error(this.mapServiceError(e)));
             }
@@ -75,17 +73,24 @@ export default class UserInfoControl// implements IController
             this.busy = true;
             const ticket = new Ticket(this.identity);
             const user = User.fromJWT(this.identity);
+            const displayName: Attribute = {
+                name: "displayName",
+                data: new VarString(this.displayName ? [this.displayName] : []),
+            };
+            const mail: Attribute = {
+                name: "mail",
+                data: new VarString(this.email ? [this.email] : []),
+            };
+
             // update personal data
             await this.enrollService.PutUserAttribute(ticket
                 , user
-                , "displayName"
-                , this.displayName ? AttributeAction.Update : AttributeAction.Delete
-                , new Attribute(AttributeType.String, this.displayName ? [this.displayName] : []));
+                , displayName
+                , this.displayName ? AttributeAction.Update : AttributeAction.Delete);
             await this.enrollService.PutUserAttribute(ticket
                 , user
-                , "mail"
-                , this.email ? AttributeAction.Update : AttributeAction.Delete
-                , new Attribute(AttributeType.String, this.email ? [this.email] : []));
+                , mail
+                , this.email ? AttributeAction.Update : AttributeAction.Delete);
             this.notify(new Success('Profile.Info.Update.Success'));
         }
         catch (e) {

@@ -1,6 +1,6 @@
 import { IScope, ILocationService, IComponentOptions } from 'angular';
 import { JSONWebToken, UserNameType, User, Ticket } from '@digitalpersona/core';
-import { ServiceError, IAuthService, IEnrollService, AttributeAction, Attribute, AttributeType } from '@digitalpersona/services';
+import { ServiceError, IAuthService, IEnrollService, AttributeAction, Attribute, VarString } from '@digitalpersona/services';
 
 import template from './signup.html';
 import UserService from '../user.service';
@@ -93,20 +93,26 @@ export default class SignupControl
             const user = new User(this.username, UserNameType.DP);
             const token = await auth.authenticate(user, this.password);
             const ticket = new Ticket(token);
+            const displayName: Attribute = {
+                name: "displayName",
+                data: new VarString([this.displayName]),
+            };
+            const mail: Attribute = {
+                name: "mail",
+                data: new VarString([this.email]),
+            };
             // update personal data
             if (this.displayName) {
                 await this.enrollService.PutUserAttribute(ticket
                     , user
-                    , "displayName"
-                    , AttributeAction.Update
-                    , new Attribute(AttributeType.String, [this.displayName]));
+                    , displayName
+                    , AttributeAction.Update);
             }
             if (this.email) {
                 await this.enrollService.PutUserAttribute(ticket
                     , user
-                    , "mail"
-                    , AttributeAction.Update
-                    , new Attribute(AttributeType.String, [this.email]));
+                    , mail
+                    , AttributeAction.Update);
             }
             // redirect to the signin page for a first logon
             this.$location.url(`/signin?username=${this.username}`);
