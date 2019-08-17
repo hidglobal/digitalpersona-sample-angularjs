@@ -18,7 +18,7 @@
                     ng-model="$ctrl.value"
                     ng-model-options="{ debounce: 500 }"
                     ng-required="{{:: $ctrl.required}}"
-                    ng-pattern="{{:: $ctrl.pattern}}"
+                    ng-pattern="$ctrl.pattern"
                     ng-change="$ctrl.update()"
             />
             <div class="text-danger" ng-bind="$ctrl.error | translate" ng-if="$ctrl.error"></div>
