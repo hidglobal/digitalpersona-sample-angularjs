@@ -32,6 +32,38 @@ The "Bank of DigitalPersona" sample application is licensed under the [MIT](./LI
 
 Copyright (c) 2019 HID Global, Inc.
 
+## Known issues and limitations
+
+* The sample does not auto-refresh an authenticated user's token. Some operations require a fresh token,
+  and they will start returning "Token possibly expired" error about 10 minutes after sign in.
+  Users must refresh their tokens by signing out and then signign back in.
+
+* Microsoft Edge 40 (EdgeHTML 15.15063) has an issue with CORS (Cross-Origin Request Security) 
+  in XHR/Fetch requests, causing a "Fetch failed" or "Network request failed" error.
+  See more details [here](https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/12339859/).
+
+* IE11 requires following polyfills:
+    * fetch
+    * Object.assign
+    * String.prototype.endsWith
+    * Array.prototype.findIndex
+    * Array.prototype.includes
+    * Symbol
+    * TextEncoder/TextDecoder
+
+One of possible methods is to add a following script to your page:
+```html
+<script src="https://polyfill.io/v3/polyfill.min.js?features=Symbol%2Cfetch%2CString.prototype.endsWith%2CObject.assign%2CArray.prototype.findIndex%2CArray.prototype.includes"></script>
+```
+
+Also see [index.html]({{site.data.lib.git}}/{{site.data.lib.repo}}/src/index.html) for the `TextEncoder` polyfill.
+
+* IE11 does not support WebRTC, so face recogintion in IE11 requires a polyfill for the `getUserMedia` API 
+  which uses Adobe Flash as a fallback.
+
+* IE11 does not support U2F.
+
+
 ## Acknowledgements
 
 The {{ site.data.lib.name }} uses the following third-party libraries:
