@@ -12,7 +12,6 @@ const path = require('path');
 const fs = require('fs');
 const https = require('https');
 const express = require('express');
-//const methodOverride = require('method-override');
 const config = require('./config.js');
 const api = require('./api');
 
@@ -24,15 +23,13 @@ function logErrors (err, req, res, next) {
 const app = express();
 
 app.use(express.json());
-//app.use(methodOverride());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api', api);
 app.use(logErrors);
 
 app.use(express.static(path.join(__dirname, '../out/public')));
 
-//app.get('/*', (req, res) => res.redirect('/main'))
-//app.get('/main', (req, res) => res.sendFile(path.join(viewsDir, 'index.html')))
+app.get('/*', (req, res) => res.redirect('/'))
 
 const httpsOptions = {
     pfx: fs.readFileSync(config.site.sslCertificate.pfxFilename),

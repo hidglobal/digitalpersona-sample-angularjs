@@ -27,6 +27,30 @@
         </div>
     </noscript>
 
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=Symbol%2Cfetch%2CString.prototype.endsWith%2CObject.assign%2CArray.prototype.findIndex%2CArray.prototype.includes"></script>
     <script src="modules/websdk/index.js"></script>
+    <script id="TextEncoder-shim">
+        if (typeof(TextEncoder) === 'undefined') {
+            TextEncoder = function TextEncoder() {}
+            TextEncoder.prototype.encode = function(s) {
+                const e = new Uint8Array(s.length);
+                for (let i = 0; i < s.length; i += 1) {
+                    e[i] = s.charCodeAt(i);
+                }
+                return e;
+            }
+        }
+
+        if (typeof(TextDecoder) === 'undefined') {
+            TextDecoder = function TextDecoder() {}
+            TextDecoder.prototype.decode = function(arr) {
+                let d = "";
+                for (let i = 0; i < arr.length; i += 1) {
+                    d += String.fromCharCode(arr[i]);
+                }
+                return d;
+            }
+        }
+    </script>
 </body>
 </html>
