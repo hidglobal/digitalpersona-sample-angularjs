@@ -21,4 +21,24 @@ module.exports = {
         admin: `https://${dpWebAccessManagementServer}/DPWebAdmin/DPWebAdminService.svc`,
         u2fAppId: `https://${dpWebAccessManagementServer}/DPFido/app-id.json`
     },
+    accounts: {
+        maxAccountAge: 30,
+    },
+    notifications: {
+        onDelete: {
+            sendMail: true,
+        },
+    },
+    mail: {
+        from: 'no-reply@alpha.local',
+        smtp: {
+            host: 'barracuda.crossmatch.net',
+            port: 25,
+            secure: false,
+            // auth: {
+            //     user: 'cam@alpha.local',
+            //     pass: 'aaaAAA123'
+            // }
+        },
+    }
 }

@@ -1,9 +1,15 @@
 const { User, UserNameType, Ticket } = require('@digitalpersona/core');
 const { AuthService, EnrollService, AdminService, SearchScope, ServiceError } = require('@digitalpersona/services');
 const { PasswordAuth } = require('@digitalpersona/authentication');
-const { site, endpoints } = require('./config');
+const { site, endpoints, accounts, notifications, mail } = require('./config');
 
 const express = require('express');
+const nodemailer = require("nodemailer");
+
+const debug = require('debug');
+const app = debug('app');
+const log = app.extend('log');
+const trace = app.extend('trace');
 
 const authService = new AuthService(endpoints.auth);
 const enrollService = new EnrollService(endpoints.enroll);
@@ -40,36 +46,36 @@ const DAYS = HOURS * 24;
 async function asSecurityOfficer(req, res, next)
 {
     try {
-        console.debug('> asSecurityOfficer')
+        trace('> asSecurityOfficer')
         req.token = await GetToken();
         next();
     } catch (e) {
-        console.debug(e);
+        log(e);
         next(e);
     } finally {
-        console.debug('< asSecurityOfficer')
+        trace('< asSecurityOfficer')
     }
 }
 
 async function withBearerToken(req, res, next) {
     try {
-        console.debug('> withBearerToken')
+        trace('> withBearerToken')
         const { authorization } = req.headers;
         if (!authorization) return res.sendStatus(HTTP_STATUS.UNAUTHORIZED);
         const token = authorization.match(/Bearer (.+)/)[1];
         req.bearer = token;
         next();
     } catch (e) {
-        console.debug(e);
+        log(e);
         return res.sendStatus(HTTP_STATUS.BAD_REQUEST);
     } finally {
-        console.debug('< withBearerToken')
+        trace('< withBearerToken')
     }
 }
 
 function handleError(err, req, res, next) {
     if (res.headersSent) return next(err);
-    console.log(err);
+    debug(err);
     if (err instanceof ServiceError) {
         res.status(HTTP_STATUS.BAD_REQUEST).send(err.message)
     } else
@@ -78,36 +84,36 @@ function handleError(err, req, res, next) {
 
 function getSettings(req, res)
 {
-    console.debug('> getSettings')
+    trace('> getSettings')
     res.json({
         endpoints,
     });
-    console.debug('< getSettings')
+    trace('< getSettings')
 }
 
 async function createUser(req, res, next)
 {
-    console.debug('> createUser')
+    trace('> createUser')
     try {
         const { token } = req;
         const { username, password } = req.body;
-        console.debug(`user: ${username}, token: ${token}`)
+        log(`user: ${username}, token: ${token}`)
         await enrollService.CreateUser(
             new Ticket(token),
             new User(username, UserNameType.DP),
             password);
         res.sendStatus(HTTP_STATUS.CREATED);
     } catch (e) {
-        console.debug(e);
+        log(e);
         next(e);
     } finally {
-        console.debug('< createUser')
+        trace('< createUser')
     }
 }
 
 async function getUsers(req, res)
 {
-    console.debug('> getUsers')
+    trace('> getUsers')
     try {
         const { token } = req;
         const query = {
@@ -117,7 +123,7 @@ async function getUsers(req, res)
         }
 
         const records = await adminService.ExecuteSearch(new Ticket(token), query);
-        console.log(`${records.length} records were found`)
+        log(`${records.length} records were found`)
         const users = records
             .map(rec => rec && rec[0] && rec[0].data && rec[0].data.values && rec[0].data.values[0])
             .filter(name => name)
@@ -126,16 +132,16 @@ async function getUsers(req, res)
         res.json({ users });
 
     } catch (e) {
-        console.debug(e);
+        log(e);
         res.sendStatus(HTTP_STATUS.OK_NO_CONTENT);
     } finally {
-        console.debug('< getUsers')
+        trace('< getUsers')
     }
 }
 
 async function deleteUser(req, res)
 {
-    console.debug('> deleteUser')
+    trace('> deleteUser')
     try {
         const { token, bearer } = req;
         const { username } = req.query;
@@ -146,31 +152,31 @@ async function deleteUser(req, res)
         const user = User.fromJWT(bearer);
         if (user.name !== username) return res.sendStatus(HTTP_STATUS.FORBIDDEN);
 
-        await enrollService.DeleteUser(
-            new Ticket(token),
-            new User(username, UserNameType.DP),
-        );
+        const ticket = new Ticket(token);
+
+        await DeleteUser(ticket, user, "a user's request");
         res.sendStatus(HTTP_STATUS.OK);
     } catch (e) {
-        console.debug(e);
+        log(e);
         res.sendStatus(HTTP_STATUS.OK_NO_CONTENT);
     } finally {
-        console.debug('< deleteUser')
+        trace('< deleteUser')
     }
 }
 
 async function deleteOldUsers(req, res, next) {
-    console.debug('> users/clean')
+    trace('> users/clean')
     try {
         const { token } = req;
-        await DeleteOldUsers(token);
+        const ticket = new Ticket(token);
+        await DeleteOldUsers(ticket);
         res.sendStatus(HTTP_STATUS.OK);
     } catch (e) {
-        console.debug(e);
+        log(e);
         next(e);
     }
     finally{
-        console.debug('< users/clean')
+        trace('< users/clean')
     }
 }
 
@@ -184,14 +190,67 @@ function GetToken()
             site.serviceIdentity.password);
 }
 
-async function DeleteOldUsers(token)
+async function SendMail(from, to, subject, html) {
+    trace(`> SendMail(from:${from}, to:${to}, subject: ${subject}, ...)`)
+    try {
+        const transport = nodemailer.createTransport(mail.smtp);
+        const res = await transport.sendMail({
+            from,
+            to,
+            subject,
+            html
+        });
+        log(`Message sent: ${res.messageId}`)
+    } catch (e) {
+        log(e);
+    }
+    finally{
+        trace('< SendMail')
+    }
+}
+
+async function DeleteUser(ticket, user, reason)
+{
+    // try to get a user's notification email and personal name
+    let email, displayName;
+    if (notifications.onDelete.sendMail) {
+        try {
+            email = await enrollService.GetUserAttribute(ticket, user, "mail");
+            log(email);
+            displayName = await enrollService.GetUserAttribute(ticket, user, "displayName");
+            log(displayName);
+        } catch (e) {
+            log("No personal data");
+        }
+    }
+
+    // delete the account
+    await enrollService.DeleteUser(ticket, user);
+
+    // notify about deletion
+    if (notifications.onDelete.sendMail && email) {
+        const html = `
+            <p>Hello ${displayName.data.values[0] || "user"},</p>
+            <p>Your account "${user.name}" and all associated data were deleted.</p>
+            <p>Reason for deletion: ${reason}.</p>
+        `;
+        await SendMail(mail.from
+            , email.data.values[0]
+            , 'Account deleted'
+            , html
+        );
+    }
+
+}
+
+async function DeleteOldUsers(ticket)
 {
     // NOTE: LDAP lastLogonTimestamp is a number of a 100-ns interval since midnight of Jan 1, 1601
     // Javascript uses midnight of Jan 1, 1970 as a base. We need to convert JS time to LDAP time.
     const now = new Date().getTime();
     const ldapBase = new Date(1601, 0, 1).getTime();        // offset of the LDAP base from the JS base
     const ldapNow = now - ldapBase;                         // transpose the current date to the LDAP base
-    const age = 30 * DAYS;                                  // account age is 30 days, in milliseconds
+    const age = cleanup.maxAccountAge * DAYS;               // max account age, in milliseconds
     const lastLogonThreshold = (ldapNow - age) * 1000 * 10  // threshold (in 100ns intervals since Jan1, 1601)
     const filter = `(&(objectClass=user)(objectCategory=person)(lastLogonTimestamp<=${lastLogonThreshold}))`;
 
@@ -201,28 +260,28 @@ async function DeleteOldUsers(token)
         attributes: [ "cn" ]
     }
 
-    const records = await adminService.ExecuteSearch(new Ticket(token), query);
-    console.log(`${records.length} records were found`)
+    const records = await adminService.ExecuteSearch(ticket, query);
+    log(`${records.length} records were found`)
     const users = records
         .map(rec => rec && rec[0] && rec[0].data && rec[0].data.values && rec[0].data.values[0])
         .filter(name => name)
         .map(name => new User(name, UserNameType.DP));
 
     users.map(user => console.log(`Deleting ${user.name}`));
-    const deletes = users.map(user => enrollService.DeleteUser(new Ticket(token), user));
+    const deletes = users.map(user => DeleteUser(ticket, user, "inactivity for more than 30 days"));
     await Promise.all(deletes);
 }
 
 async function Cleanup()
 {
-    console.log("> Cleanup")
+    trace("> Cleanup")
     try {
         const token = await GetToken();
-        await DeleteOldUsers(token);
+        await DeleteOldUsers(new Ticket(token));
     } catch (e) {
-        console.error(e);
+        log(e);
     } finally {
-        console.log("< Cleanup")
+        trace("< Cleanup")
     }
 }
 

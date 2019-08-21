@@ -1,11 +1,11 @@
 {
   "name": "example-angularjs",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Example of using @digitalpersona/* libraries in an AngularJS application",
   "main": "index.js",
   "scripts": {
     "server": "supervisor -w server ./server/index.js",
-    "server-dev": "set NODE_TLS_REJECT_UNAUTHORIZED=0&& supervisor -w server ./server/index.js",
+    "server-dev": "set NODE_TLS_REJECT_UNAUTHORIZED=0&& set DEBUG=app*&& supervisor -w server ./server/index.js",
     "clean": "rimraf ./out",
     "tsc": "tsc --p tsconfig.typings.json",
     "build": "npm run clean && npm run tsc",
@@ -34,10 +34,12 @@
     "angular-ui-bootstrap": "^2.5.6",
     "base-64": "^0.1.0",
     "bootstrap": "^3.3.7",
+    "debug": "^4.1.1",
     "express": "^4.16.4",
     "face-api.js": "^0.20.0",
     "font-awesome": "^4.7.0",
     "node-fetch": "^2.6.0",
+    "nodemailer": "^6.3.0",
     "qrcode-generator": "^1.4.3",
     "tslib": "^1.9.3",
     "win-ca": "^3.0.5"
