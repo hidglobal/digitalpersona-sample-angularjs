@@ -250,7 +250,7 @@ async function DeleteOldUsers(ticket)
     const now = new Date().getTime();
     const ldapBase = new Date(1601, 0, 1).getTime();        // offset of the LDAP base from the JS base
     const ldapNow = now - ldapBase;                         // transpose the current date to the LDAP base
-    const age = cleanup.maxAccountAge * DAYS;               // max account age, in milliseconds
+    const age = accounts.maxAccountAge * DAYS;              // max account age, in milliseconds
     const lastLogonThreshold = (ldapNow - age) * 1000 * 10  // threshold (in 100ns intervals since Jan1, 1601)
     const filter = `(&(objectClass=user)(objectCategory=person)(lastLogonTimestamp<=${lastLogonThreshold}))`;
 
