@@ -69,10 +69,13 @@ export default class FingerprintsChangeControl extends TokenEnroll
     }
 
     public $onDestroy() {
+        //if (typeof this.reader !== 'undefined') {
         this.reader.stopAcquisition();
         this.reader.off();
-        delete this.reader;
-        delete this.samples;
+        //}
+        //delete this.reader;
+        //delete this.samples;
+        this.samples = [];
     }
 
     private async updateReaderStatus() {

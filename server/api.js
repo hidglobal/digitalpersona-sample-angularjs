@@ -46,8 +46,9 @@ const DAYS = HOURS * 24;
 async function asSecurityOfficer(req, res, next)
 {
     try {
-        trace('> asSecurityOfficer')
+        trace('> asSecurityOfficer');
         req.token = await GetToken();
+        trace('<< GetToken');
         next();
     } catch (e) {
         log(e);
@@ -184,10 +185,23 @@ module.exports = api;
 
 function GetToken()
 {
-    return new PasswordAuth(authService)
-        .authenticate(
-            new User(site.serviceIdentity.username),
-            site.serviceIdentity.password);
+    trace(`> GetToken`);
+    let user = new User(site.serviceIdentity.username);
+    trace(user);
+    trace(site.serviceIdentity.password);
+    let pwdAuth = new PasswordAuth(authService);
+    trace(pwdAuth);
+    let result = pwdAuth.authenticate(user, site.serviceIdentity.password);
+    trace(result);
+    trace(JSON.stringify(result));
+    let resultResolved = Promise.resolve(result);
+    resultResolved.then(function(v) {
+      trace(result); // "Success"
+    }, function(value) {
+      trace(`ERROR ON RESOLVE PROMISE`);
+    });
+    trace(`< GetToken`);
+    return result;
 }
 
 async function SendMail(from, to, subject, html) {
