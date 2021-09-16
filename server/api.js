@@ -46,9 +46,8 @@ const DAYS = HOURS * 24;
 async function asSecurityOfficer(req, res, next)
 {
     try {
-        trace('> asSecurityOfficer');
+        trace('> asSecurityOfficer')
         req.token = await GetToken();
-        trace('<< GetToken');
         next();
     } catch (e) {
         log(e);
