@@ -185,23 +185,10 @@ module.exports = api;
 
 function GetToken()
 {
-    trace(`> GetToken`);
-    let user = new User(site.serviceIdentity.username);
-    trace(user);
-    trace(site.serviceIdentity.password);
-    let pwdAuth = new PasswordAuth(authService);
-    trace(pwdAuth);
-    let result = pwdAuth.authenticate(user, site.serviceIdentity.password);
-    trace(result);
-    trace(JSON.stringify(result));
-    let resultResolved = Promise.resolve(result);
-    resultResolved.then(function(v) {
-      trace(result); // "Success"
-    }, function(value) {
-      trace(`ERROR ON RESOLVE PROMISE`);
-    });
-    trace(`< GetToken`);
-    return result;
+    return new PasswordAuth(authService)
+        .authenticate(
+            new User(site.serviceIdentity.username),
+            site.serviceIdentity.password);
 }
 
 async function SendMail(from, to, subject, html) {
