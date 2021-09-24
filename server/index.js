@@ -3,7 +3,8 @@ const base64 = require('base-64');
 global.btoa = function(s) { return base64.encode(s); }
 global.atob = function(s) { return base64.decode(s); }
 
-global.fetch = require('node-fetch');
+//global.fetch = require('node-fetch');
+global.fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 // Import Root Certificate Authorities from the Windows certificate store
 require('win-ca')
@@ -39,4 +40,3 @@ const httpsOptions = {
 https
     .createServer(httpsOptions, app)
     .listen(config.site.port, config.site.host);
-

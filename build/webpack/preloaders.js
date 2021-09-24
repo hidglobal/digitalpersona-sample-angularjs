@@ -1,6 +1,6 @@
 module.exports = [
     {
       test: /\.ts$/,
-      loader: 'tslint'
+      use: ['tslint']
     }
 ];

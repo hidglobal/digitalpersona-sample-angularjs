@@ -4,6 +4,8 @@
 -.vscode/tasks.json
 -.vscode/settings.json
 
+package-lock.json
+yarn.lock
 node_modules/
 temp/
 dist/

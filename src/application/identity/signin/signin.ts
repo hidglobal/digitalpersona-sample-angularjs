@@ -68,13 +68,17 @@ export default class SigninControl
     }
 
     public $onDestroy() {
+        //if (typeof this.fingerprintReader !== 'undefined') {
         this.fingerprintReader.stopAcquisition();
         this.fingerprintReader.off();
-        delete this.fingerprintReader;
+        //}
+        //delete this.fingerprintReader;
 
+        //if (typeof this.cardReader !== 'undefined') {
         this.cardReader.unsubscribe();
         this.cardReader.off();
-        delete this.cardReader;
+        //}
+        //delete this.cardReader;
     }
 
     private updateCredentials() {

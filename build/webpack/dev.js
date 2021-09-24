@@ -6,7 +6,7 @@ const webpack = require('webpack');
 const config = require('../../server/config');
 
 module.exports = {
-    devtool: "inline-eval-cheap-source-map",
+    devtool: "inline-cheap-source-map",
     entry: {
         main: "./src/index.ts",     // main application page
                                     // TODO: add more entries here, one per each reloadable page
@@ -21,6 +21,9 @@ module.exports = {
             'node_modules',       // standard NPM modules
             'modules',            // non-NPM modules
         ],
+        fallback: {
+          fs: false
+        },
         extensions: [ '.ts', '.mjs', '.js' ],    // try to resolve extension of require('module') in this order
     },
     externals: [
@@ -37,14 +40,19 @@ module.exports = {
     devServer: {
         host: config.site.host,
         port: config.site.port,
-        https: true,
-        pfx: config.site.sslCertificate.pfxFilename,
-        pfxPassphrase: config.site.sslCertificate.passphrase,
-        publicPath: '/',
+        https: {
+          pfx: config.site.sslCertificate.pfxFilename,
+          pfxPassphrase: config.site.sslCertificate.passphrase,
+        },
+        //devMiddleware: {
+        //  publicPath: '/'
+        //},
         historyApiFallback: true,
-        contentBase: [
-            'out/public/'
-        ],
+        //contentBase: [
+        static : [{
+            directory : 'out/public/',
+            publicPath: '/'
+        }],
     },
     plugins: [
         new HtmlWebpackPlugin({

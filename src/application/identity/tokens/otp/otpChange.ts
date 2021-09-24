@@ -25,7 +25,7 @@ export default class OtpChangeControl extends TokenEnroll
     private keyUri: string;
     private qrCode: string;
 
-    private selected: OtpType;
+    private selected?: OtpType;
 
     private phoneNumber: string;
     private smsSent: boolean;
@@ -67,6 +67,7 @@ export default class OtpChangeControl extends TokenEnroll
         switch (this.selected) {
             case 'Software': return !!this.otpCode;
             case 'Hardware': return !!this.serialNumber && !!this.otpCode;
+            default: return false;
         }
     }
 
