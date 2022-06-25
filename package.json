@@ -38,7 +38,7 @@
     "express": "^4.16.4",
     "face-api.js": "^0.20.0",
     "font-awesome": "^4.7.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.7",
     "nodemailer": "^6.3.0",
     "qrcode-generator": "^1.4.3",
     "tslib": "^1.9.3",
