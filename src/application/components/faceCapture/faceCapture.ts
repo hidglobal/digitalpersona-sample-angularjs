@@ -3,7 +3,8 @@ import { BioSample, FaceImage } from '@digitalpersona/core';
 
 import * as faceapi from 'face-api.js';
 import './models/tiny_face_detector_model-weights_manifest.json';
-import 'copy!./models/tiny_face_detector_model-shard1';
+//import 'copy!./models/tiny_face_detector_model-shard1';
+import './models/tiny_face_detector_model-shard1';
 
 import template from './faceCapture.html';
 

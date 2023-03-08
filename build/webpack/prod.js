@@ -34,6 +34,11 @@ module.exports = {
             'node_modules',                             // standard NPM modules
             'modules',            // non-NPM modules
         ],
+        fallback: {
+            fs: false,
+            crypto: false,
+            vertx: false
+        },
         extensions: [ '.ts', '.mjs', '.js' ],    // try to resolve extension of require('module') in this order
     },
     externals: [
@@ -50,15 +55,15 @@ module.exports = {
     devServer: {
         host: config.site.host,
         port: config.site.port,
-        https: true,
-        pfx: config.site.sslCertificate.pfxFilename,
-        pfxPassphrase: config.site.sslCertificate.passphrase,
+        https: {
+            pfx: config.site.sslCertificate.pfxFilename,
+            pfxPassphrase: config.site.sslCertificate.passphrase,
+        },
         publicPath: '/',
         historyApiFallback: true,
-        contentBase: [
-            'out/public/'
-        ],
-    },
+        static: [
+            { directory: "out/public", publicPath: "/" }
+        ]    },
     plugins: [
         // new webpack.optimize.UglifyJsPlugin(
         //     {
@@ -72,19 +77,8 @@ module.exports = {
             inject: 'body',
             hash: true
         }),
-        // new webpack.ProvidePlugin({
-        //     $: 'jquery',
-        //     jQuery: 'jquery',
-        //     'window.jQuery': 'jquery',
-        //     'window.jquery': 'jquery'
-        // })
         new webpack.HashedModuleIdsPlugin(),
     ],
-    resolveLoader: {
-        alias: {
-            copy: 'file-loader?name=[path][name].[ext]&context=src/'
-        }
-    },
     module:{
         rules: loaders
     },

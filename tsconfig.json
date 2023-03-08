@@ -7,7 +7,8 @@
       "importHelpers": true,
       "typeRoots": [
         "node_modules/@types",
-        "./@types"
+        "./@types",
+        "src/modules"
       ],
       "moduleResolution": "node",
       "baseUrl": "./",

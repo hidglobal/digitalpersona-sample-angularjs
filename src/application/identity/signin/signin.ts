@@ -23,8 +23,8 @@ export default class SigninControl
     private policies?: PolicyInfo;
     private error?: Error;
 
-    private fingerprintReader: FingerprintReader;
-    private cardReader: CardsReader;
+    private fingerprintReader?: FingerprintReader;
+    private cardReader?: CardsReader;
 
     public static $inject = ["AuthService", "PolicyService", "$scope", "$location", "$route", "SupportedCredentials", "Identity"];
     constructor(
@@ -68,13 +68,17 @@ export default class SigninControl
     }
 
     public $onDestroy() {
-        this.fingerprintReader.stopAcquisition();
-        this.fingerprintReader.off();
-        delete this.fingerprintReader;
+        if (this.fingerprintReader) {
+            this.fingerprintReader.stopAcquisition();
+            this.fingerprintReader.off();
+            delete this.fingerprintReader;
+        }
 
-        this.cardReader.unsubscribe();
-        this.cardReader.off();
-        delete this.cardReader;
+        if (this.cardReader) {
+            this.cardReader.unsubscribe();
+            this.cardReader.off();
+            delete this.cardReader;
+        }
     }
 
     private updateCredentials() {

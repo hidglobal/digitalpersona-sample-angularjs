@@ -28,7 +28,7 @@ export default class FingerprintsChangeControl extends TokenEnroll
 
     private busy: boolean;
 
-    private reader: FingerprintReader;
+    private reader?: FingerprintReader;
     private isReaderConnected: boolean = false;
 
     private samples: BioSample[];
@@ -39,10 +39,10 @@ export default class FingerprintsChangeControl extends TokenEnroll
     public static $inject = ["$scope"];
     constructor($scope: ng.IScope) {
         super(Credential.Fingerprints, $scope);
+        this.samples = [];
     }
 
     public $onInit() {
-        this.samples = [];
         this.reader = new FingerprintReader();
 
         this.reader.onDeviceConnected = (device) => {
@@ -69,13 +69,16 @@ export default class FingerprintsChangeControl extends TokenEnroll
     }
 
     public $onDestroy() {
-        this.reader.stopAcquisition();
-        this.reader.off();
-        delete this.reader;
-        delete this.samples;
+        if (this.reader) {
+            this.reader.stopAcquisition();
+            this.reader.off();
+            delete this.reader;
+        }
+        this.samples = [];
     }
 
     private async updateReaderStatus() {
+        if (!this.reader) return;
         try {
             const devices = await this.reader.enumerateDevices();
             this.isReaderConnected = devices && devices.length > 0;
@@ -98,7 +101,7 @@ export default class FingerprintsChangeControl extends TokenEnroll
     }
 
     private allSamplesCollected() {
-        return this.samples && this.samples.length >= this.minSamples;
+        return this.samples.length >= this.minSamples;
     }
 
     private async addSamples(samples: BioSample[]) {

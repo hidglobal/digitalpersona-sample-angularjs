@@ -25,7 +25,7 @@ export default class OtpChangeControl extends TokenEnroll
     private keyUri: string;
     private qrCode: string;
 
-    private selected: OtpType;
+    private selected?: OtpType;
 
     private phoneNumber: string;
     private smsSent: boolean;
@@ -68,6 +68,7 @@ export default class OtpChangeControl extends TokenEnroll
             case 'Software': return !!this.otpCode;
             case 'Hardware': return !!this.serialNumber && !!this.otpCode;
         }
+        return false;
     }
 
     public canSendSMS() {
