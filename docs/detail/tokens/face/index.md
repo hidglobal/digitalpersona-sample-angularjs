@@ -2,7 +2,7 @@
 layout: default
 title: Face token
 has_toc: false
-nav_order: 1
+nav_exclude: true
 ---
 {% include header.html %}  
 

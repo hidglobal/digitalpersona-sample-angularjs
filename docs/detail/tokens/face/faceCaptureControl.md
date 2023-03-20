@@ -2,7 +2,7 @@
 layout: default
 title: FaceCaptureControl
 has_toc: false
-nav_order: 1
+nav_exclude: true
 ---
 {% include header.html %}  
 
@@ -31,7 +31,9 @@ Events:
 
 ## Usage example
 
-*faceAuth.html*
+See code [here](../../../../src/application/components/faceCapture)
+
+[faceAuth.html](../../../../src/application/components/faceCapture/faceCapture.html)
 ```html
 <div>
     ...
@@ -50,7 +52,7 @@ Events:
 </div>
 ```
 
-*faceAuth.ts*
+[faceAuth.ts](../../../../src/application/components/faceCapture/faceCapture.ts)
 ```ts
 // NOTE: needs a webpack to support such import of HTML template; otherwise use inline template or any other means
 import template from './faceAuth.html';
