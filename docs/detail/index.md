@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Face token
+title: Details
 has_toc: false
 nav_order: 10
 ---

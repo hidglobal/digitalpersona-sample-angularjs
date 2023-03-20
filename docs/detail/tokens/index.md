@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Authentication tokens
+title: Authentication methods
 has_toc: false
 nav_exclude: true
 ---
