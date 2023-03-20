@@ -33,7 +33,7 @@ Events:
 
 ## Usage example
 
-[faceAuth.html]({{site.data.lib.git}}/{{site.data.lib.repo}}/tree/master/src/application/components/faceCapture)
+[faceAuth.html]({{site.data.lib.git}}/{{site.data.lib.repo}}/tree/master/src/application/components/faceCapture/faceCapture.html)
 ```html
 <div>
     ...
