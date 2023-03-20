@@ -12,6 +12,8 @@ The `FaceCaptureControl` is a composite AngularJS component which captures video
 stream from a camera, looks for face-like features and automatically makes several
 snapshots to be used as biometric samples.
 
+The TypeScript source code for the component is located [here](../../../../src/application/components/faceCapture).
+
 ## API
 
 The `FaceCaptureControl` has following API:
@@ -30,8 +32,6 @@ Events:
 * `onError: ({error?: Error }) => void;`          - fires when the control experienced any error; the error details are passed in the `error` property of the event parameter object
 
 ## Usage example
-
-See code [here](../../../../src/application/components/faceCapture)
 
 [faceAuth.html](../../../../src/application/components/faceCapture/faceCapture.html)
 ```html

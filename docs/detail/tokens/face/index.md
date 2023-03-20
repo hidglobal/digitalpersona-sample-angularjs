@@ -19,5 +19,3 @@ TBD
 * [FaceCaptureControl](./faceCaptureControl.md) - capturing face samples
 * `FaceAuthControl` - face authentication
 * `FaceChangeControl` - face [re]enrollment
-
-
