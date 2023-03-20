@@ -12,7 +12,7 @@ The `FaceCaptureControl` is a composite AngularJS component which captures video
 stream from a camera, looks for face-like features and automatically makes several
 snapshots to be used as biometric samples.
 
-The TypeScript source code for the component is located [here]({{site.url}}/{{site.data.lib.repo}}/tree/master/src/application/components/faceCapture).
+The TypeScript source code for the component is located [here]({{site.data.lib.git}}/{{site.data.lib.repo}}/tree/master/src/application/components/faceCapture).
 
 ## API
 
@@ -33,7 +33,7 @@ Events:
 
 ## Usage example
 
-[faceAuth.html]({{site.url}}/{{site.data.lib.repo}}/tree/master/src/application/components/faceCapture)
+[faceAuth.html]({{site.data.lib.git}}/{{site.data.lib.repo}}/tree/master/src/application/components/faceCapture)
 ```html
 <div>
     ...
@@ -52,7 +52,7 @@ Events:
 </div>
 ```
 
-[faceAuth.ts]({{site.url}}/{{site.data.lib.repo}}/tree/master/src/application/components/faceCapture/faceCapture.ts)
+[faceAuth.ts]({{site.data.lib.git}}/{{site.data.lib.repo}}/tree/master/src/application/components/faceCapture/faceCapture.ts)
 ```ts
 // NOTE: needs a webpack to support such import of HTML template; otherwise use inline template or any other means
 import template from './faceAuth.html';
