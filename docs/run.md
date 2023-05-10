@@ -31,6 +31,13 @@ npm run server-dev
 ```
 >Development mode allows you to use a self-signed TLS certificate for development purposes. Do not use them in production!
 
+To restart the server running under `supervisor`, press *rs* in the terminal console.
+
+You can also run a development server in NodeJS without using the `supervisor`:
+```
+npm run node-dev
+```
+
 ## Open the demo application
 
 Once the server is started, open the  main page of the sample in your web browser.  
@@ -49,8 +56,6 @@ Click your user name to display your user information and select the Security ta
 
 ![](assets/BODP-add-methods.png)
 
-## Stop or restart the server
+## Stop the server
 
 To stop the server, press *Ctrl-C* in the terminal console.
-
-To force restart the server, press *rs* in the terminal console.

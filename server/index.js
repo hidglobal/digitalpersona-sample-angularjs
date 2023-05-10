@@ -29,7 +29,7 @@ app.use(logErrors);
 
 app.use(express.static(path.join(__dirname, '../out/public')));
 
-app.get('/*', (req, res) => res.redirect('/'))
+//app.get('/*', (req, res) => res.redirect('/'))
 
 const httpsOptions = {
     pfx: fs.readFileSync(config.site.sslCertificate.pfxFilename),

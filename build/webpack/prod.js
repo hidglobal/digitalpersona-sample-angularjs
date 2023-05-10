@@ -1,11 +1,12 @@
 const path = require("path");
 const loaders = require("./loaders");
-const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const config = require('../../server/config');
 
 module.exports = {
+    mode: "production",
     devtool: 'source-map',
     entry: {
         main: "./src/index.ts",     // main application page
@@ -36,8 +37,8 @@ module.exports = {
         ],
         fallback: {
             fs: false,
-            crypto: false,
-            vertx: false
+            crypto: false,  // temp workaroud, WebSDK uses a shim that depends on `crypto`
+            vertx: false    // temp workaroud, WebSDK uses a shim that depends on `vertx`
         },
         extensions: [ '.ts', '.mjs', '.js' ],    // try to resolve extension of require('module') in this order
     },
@@ -65,25 +66,20 @@ module.exports = {
             { directory: "out/public", publicPath: "/" }
         ]    },
     plugins: [
-        // new webpack.optimize.UglifyJsPlugin(
-        //     {
-        //         warning: false,
-        //         mangle: true,
-        //         comments: false
-        //     }
-        // ),
         new HtmlWebpackPlugin({
             template: './src/index.html',
             inject: 'body',
+            base: '/',
             hash: true
         }),
-        new webpack.HashedModuleIdsPlugin(),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: 'modules/**/*.js', context: 'src/' },
+                { from: 'locales/*.json', context: 'src/' },
+            ]
+        }),
     ],
     module:{
         rules: loaders
     },
-    // tslint: {
-    //     emitErrors: true,
-    //     failOnHint: true
-    // }
 };

@@ -1,7 +1,7 @@
 const path = require("path");
 const loaders = require("./loaders");
-const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const config = require('../../server/config');
 
@@ -24,8 +24,8 @@ module.exports = {
         ],
         fallback: {
             fs: false,
-            crypto: false,
-            vertx: false
+            crypto: false,  // temp workaroud, WebSDK uses a shim that depends on `crypto`
+            vertx: false    // temp workaroud, WebSDK uses a shim that depends on `vertx`
         },
         extensions: [ '.ts', '.mjs', '.js' ],    // try to resolve extension of require('module') in this order
     },
@@ -57,16 +57,14 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/index.html',
             inject: 'body',
+            base: '/',
             hash: true
         }),
-        new BrowserSyncPlugin({
-            host: config.site.host,
-            port: config.site.port + 4000,
-            proxy: `https://${config.site.host}:${config.site.port}`,
-            ui: false,
-            online: false,
-            notify: false,
-            reload: false,
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: 'modules/**/*.js', context: 'src/' },
+                { from: 'locales/*.json', context: 'src/' },
+            ]
         }),
     ],
     module:{

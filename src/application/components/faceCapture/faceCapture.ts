@@ -3,7 +3,6 @@ import { BioSample, FaceImage } from '@digitalpersona/core';
 
 import * as faceapi from 'face-api.js';
 import './models/tiny_face_detector_model-weights_manifest.json';
-//import 'copy!./models/tiny_face_detector_model-shard1';
 import './models/tiny_face_detector_model-shard1';
 
 import template from './faceCapture.html';
@@ -54,7 +53,8 @@ export default class FaceCaptureControl
     }
 
     public async $onInit() {
-        await faceapi.loadTinyFaceDetectorModel('/application/components/faceCapture/models');
+        // NOTE: corresponding `*-weight_manifest.json` and `-shard1` models must be copied into `dist/model/face`; see webpack loader rules.
+        await faceapi.loadTinyFaceDetectorModel('models/face');
         this.loaded = true;
         this.capturing = false;
         this.transitional = false;

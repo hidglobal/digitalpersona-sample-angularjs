@@ -1,19 +1,24 @@
 {
   "name": "example-angularjs",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "description": "Example of using @digitalpersona/* libraries in an AngularJS application",
   "-main": "index.js",
   "private": true,
   "scripts": {
-    "server": "supervisor -w server ./server/index.js",
-    "server-dev": "set NODE_TLS_REJECT_UNAUTHORIZED=0&& set DEBUG=app*&& supervisor -w server ./server/index.js",
     "clean": "rimraf ./out",
+
     "tsc": "tsc --p tsconfig.typings.json",
-    "build": "npm run clean && npm run tsc",
-    "build-dev": "webpack --config build/webpack/dev.js --node-env dev",
-    "build-dev-watch": "webpack --config build/webpack/dev.js --watch",
-    "build-prod": "webpack --config build/webpack/prod.js",
-    "start-dev": "webpack --config build/webpack/dev.js & webpack-dev-server --config build/webpack/dev.js"
+    "pack-dev": "webpack --config build/webpack/dev.js",
+    "pack-prod": "webpack --config build/webpack/prod.js",
+
+    "build-check": "npm run clean && npm run tsc",
+    "build-dev": "npm run clean && npm run pack-dev",
+    "build-prod": "npm run clean && npm run pack-prod",
+
+    "node-dev": "set NODE_TLS_REJECT_UNAUTHORIZED=0&& set DEBUG=app*&& node ./server/index.js",
+
+    "server": "supervisor -w server ./server/index.js",
+    "server-dev": "set NODE_TLS_REJECT_UNAUTHORIZED=0&& set DEBUG=app*&& supervisor -w server ./server/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -59,9 +64,9 @@
     "@types/webgl2": "0.0.7",
     "@types/webpack": "^5.28.0",
     "bootstrap-sass": "^3.3.7",
-    "browser-sync": "^2.27.12",
-    "browser-sync-webpack-plugin": "^2.3.0",
+    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
+    "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.0",
     "sass-loader": "^13.2.0",
     "style-loader": "^3.3.1",
@@ -69,23 +74,7 @@
     "tslint": "^5.16.0",
     "typescript": "^4.9.5",
     "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.1"
-  },
-  "-devDependencies": {
-    "@types/webpack-env": "^1.18.0",
-    "browser-sync": "^2.26.4",
-    "browser-sync-webpack-plugin": "^2.2.2",
-    "compression-webpack-plugin": "^2.0.0",
-    "css-loader": "^2.1.1",
-    "file-loader": "^3.0.1",
-    "html-webpack-plugin": "^3.2.0",
-    "raw-loader": "^2.0.0",
-    "sass-loader": "^7.1.0",
-    "style-loader": "^0.23.1",
-    "ts-loader": "^5.4.3",
-    "tslint-loader": "^3.5.4",
-    "url-loader": "^1.1.2",
-    "webpack-dev-server": "^4.11.1",
-    "node-sass": "^4.11.0"
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.15.0"
   }
 }
