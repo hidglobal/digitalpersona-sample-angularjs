@@ -23,7 +23,7 @@
 
                 <label class="control-label" ng-bind="'OTP.Create.PromptQRCode'|translate"></label>
                 <div class="text-center">
-                    <img src="{{$ctrl.qrCode}}" height="170px" />
+                    <img ng-src="{{$ctrl.qrCode}}" height="170px" />
                 </div>
 
                 <x-password label="{{'OTP.Create.PromptCode'|translate}}"

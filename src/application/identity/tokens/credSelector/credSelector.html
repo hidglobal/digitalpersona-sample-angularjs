@@ -7,7 +7,7 @@
     >
         <a class="btn btn-link" ng-click="$ctrl.select(cred.name)">
             <i class="fa fa-check text-success" ng-show="$ctrl.isAuthenticated(cred)" style="position: absolute;"></i>
-            <img src="{{:: cred.icon}}" style="width: 35px;" />
+            <img ng-src="{{:: cred.icon}}" style="width: 35px;" />
         </a>
     </li>
 </ul>
