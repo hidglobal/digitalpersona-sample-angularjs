@@ -1,6 +1,6 @@
 <form ng-submit="$ctrl.submit()">
     <x-alert status="$ctrl.status"></x-alert>
-    <div ng-hide="$ctrl.isAuthenticated()"
+    <div ng-hide="$ctrl.isAuthenticated()">
         <fieldset>
             <x-password
                 label="{{ 'PIN.Auth.Prompt' | translate }}"
